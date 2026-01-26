@@ -14,12 +14,18 @@ export const useStore = create<Store>()(devtools((set,get)=>({
     addtoCart: (product) => {
         const {id: productId, category,...data}= product
         let contents: ShoppingCart =[]
+        const duplicate = get().contents.findIndex(item => item.productId === productId)
+        if(duplicate >=0){
+            contents = get().contents.map(item => item.productId === productId ? {...item, quantity: item.quantity + 1} : item)
+        }else{
+            contents = [...get().contents, {
+                ...data,
+                quantity: 1,
+                productId,
+            }]
+        }
 
-        contents = [...get().contents, {
-            ...data,
-            quantity: 1,
-            productId,
-        }]
+
         set(()=> ({contents}))
     }
 })))
