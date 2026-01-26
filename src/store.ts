@@ -12,6 +12,14 @@ export const useStore = create<Store>()(devtools((set,get)=>({
     total: 0,
     contents: [],
     addtoCart: (product) => {
-        console.log('add to cart: \n', product)
+        const {id: productId, category,...data}= product
+        let contents: ShoppingCart =[]
+
+        contents = [...get().contents, {
+            ...data,
+            quantity: 1,
+            productId,
+        }]
+        set(()=> ({contents}))
     }
 })))
