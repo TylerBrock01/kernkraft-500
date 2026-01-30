@@ -7,7 +7,8 @@ import CouponForm from "@/components/cart/CouponForm";
 
 export function ShoppingCart() {
     const contents = useStore((state)=> state.contents)
-    const total = useStore(state=> state.total)
+    const total:number = useStore(state=> state.total)
+    const discount:number = useStore(state=> state.discount)
     return(
         <>
             {contents.length?(
@@ -21,6 +22,9 @@ export function ShoppingCart() {
                         ))}
                     </ul>
                     <dl className="space-y-6 border-t border-gray-200 py-6 text-sm font-medium text-gray-500">
+                        {discount>0 &&
+                            <Amount label="Descuento" amount={discount} discount={true}/>
+                        }
                         <Amount label="Total a pagar" amount={total}/>
                     </dl>
                     <CouponForm/>

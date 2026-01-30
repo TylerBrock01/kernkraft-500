@@ -4,6 +4,7 @@ import {Coupon, CouponResponseSchema, Product, ShoppingCart} from "@/src/schema"
 
 interface Store {
     total: number
+    discount: number
     contents: ShoppingCart
     coupon : Coupon
     addtoCart: (product: Product) => void
@@ -11,10 +12,12 @@ interface Store {
     clearCart: (id: Product['id']) => void
     calculateTotal: () => void
     applyCoupon: (couponName: string) => Promise<void>
+    applyDiscount: () => void
 }
 
 export const useStore = create<Store>()(devtools((set,get)=>({
     total: 0,
+    discount: 0,
     contents: [],
     coupon: {
         name: '',
@@ -54,6 +57,12 @@ export const useStore = create<Store>()(devtools((set,get)=>({
     calculateTotal: () =>{
         const total = get().contents.reduce((total, item) => total + (item.price * item.quantity), 0)
         set(()=> ({total}))
+
+        if(get().coupon.coupon?.discount){
+            get().applyDiscount()
+        }else(
+            set(()=> ({discount: 0}))
+        )
     },
     applyCoupon: async (couponName) => {
         try {
@@ -67,6 +76,7 @@ export const useStore = create<Store>()(devtools((set,get)=>({
 
             if (result.success) {
                 set({ coupon: result.data });
+                get().applyDiscount()
             }else {
                 set({ coupon: result.data });
             }
@@ -74,4 +84,11 @@ export const useStore = create<Store>()(devtools((set,get)=>({
             console.error('Error al aplicar cupón:', e);
         }
     },
+    applyDiscount: ()=>{
+        const subTotal = get().contents.reduce((total, item) => total + (item.price * item.quantity), 0)
+        const discount = ((get().coupon.coupon?.discount || 0) / 100) * subTotal
+        const total = subTotal - discount
+        console.log(total)
+        set(()=> ({discount, total}))
+    }
 })))
