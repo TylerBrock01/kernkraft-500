@@ -4,7 +4,7 @@ import "./globals.css";
 const outfit = Outfit ({subsets:['latin']})
 
 export const metadata: Metadata = {
-  title: "POS - NEXT.JS",
+  title: "CAZA - STORE",
   description: "POS - NEXT.JS",
 };
 
