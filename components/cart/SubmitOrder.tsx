@@ -6,6 +6,7 @@ import {toast} from "react-toastify";
 export default function SubmitOrder() {
     const coupon = useStore(state=> state.coupon.coupon?.name)
     const contents = useStore(state=> state.contents)
+    const clearOrder = useStore(state=> state.clearOrder)
     const order= {coupon,contents}
     const submitOrderWithData = submitOrderAction.bind(null,order)
     const [state, dispatch]= useActionState(submitOrderWithData,{
@@ -16,9 +17,11 @@ export default function SubmitOrder() {
     useEffect(()=>{
         if (state.errors){
             state.errors.forEach(error => toast.error(error))
+
         }
         if (state.succes){
             toast.success(state.succes)
+            clearOrder()
         }
     },[state])
 
