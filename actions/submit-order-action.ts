@@ -1,5 +1,6 @@
 "use server"
 import {ErrorResponseSchema, OrderSchema, SuccessResponseSchema} from "@/src/schema";
+import {revalidateTag} from "next/cache";
 
 export async function submitOrderAction(data: unknown) {
     const order = OrderSchema.parse(data)
@@ -8,6 +9,7 @@ export async function submitOrderAction(data: unknown) {
         method:'POST',
         headers:{"Content-Type": "application/json"},
         body:JSON.stringify({...order})})
+
     const json = await req.json()
 
     if (!req.ok){
@@ -18,6 +20,8 @@ export async function submitOrderAction(data: unknown) {
         }
     }
     const succes = SuccessResponseSchema.parse(json)
+    revalidateTag('products-by-category', 'max')
+
     return{
         errors:[],
         succes: succes.message,
