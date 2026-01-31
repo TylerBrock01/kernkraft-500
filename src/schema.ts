@@ -44,7 +44,7 @@ const OrderContentSchema = z.object({
     quantity: z.number(),
 })
 export const OrderSchema = z.object({
-    coupon: z.string(),
+    coupon: z.string()?.optional(),
     contents: z.array(OrderContentSchema).min(1, {message: 'El Carrito no puede ir vacio'})
 })
 export type Product = z.infer<typeof ProductSchema>
