@@ -8,7 +8,7 @@ export const ProductSchema = z.object({
     stock: z.number(),
     category: z.number().or(z.object({
         id: z.number()
-    }))
+    })).nullish()
 })
 
 export const CategorySchema = z.object({
@@ -70,8 +70,8 @@ export const TransactionResponseSchema = z.object({
     id: z.number(),
     total: z.string(),
     transactionDate: z.string(),
-    discount: z.string(),
     coupon: z.string().nullable(),
+    couponDiscount: z.string().nullable(),
     contents: z.array(ContentsSchema)
 })
 
