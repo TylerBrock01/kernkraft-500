@@ -5,10 +5,10 @@ import {format} from "date-fns";
 import {getSalesByDate} from "@/src/api";
 
 export default async function SalesPage() {
-    const queryCliente = new QueryClient();
+    const queryClient = new QueryClient();
     const today = new Date();
     const formattedDate = format(today, "yyyy-MM-dd")
-    await  queryCliente.prefetchQuery({
+    await queryClient.prefetchQuery({
         queryKey:['sales',formattedDate],
         queryFn: ()=> getSalesByDate(formattedDate)
 
@@ -18,7 +18,7 @@ export default async function SalesPage() {
             <Heading>ventas</Heading>
             <p className=" text-lg"> En esta seccion podras ver las ventas utilizando el calendario para filtrar por fecha</p>
 
-            <HydrationBoundary state={dehydrate(queryCliente) }>
+            <HydrationBoundary state={dehydrate(queryClient) }>
                 <TransactionFilter/>
             </HydrationBoundary>
         </>
