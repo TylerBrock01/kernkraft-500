@@ -1,6 +1,7 @@
 import Heading from "@/components/UI/Heading";
 import Link from "next/link";
 import AddProductForm from "@/components/products/AddProductForm";
+import ProductForm from "@/components/products/ProductForm";
 
 export default function NewProductPage() {
     return(
@@ -10,7 +11,9 @@ export default function NewProductPage() {
                 Volver
             </Link>
             <Heading>Nuevo producto</Heading>
-            <AddProductForm />
+            <AddProductForm>
+                <ProductForm/>
+            </AddProductForm>
         </>
     )
 }
