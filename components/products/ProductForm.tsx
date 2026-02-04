@@ -1,4 +1,5 @@
 import {CategoriesResponseSchema, Product} from "@/src/schema";
+import UploadProductImage from "@/components/products/UploadProductImage";
 
 async function getCategories(){
     const url = `${process.env.API_URL}/categories`;
@@ -75,7 +76,7 @@ export default async function ProductForm({product} :{product?: Product}) {
                     ))}
                 </select>
             </div>
-
+            <UploadProductImage/>
         </>
     )
 }
