@@ -22,7 +22,7 @@ export async function updateProduct(productId: Product['id'], prevState: ActionS
         }
     }
 
-    const url = `${process.env.API_URL}/products${productId}`
+    const url = `${process.env.API_URL}/products/${productId}`
     const request = await fetch(url,{
         method: 'PATCH',
         headers: {
