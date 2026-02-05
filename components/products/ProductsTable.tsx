@@ -1,6 +1,6 @@
 import {Product} from "@/src/schema";
 import Image from "next/image";
-import {formatCurrency, getImagePath} from "@/src/utils";
+import {formatCurrency, getImagePath, isAvalaible} from "@/src/utils";
 import Link from "next/link";
 import DeleteProduct from "@/components/products/DeleteProductForm";
 
@@ -51,7 +51,9 @@ export default function ProductsTable({products} : {products: Product[]}) {
                                         {formatCurrency(product.price)}
                                     </td>
                                     <td className="px-3 py-4 text-sm text-gray-500">
-                                        {product.stock}
+                                        {isAvalaible(product.stock) ? (
+                                            product.stock
+                                        ):<p className={"bg-red-600 rounded-lg px-3 py-1 text-white text-center text-sm uppercase font-bold"}>Agotado</p>}
                                     </td>
                                     <td className="relative py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0 ">
                                         <div className='flex gap-5 justify-end items-center'>

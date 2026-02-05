@@ -31,3 +31,5 @@ export function getImagePath(image: string) {
         else return `${process.env.NEXT_PUBLIC_API_URL}/img/${image}`
     }
 }
+
+export const isAvalaible= (stock: number) => stock >0
