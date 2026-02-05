@@ -20,3 +20,13 @@ export function isValidPage(value: number) {
 
     return true;
 }
+
+export function getImagePath(image: string) {
+    const cloudBaseUrl = 'https://res.cloudinary.com';
+
+    if (image.startsWith(cloudBaseUrl)) {
+        return image
+    }else{
+        return `${process.env.API_URL}/img/${image}`
+    }
+}
