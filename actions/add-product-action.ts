@@ -12,6 +12,7 @@ export async function addProduct(prevState: ActionStateType, formData: FormData)
         name : formData.get('name'),
         price : formData.get('price'),
         stock: formData.get('stock'),
+        image : formData.get('image'),
         categoryId: formData.get('categoryId'),
     })
 
