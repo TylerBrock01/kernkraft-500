@@ -1,7 +1,6 @@
 import Logo from "@/components/UI/Logo";
 import {CategoriesResponseSchema} from "@/src/schema";
 import Link from "next/link";
-import {getImagePath} from "@/src/utils";
 
 async function getCategories() {
     const url = `${process.env.API_URL}/categories`
@@ -9,23 +8,9 @@ async function getCategories() {
     const json = await req.json()
     return CategoriesResponseSchema.parse(json)
 }
-function getCategoriesOffLine(){
-    const json = [
-        {
-            id: 1,
-            name: "home",
-        },
-        {
-            id: 2,
-            name: "about",
-        },
-
-    ]
-    return CategoriesResponseSchema.parse(json)
-}
 
 export default async function MainNav() {
-    const categories =await getCategoriesOffLine()
+    const categories =await getCategories()
 
     return (
         <header className="px-10 py-1 gap-1 bg-fondo1 grid">
@@ -35,7 +20,7 @@ export default async function MainNav() {
                     <Link
                         key={category.id}
                         href={`/${category.id}`}
-                        className="text-white hover:text-fondo2 hover:underline  font-bold p-2">
+                        className="text-white hover:text-fondo2 hover:underline hover:bg-fondo3 rounded-md  font-bold p-2">
 
                         {category.name}
                     </Link>))}
