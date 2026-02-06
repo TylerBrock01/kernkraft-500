@@ -1,6 +1,5 @@
 import {redirect} from "next/navigation";
 import { DeckCategoryResponseSchema} from "@/src/schema";
-import ProductCard from "@/components/products/ProductCards";
 
 type Params = Promise<{ decks: string }>
 
