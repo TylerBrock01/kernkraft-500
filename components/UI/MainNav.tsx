@@ -19,7 +19,7 @@ export default async function MainNav() {
                 {categories.map(category => (
                     <Link
                         key={category.id}
-                        href={`/${category.id}`}
+                        href={`/categories/${category.id}`}
                         className="text-white hover:text-fondo2 hover:underline hover:bg-fondo3 rounded-md  font-bold p-2">
 
                         {category.name}
