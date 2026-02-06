@@ -9,7 +9,14 @@ export const ProductSchema = z.object({
     category: (z.object({
         id: z.number(),
         name: z.string()
+    })).nullish(),
+    color: z.string(),
+    size: z.coerce.number(),
+    deck: (z.object({
+        id: z.number(),
+        name: z.string()
     })).nullish()
+
 })
 
 export const ProductResponseSchema = z.object({
@@ -26,6 +33,13 @@ export const CategoriesResponseSchema = z.array(CategorySchema)
 export const CategoryWithProductsResponseSchema = CategorySchema.extend({
     products: z.array(ProductSchema)
 });
+export const DeckCategorySchema = z.object({
+    id: z.number(),
+    name: z.string()
+})
+
+export const DeckCategoryResponseSchema = z.array(DeckCategorySchema)
+
 // shoppin cart
 const shoppingCartContentSchema = ProductSchema.pick({
     name: true,
