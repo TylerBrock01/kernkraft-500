@@ -22,10 +22,10 @@ export default async function MainPage({params}:{params:Params}) {
     const decksCategory = await getDecks(decks)
 
     return (
-        <div className='grid grid-cols-1 gap-5 md:grid-cols-4 xl:grid-cols-3'>
+        <div className='grid grid-cols-1 gap-5 md:grid-cols-4'>
             { decksCategory.map(deck =>
                 <ProductCardDemo deck={deck} key={deck.id}/>
-            )
+                )
             }
         </div>
     )
