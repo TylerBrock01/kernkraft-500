@@ -8,18 +8,18 @@ export default function RootLayout({children}: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
-        <>
+        <body>
             <MainNav/>
             <main className="grid lg: lg:overflow-y-hidden">
                 <Hero/>
-                <div className="bg-fondo3 md:bg-fondo3/0 md:absolute  md:flex-1 md:h-screen md:overflow-y-scroll pt-10  pb-32 px-10">
+                <div className="bg-fondo3 md:bg-fondo3/0 md:absolute  md:flex-1 md:h-screen md:overflow-y-scroll pt-10 pb-32 px-10">
                     {children}
                 </div>
-                <aside className="md:w-96 md:h-screen md:overflow-y-scroll pt-10 pb-32 px-5  ">
+                <aside className="md:w-96 md:h-screen md:overflow-y-scroll pt-10 pb-32 px-5 bg-fondo3 ">
                     <ShoppingCart/>
                 </aside>
             </main>
             <ToastNotification />
-        </>
+        </body>
     );
 }

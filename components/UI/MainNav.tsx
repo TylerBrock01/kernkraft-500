@@ -13,7 +13,7 @@ export default async function MainNav() {
     const categories =await getCategories()
 
     return (
-        <header className="px-10 py-1 gap-1 bg-fondo1 grid">
+        <header className="px-10 py-1 gap-1 bg-fondo1 grid animate-slide-in-top">
             <Logo/>
             <nav className="flex flex-col justify-end md:flex-row gap-2 items-center mt-5 md:mt-0 border-t border-fondo2 capitalize">
                 {categories.map(category => (
