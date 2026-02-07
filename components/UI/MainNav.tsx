@@ -13,18 +13,18 @@ export default async function MainNav() {
     const categories =await getCategories()
 
     return (
-        <header className="px-10 py-1 gap-1 bg-fondo1 grid animate-slide-in-top">
+        <header className=" px-5 md:px-10 py-1 gap-1 bg-fondo1 grid animate-slide-in-top">
             <Logo/>
-            <nav className="flex flex-col justify-end md:flex-row gap-2 items-center mt-5 md:mt-0 border-t border-fondo2 capitalize">
+            <nav className="mt-3 flex flex-nowrap row gap-1 justify-center md:justify-end md:gap-2 items-center border-y border-fondo2 capitalize p-1">
                 {categories.map(category => (
                     <Link
                         key={category.id}
                         href={`/categories/${category.id}`}
-                        className="text-white hover:text-fondo2 hover:underline hover:bg-fondo3 rounded-md  font-bold p-2">
+                        className="text-white hover:text-black hover:underline hover:bg-fondo3 rounded-md  font-bold p-1">
 
                         {category.name}
                     </Link>))}
-                <Link href={'/admin/sales'} className={'hidden rounded bg-green-400 font-bold py-2 px-10 text-purple-600 '}>panel admin</Link>
+                <Link href={'/admin/sales'} className={'hidden rounded bg-green-400 font-bold py-1 text--600 '}>panel admin</Link>
             </nav>
         </header>
     )
