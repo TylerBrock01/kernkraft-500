@@ -15,6 +15,12 @@ const nextConfig: NextConfig = {
                 protocol: 'http',
                 hostname: process.env.DOMAIN!
             },
+            {
+                protocol: 'https',
+                hostname: 'http2.mlstatic.com',
+                port: '',
+                pathname: '/**',
+            }
         ]
     }
 };

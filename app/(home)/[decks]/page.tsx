@@ -1,5 +1,6 @@
 import {redirect} from "next/navigation";
 import { DeckCategoryResponseSchema} from "@/src/schema";
+import Image from "next/image";
 
 type Params = Promise<{ decks: string }>
 
@@ -11,7 +12,6 @@ async function getDecks(decks: string){
         }
     })
     const json = await req.json()
-    console.log(json)
     if(!req.ok){
         redirect('/products')
     }
@@ -24,7 +24,10 @@ export default async function MainPage({params}:{params:Params}) {
     return (
         <div className='grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3'>
             { decksCategory.map(deck =>
-                <h2 key={deck.id}>{deck.name}</h2>
+                <div key={deck.id} className='col-span-6'>
+                    <Image src={deck.image} alt={deck.name} width="400" height="400"/>
+                    <h2 key={deck.id}>{deck.name}</h2>
+                </div>
             )
             }
         </div>
