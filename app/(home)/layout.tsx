@@ -4,9 +4,7 @@ import ToastNotification from "@/components/UI/ToastNotification";
 import Image from "next/image";
 import Hero from "@/components/UI/Hero";
 
-export default function RootLayout({
-                                       children,
-                                   }: Readonly<{
+export default function RootLayout({children}: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
@@ -17,7 +15,7 @@ export default function RootLayout({
                 <div className="bg-fondo3 md:bg-fondo3/0 md:absolute  md:flex-1 md:h-screen md:overflow-y-scroll pt-10  pb-32 px-10">
                     {children}
                 </div>
-                <aside className="md:w-96 md:h-screen md:overflow-y-scroll pt-10 pb-32 px-5 bg-fondo3 ">
+                <aside className="md:w-96 md:h-screen md:overflow-y-scroll pt-10 pb-32 px-5  ">
                     <ShoppingCart/>
                 </aside>
             </main>
