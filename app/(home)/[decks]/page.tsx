@@ -1,6 +1,7 @@
 import {redirect} from "next/navigation";
 import { DeckCategoryResponseSchema} from "@/src/schema";
 import Image from "next/image";
+import ProductCardDemo from "@/components/products/ProductCardDemo";
 
 type Params = Promise<{ decks: string }>
 
@@ -22,12 +23,9 @@ export default async function MainPage({params}:{params:Params}) {
     const decksCategory = await getDecks(decks)
 
     return (
-        <div className='grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3'>
+        <div className='grid grid-cols-1 gap-5 md:grid-cols-4 xl:grid-cols-3'>
             { decksCategory.map(deck =>
-                <div key={deck.id} className='col-span-6'>
-                    <Image src={deck.image} alt={deck.name} width="400" height="400"/>
-                    <h2 key={deck.id}>{deck.name}</h2>
-                </div>
+                <ProductCardDemo deck={deck} key={deck.id}/>
             )
             }
         </div>
