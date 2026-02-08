@@ -13,7 +13,7 @@ async function getProducts(deckId: string) {
     })
     const json = await req.json()
     if (!req.ok){
-        redirect('/')
+        redirect('/decks/1')
     }
     return DeckCategoryWithProductsResponseSchema.parse(json)
 }
