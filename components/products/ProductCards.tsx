@@ -21,7 +21,7 @@ export default function ProductCard({product}: { product: Product}) {
                 <div className="p-3 space-y-2">
                     <h3 className="text-xl font-bold ">{product.name}</h3>
                     <p className="">Size: {product.size}</p>
-                    <p className="">Disponibles: {product.stock}</p>
+                    <p className="">stock: {product.stock}</p>
                     <p className="">Type: {product.deck.name}</p>
                     <p className="text-2xl font-extrabold  text-gray-900">{formatCurrency(product.price)}</p>
                 </div>
