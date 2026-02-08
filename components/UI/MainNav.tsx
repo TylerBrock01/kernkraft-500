@@ -14,7 +14,7 @@ export default async function MainNav() {
     const categories =await getCategories()
 
     return (
-        <header className=" px-5 md:px-10 py-1 gap-1 bg-fondo1 grid animate-slide-in-top">
+        <div className="grid">
             <nav className="mt-3 flex flex-nowrap row gap-1 justify-center md:justify-end md:gap-2 items-center border-y border-fondo2 capitalize p-1">
                 {categories.map(category => (
                     <Link
@@ -27,6 +27,6 @@ export default async function MainNav() {
                 <Link href={'/admin/sales'} className={'hidden rounded bg-green-400 font-bold py-1 text--600 '}>panel admin</Link>
             </nav>
             <DeckPage/>
-        </header>
+        </div>
     )
 }

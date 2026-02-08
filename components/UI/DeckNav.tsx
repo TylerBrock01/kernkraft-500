@@ -17,7 +17,7 @@ export default async function DeckPage() {
     const decksCategory = await getDecks()
 
     return (
-        <div className='grid justify-start '>
+        <div className='flex flex-nowrap items-center justify-end '>
             { decksCategory.map(deck =>
                 <Link
                     key={deck.id}
