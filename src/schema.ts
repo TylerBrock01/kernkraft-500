@@ -38,7 +38,6 @@ export const CategoryWithProductsResponseSchema = CategorySchema.extend({
 export const DeckCategorySchema = z.object({
     id: z.number(),
     name: z.string(),
-    image: z.string()
 })
 
 export const DeckCategoryResponseSchema = z.array(DeckCategorySchema)
