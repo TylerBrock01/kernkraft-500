@@ -1,6 +1,7 @@
-import {CategoriesResponseSchema} from "@/src/schema";
+import {CategoriesResponseSchema, DeckCategoryResponseSchema} from "@/src/schema";
 import Link from "next/link";
-import DeckPage from "@/components/UI/DeckNav";
+import CategoryNav from "@/components/UI/CategoryNav";
+import DeckNav from "@/components/UI/DeckNav";
 
 async function getCategories() {
     const url = `${process.env.API_URL}/categories`
@@ -9,23 +10,34 @@ async function getCategories() {
     return CategoriesResponseSchema.parse(json)
 }
 
+async function getDecks(){
+    const url = `${process.env.API_URL}/decks`;
+    const req = await fetch(url, {
+        next:{
+            tags:['products-by-category']
+        }
+    })
+    const json = await req.json()
+    return DeckCategoryResponseSchema.parse(json)
+}
+
 export default async function MainNav() {
     const categories =await getCategories()
+    const decks = await getDecks()
 
     return (
         <div className="grid">
             <nav className="mt-3 flex flex-nowrap row gap-1 justify-center md:justify-end md:gap-2 items-center border-y border-fondo2 capitalize p-1">
                 {categories.map(category => (
-                    <Link
-                        key={category.id}
-                        href={`/categories/${category.id}`}
-                        className="text-white hover:text-black hover:underline hover:bg-fondo3 rounded-md  font-bold p-1">
-                        {category.name}
-                    </Link>
+                    <CategoryNav key={category.id} category={category}/>
                 ))}
                 <Link href={'/admin/sales'} className={'hidden rounded bg-green-400 font-bold py-1 text--600 '}>panel admin</Link>
             </nav>
-            <DeckPage/>
+            <nav className=" flex flex-nowrap row gap-1 justify-center md:justify-end md:gap-2 items-center   capitalize p-1">
+                {decks.map(deck => (
+                    <DeckNav key={deck.name+deck.id} deck={deck}/>
+                ))}
+            </nav>
         </div>
     )
 }
