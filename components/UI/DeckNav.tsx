@@ -1,6 +1,5 @@
 import {redirect} from "next/navigation";
 import { DeckCategoryResponseSchema} from "@/src/schema";
-import ProductCardDemo from "@/components/products/ProductCardDemo";
 import Link from "next/link";
 
 async function getDecks(){
