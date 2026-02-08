@@ -15,7 +15,7 @@ export const ProductSchema = z.object({
     deck: (z.object({
         id: z.number(),
         name: z.string()
-    })).nullish()
+    }))
 
 })
 
