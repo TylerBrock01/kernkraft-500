@@ -1,4 +1,3 @@
-import Logo from "@/components/UI/Logo";
 import {CategoriesResponseSchema} from "@/src/schema";
 import Link from "next/link";
 import DeckPage from "@/components/UI/DeckNav";
