@@ -6,10 +6,11 @@ import AddProductButton from "@/components/products/AddProductButton";
 export default function ProductCard({product}: { product: Product}) {
     return (
         <div
-            className='rounded bg-white shadow relative p-5'
+            className='rounded bg-fondo3 shadow relative p-5'
         >
             <div className={`${!isAvalaible(product.stock)&& 'opacity-40'}`}>
                 <Image
+                    className={"bg-fondo2"}
                     src={getImagePath(product.image)}
                     alt={`imagen de ${product.name}`}
                     width={400}
@@ -18,8 +19,10 @@ export default function ProductCard({product}: { product: Product}) {
                     priority={true}
                 />
                 <div className="p-3 space-y-2">
-                    <h3 className="text-xl font-bold text-gray-600">{product.name}</h3>
-                    <p className="text-gray-500">Disponibles: {product.stock}</p>
+                    <h3 className="text-xl font-bold ">{product.name}</h3>
+                    <p className="">Size: {product.size}</p>
+                    <p className="">Disponibles: {product.stock}</p>
+                    <p className="">Type: {product.deck.name}</p>
                     <p className="text-2xl font-extrabold  text-gray-900">{formatCurrency(product.price)}</p>
                 </div>
             </div>
