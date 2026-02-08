@@ -5,7 +5,7 @@ import Providers from "@/app/providers";
 const outfit = Outfit ({subsets:['latin']})
 
 export const metadata: Metadata = {
-  title: "CAZA - STORE",
+  title: "VASK8 - STORE",
   description: "POS - NEXT.JS",
 };
 
