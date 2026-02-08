@@ -114,6 +114,7 @@ export const ProductFormSchema = z.object({
 
 export const TransactionsResponseSchema = z.array(TransactionResponseSchema)
 export type Product = z.infer<typeof ProductSchema>
+export type Category = z.infer<typeof CategorySchema>
 export type Deck = z.infer<typeof DeckCategorySchema>
 export type ShoppingCart = z.infer<typeof shoppingCartSchema>
 export type CartItem = z.infer<typeof shoppingCartContentSchema>
