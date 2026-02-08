@@ -15,7 +15,6 @@ async function getProducts(deckId: string) {
     if (!req.ok){
         redirect('/')
     }
-    console.log(json)
     return DeckCategoryWithProductsResponseSchema.parse(json)
 }
 export default async function StorePage({params}: { params: Params}) {
