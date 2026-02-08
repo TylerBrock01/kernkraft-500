@@ -7,7 +7,6 @@ export default function Hero(){
                    alt={"hero"}
                    width="2500"
                    height="2500"/>
-            <h1 className="text-3xl font-bold text-black dark:text-white absolute">VASK8</h1>
         </div>
     )
 }

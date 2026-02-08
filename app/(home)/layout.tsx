@@ -12,7 +12,7 @@ export default function RootLayout({children}: Readonly<{
             <MainNav/>
             <main className="grid lg: lg:overflow-y-hidden">
                 <Hero/>
-                <div className="bg-fondo3 md:bg-fondo3/0 md:absolute  md:flex-1 md:h-screen md:overflow-y-scroll pt-10 pb-32 px-10">
+                <div className="bg-fondo3/50 md:flex-1 md: md:overflow-y-scroll p-3">
                     {children}
                 </div>
                 <aside className="md:w-96 md:h-screen md:overflow-y-scroll pt-10 pb-32 px-5 bg-fondo3 ">

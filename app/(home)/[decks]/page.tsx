@@ -22,11 +22,14 @@ export default async function MainPage({params}:{params:Params}) {
     const decksCategory = await getDecks(decks)
 
     return (
-        <div className='grid grid-cols-1 gap-5 md:grid-cols-4'>
-            { decksCategory.map(deck =>
-                <ProductCardDemo deck={deck} key={deck.id}/>
+        <div className="">
+            <h2 className="text-2xl p-2 mb-2 border-l-10 border-fondo2 bg-fondo3 underline">Categories:</h2>
+            <div className='grid grid-cols-3 gap-2 md:grid-cols-4 '>
+                { decksCategory.map(deck =>
+                    <ProductCardDemo deck={deck} key={deck.id}/>
                 )
-            }
+                }
+            </div>
         </div>
     )
 }
