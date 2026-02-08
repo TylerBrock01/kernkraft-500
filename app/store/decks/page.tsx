@@ -5,7 +5,7 @@ import ProductCardDemo from "@/components/products/ProductCardDemo";
 type Params = Promise<{ decks: string }>
 
 async function getDecks(decks: string){
-    const url = `${process.env.API_URL}/decks`
+    const url = `${process.env.API_URL}/${decks}`;
     const req = await fetch(url, {
         next:{
             tags:['products-by-category']
