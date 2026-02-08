@@ -1,6 +1,7 @@
 import Logo from "@/components/UI/Logo";
 import {CategoriesResponseSchema} from "@/src/schema";
 import Link from "next/link";
+import DeckPage from "@/components/UI/DeckNav";
 
 async function getCategories() {
     const url = `${process.env.API_URL}/categories`
@@ -21,11 +22,12 @@ export default async function MainNav() {
                         key={category.id}
                         href={`/categories/${category.id}`}
                         className="text-white hover:text-black hover:underline hover:bg-fondo3 rounded-md  font-bold p-1">
-
                         {category.name}
-                    </Link>))}
+                    </Link>
+                ))}
                 <Link href={'/admin/sales'} className={'hidden rounded bg-green-400 font-bold py-1 text--600 '}>panel admin</Link>
             </nav>
+            <DeckPage/>
         </header>
     )
 }
