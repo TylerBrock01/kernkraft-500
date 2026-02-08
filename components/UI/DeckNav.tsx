@@ -10,9 +10,6 @@ async function getDecks(){
         }
     })
     const json = await req.json()
-    if(!req.ok){
-        redirect('/products')
-    }
     return DeckCategoryResponseSchema.parse(json)
 }
 export default async function DeckPage() {
