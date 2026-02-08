@@ -13,7 +13,7 @@ async function getProducts(categoryId: string) {
     })
     const json = await req.json()
     if (!req.ok){
-        redirect('/1')
+        redirect('/')
     }
     return CategoryWithProductsResponseSchema.parse(json)
 }
