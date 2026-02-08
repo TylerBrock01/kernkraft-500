@@ -41,6 +41,9 @@ export const DeckCategorySchema = z.object({
 
 export const DeckCategoryResponseSchema = z.array(DeckCategorySchema)
 
+export const DeckCategoryWithProductsResponseSchema = DeckCategorySchema.extend({
+    products: z.array(ProductSchema),
+})
 // shoppin cart
 const shoppingCartContentSchema = ProductSchema.pick({
     name: true,
