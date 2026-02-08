@@ -8,7 +8,7 @@ export default function RootLayout({children}: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
-        <body>
+        <>
             <MainNav/>
             <main className="grid lg: lg:overflow-y-hidden">
                 <Hero/>
@@ -20,6 +20,6 @@ export default function RootLayout({children}: Readonly<{
                 </aside>
             </main>
             <ToastNotification />
-        </body>
+        </>
     );
 }
