@@ -17,7 +17,7 @@ export default async function DeckBar(){
     return (
         <nav className=" flex flex-nowrap row gap-1 justify-center md:justify-end md:gap-2 items-center   capitalize p-1">
             {decks.map(deck => (
-                <DeckNav key={deck.name+deck.id} deck={deck}/>
+                <DeckNav key={deck.id} deck={deck}/>
             ))}
         </nav>
 
