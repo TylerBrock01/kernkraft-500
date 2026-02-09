@@ -4,7 +4,7 @@ import {redirect} from "next/navigation";
 import {slice} from "eslint-config-next";
 
 async function getProduct() {
-    const url = `${process.env.API_URL}/products`
+    const url = `${process.env.API_URL}/products?take=4`
     const req = await fetch(url,{
         next:{
             tags:['products-by-category']

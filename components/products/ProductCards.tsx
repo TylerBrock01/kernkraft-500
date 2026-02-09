@@ -6,11 +6,11 @@ import AddProductButton from "@/components/products/AddProductButton";
 export default function ProductCard({product}: { product: Product}) {
     return (
         <div
-            className='rounded bg-fondo3 shadow relative p-1 animate-fade-in-up'
+            className=' bg-yellow-400/50  rounded-2xl shadow relative border-2 transition-all duration-300 hover:border-yellow-400 p-1 animate-fade-in-up'
         >
             <div className={`${!isAvalaible(product.stock)&& 'opacity-40'} `}>
                 <Image
-                    className={"bg-white"}
+                    className={"bg-white rounded-2xl"}
                     src={getImagePath(product.image)}
                     alt={`imagen de ${product.name}`}
                     width={400}
@@ -18,12 +18,12 @@ export default function ProductCard({product}: { product: Product}) {
                     unoptimized={true}
                     priority={true}
                 />
-                <div className="p-2 space-y-1">
+                <div className="p-2 space-y-1 ">
                     <h3 className="text-xl font-bold ">{product.name}</h3>
                     <p className="">Size: {product.size}</p>
                     <p className="">stock: {product.stock}</p>
                     <p className="">Type: {product.deck!.name}</p>
-                    <p className="text-2xl font-extrabold  text-gray-900">{formatCurrency(product.price)}</p>
+                    <p className="text-2xl font-extrabold text-green-400">{formatCurrency(product.price)}</p>
                 </div>
             </div>
             {isAvalaible(product.stock) ? (
