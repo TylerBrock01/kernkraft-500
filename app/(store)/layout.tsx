@@ -12,7 +12,7 @@ export default function RootLayout({
 }>) {
     return (
         <>
-            <header className=" px-5 md:px-10 py-1 gap-1 bg-fondo1 grid animate-slide-in-top">
+            <header className=" px-5 md:px-10 py-1 gap-1 bg-fondo1 grid animate-fade-in-down">
                 <Logo/>
                 <MainNav/>
             </header>

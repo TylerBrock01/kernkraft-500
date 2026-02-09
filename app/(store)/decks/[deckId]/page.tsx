@@ -22,7 +22,7 @@ export default async function StorePage({params}: { params: Params}) {
     const deck = await getProducts(deckId)
     return(
         <div>
-            <h2 className={" bg-fondo3 text-2xl p-1 border-l-5 border-fondo2 animate-slide-in-left"}>{deck.name}:</h2>
+            <h2 className={" bg-fondo3 text-2xl p-1 border-l-5 border-fondo2 animate-fade-in-right"}>{deck.name}:</h2>
             <div className='p-2 grid grid-cols-2 gap-2 md:grid-cols-4 xl:grid-cols-5 bg-fondo2'>
                 { deck.products?.map(product =>
                     <ProductCard key={product.id} product={product}/>

@@ -6,7 +6,7 @@ import AddProductButton from "@/components/products/AddProductButton";
 export default function ProductCard({product}: { product: Product}) {
     return (
         <div
-            className='rounded bg-fondo3 shadow relative p-1 animate-blink'
+            className='rounded bg-fondo3 shadow relative p-1 animate-fade-in-up'
         >
             <div className={`${!isAvalaible(product.stock)&& 'opacity-40'} `}>
                 <Image
