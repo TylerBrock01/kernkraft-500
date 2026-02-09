@@ -21,7 +21,7 @@ export const ProductSchema = z.object({
 
 export const ProductResponseSchema = z.object({
     products: z.array(ProductSchema),
-    total: z.number()
+    total: z.number().nullish()
 })
 
 export const CategorySchema = z.object({
