@@ -18,6 +18,7 @@ export default async function CategoryBar(){
                 <CategoryNav key={category.id} category={category}/>
             ))}
             <Link href={'/admin/sales'} className={'hidden rounded bg-green-400 font-bold py-1 text--600 '}>panel admin</Link>
+
         </nav>
 
     )

@@ -12,7 +12,7 @@ export default function DeckNav({deck}: {deck: Deck}) {
         <Link
             key={deck.name+deck.id}
             href={`/decks/${deck.id}`}
-            className={` hover:text-black hover:underline hover:bg-fondo3 rounded-md  font-bold p-1 ${isActive?'bg-fondo3 underline ': 'text-white'}`}>
+            className={` ${isActive?'text-sm font-medium text-white underline underline-offset-8 decoration-yellow-400': 'text-sm font-medium text-zinc-400 hover:text-white transition-colors'}`}>
             {deck.name}
         </Link>
     )
