@@ -6,7 +6,7 @@ import AddProductButton from "@/components/products/AddProductButton";
 export default function ProductCard({product}: { product: Product}) {
     return (
         <div
-            className=' bg-yellow-400/50  rounded-2xl shadow relative border-2 transition-all duration-300 hover:border-yellow-400 p-1 animate-fade-in-up'
+            className=' bg-zinc-900/40 border border-white/5 rounded-2xl shadow relative text-white hover:bg-zinc-900/80 transition-all duration-300 hover:border-yellow-400 hover:text-yellow-400 p-1 animate-fade-in-up'
         >
             <div className={`${!isAvalaible(product.stock)&& 'opacity-40'} `}>
                 <Image
@@ -18,12 +18,16 @@ export default function ProductCard({product}: { product: Product}) {
                     unoptimized={true}
                     priority={true}
                 />
-                <div className="p-2 space-y-1 ">
-                    <h3 className="text-xl font-bold ">{product.name}</h3>
-                    <p className="">Size: {product.size}</p>
-                    <p className="">stock: {product.stock}</p>
-                    <p className="">Type: {product.deck!.name}</p>
-                    <p className="text-2xl font-extrabold text-green-400">{formatCurrency(product.price)}</p>
+                <div className="p-2 space-y-1  tracking-tight leading-snug transition-colors ">
+                    <h3 className="text-xl font-bold  ">{product.name}</h3>
+                    <div className={"grid grid-cols-2 gap-1 "}>
+                        <p className="">Size: {product.size}</p>
+                        <p className="">stock: {product.stock}</p>
+                        <p className="col-span-2">Type: {product.deck!.name}</p>
+                    </div>
+                    <div className={"flex justify-center p-1"}>
+                        <p className="text-xl font-black text-green-400">MXN: {formatCurrency(product.price)}</p>
+                    </div>
                 </div>
             </div>
             {isAvalaible(product.stock) ? (
