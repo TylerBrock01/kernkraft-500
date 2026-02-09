@@ -13,7 +13,7 @@ export default async function CategoryBar(){
     const categories =await getCategories()
 
     return (
-        <nav className="mt-3 flex flex-nowrap row gap-1 justify-center md:justify-end md:gap-2 items-center border-y border-fondo2 capitalize p-1">
+        <nav className=" flex flex-nowrap row gap-1 justify-center md:justify-end md:gap-2 items-center capitalize p-1">
             {categories.map(category => (
                 <CategoryNav key={category.id} category={category}/>
             ))}

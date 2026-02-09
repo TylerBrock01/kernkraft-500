@@ -4,7 +4,7 @@ import DeckBar from "@/components/deck/DeckBar";
 export default async function MainNav() {
 
     return (
-        <div className="grid">
+        <div className="my-1 grid md:flex md:justify-between border-y border-fondo2">
             <CategoryBar/>
             <DeckBar/>
         </div>
