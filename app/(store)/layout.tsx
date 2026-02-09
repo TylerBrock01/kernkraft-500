@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
     return (
         <>
-            <header className="px-5 md:px-10 py-1 gap-1 bg-fondo1 grid animate-fade-in-down">
+            <header className="sticky top-0 z-50 px-5 md:px-10 py-1 gap-1  grid animate-fade-in-down">
                 <Logo/>
                 <MainNav/>
             </header>
