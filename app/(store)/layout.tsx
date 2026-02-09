@@ -4,6 +4,7 @@ import ToastNotification from "@/components/UI/ToastNotification";
 import Logo from "@/components/UI/Logo";
 import Link from "next/link";
 import DeckPage from "@/components/UI/DeckNav";
+import LastProducts from "@/app/(store)/products/lastProducts/page";
 
 export default function RootLayout({
                                        children,
@@ -12,7 +13,7 @@ export default function RootLayout({
 }>) {
     return (
         <>
-            <header className=" px-5 md:px-10 py-1 gap-1 bg-fondo1 grid animate-fade-in-down">
+            <header className="px-5 md:px-10 py-1 gap-1 bg-fondo1 grid animate-fade-in-down">
                 <Logo/>
                 <MainNav/>
             </header>

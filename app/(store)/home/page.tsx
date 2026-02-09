@@ -1,11 +1,11 @@
-import {redirect} from "next/navigation";
 import Hero from "@/components/UI/Hero";
-import DeckPage from "@/components/UI/DeckNav";
+import LastProducts from "@/app/(store)/products/lastProducts/page";
 
 export default function Home() {
     return(
-        <div className={"grid"}>
+        <div className={"grid relative"}>
             <Hero/>
+            <LastProducts/>
         </div>
     )
 }
