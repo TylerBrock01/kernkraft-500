@@ -1,9 +1,11 @@
-import { ProductResponseSchema} from "@/src/schema";
+import {DeckCategoryWithProductsResponseSchema, ProductResponseSchema} from "@/src/schema";
 import ProductCard from "@/components/products/ProductCards";
 import {redirect} from "next/navigation";
 
-async function getProduct() {
-    const url = `${process.env.API_URL}/products?take=4`
+type Params = Promise<{deckId: string}>;
+
+async function getProducts(deckId: string) {
+    const url = `${process.env.API_URL}/products/${deckId}`
     const req = await fetch(url,{
         next:{
             tags:['products-by-category']
@@ -11,17 +13,26 @@ async function getProduct() {
     })
     const json = await req.json()
     if (!req.ok){
-        redirect('/categories/1')
+        redirect('/decks/1')
     }
     return ProductResponseSchema.parse(json)
 }
-export default async function LastProductPage() {
-    const products = await getProduct()
+export default async function ProductPage({params}: { params: Params}) {
+    const {deckId} = await params
+    const deck = await getProducts(deckId)
     return(
-        <div className={""}>
+        <div className={"mt-2"}>
+            <div className={" bg-black/50"}>
+                <h2 className="p-1 text-3xl font-black text-white uppercase italic animate-fade-in-right">
+                    Nuestra <span className="text-yellow-400">Colección</span>
+                </h2>
+
+            </div>
             <div className='p-2 grid grid-cols-2 gap-2 md:grid-cols-4 xl:grid-cols-5 '>
-                { products.products.map(product =>
-                    <ProductCard key={product.id} product={product}/>)}
+                { deck.products?.map(product =>
+                    <ProductCard key={product.id} product={product}/>
+                )
+                }
             </div>
         </div>
     )
