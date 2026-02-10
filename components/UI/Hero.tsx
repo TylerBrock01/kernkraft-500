@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function Hero(){
     return (
         <>
-            <div className=" m-1 grid bg-black relative ">
+            <div className="mt-1 mx-1 grid bg-black relative ">
                 <Image className=" object-cover opacity-50" src={"https://cdn.pixabay.com/photo/2019/02/22/12/31/fashion-4013456_1280.jpg"}
                        alt={"hero"}
                        width="2500"

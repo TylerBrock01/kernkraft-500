@@ -17,8 +17,8 @@ export default function RootLayout({
                 <Logo/>
                 <MainNav/>
             </header>
-            <main className="lg:flex  lg:h-screen lg:overflow-y-hidden">
-                <div className="md:flex-1 md: md:overflow-y-scroll">
+            <main className="lg:flex  lg:h-screen lg:overflow-y-hidden gap-1">
+                <div className="">
                     {children}
                 </div>
                 <aside className="md:w-96 md:h-screen md:overflow-y-scroll mt-10 pt-10 pb-32 px-5 bg-white">
