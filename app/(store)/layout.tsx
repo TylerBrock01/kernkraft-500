@@ -12,20 +12,32 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <>
-            <header className="sticky top-0 z-50 bg-black/60 backdrop-blur-xl px-5 md:px-10 py-1 gap-1  grid animate-fade-in-down">
+        <div className="flex flex-col h-screen overflow-hidden ">
+            {/* Header Fijo */}
+            <header className="sticky top-0 z-50 bg-black/50 backdrop-blur-xl px-5 md:px-10 py-1 grid animate-fade-in-down border-b border-white/10 shrink-0">
                 <Logo/>
                 <MainNav/>
             </header>
-            <main className="lg:flex  lg:h-screen lg:overflow-y-hidden gap-1">
-                <div className="">
-                    {children}
-                </div>
-                <aside className="md:w-96 md:h-screen md:overflow-y-scroll mt-10 pt-10 pb-32 px-5 bg-white">
+
+            {/* Contenedor Principal (Cuerpo) */}
+            <main className="flex flex-1 overflow-hidden">
+
+                {/* Sección del Catálogo (Children) con Scroll Propio */}
+                <section className="flex-1 overflow-y-auto scroll-smooth custom-scrollbar">
+                    <div className="max-w-7xl mx-auto  px-4">
+                        {children}
+                    </div>
+                </section>
+
+                {/* Aside (Carrito) con Scroll Propio */}
+                <aside className="hidden lg:block w-96 h-full overflow-y-auto border-l border-white/10 bg-white p-6 custom-scrollbar">
                     <ShoppingCart/>
                 </aside>
+
             </main>
+
             <ToastNotification />
-        </>
+        </div>
+
     );
 }

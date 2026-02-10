@@ -2,14 +2,12 @@ import Image from "next/image";
 
 export default function Hero(){
     return (
-        <>
-            <div className="mt-1 mx-1 grid bg-black relative ">
-                <Image className=" object-cover opacity-50" src={"https://cdn.pixabay.com/photo/2019/02/22/12/31/fashion-4013456_1280.jpg"}
-                       alt={"hero"}
-                       width="2500"
-                       height="2500"/>
-            </div>
-            <div className="absolute py-5 md:m-10 lg:m-45 md:p-5 text-center ">
+        <div className="relative mt-1 mx-1 grid bg-black ">
+            <Image className=" object-cover opacity-50" src={"https://cdn.pixabay.com/photo/2019/02/22/12/31/fashion-4013456_1280.jpg"}
+                   alt={"hero"}
+                   width="2500"
+                   height="2500"/>
+            <div className="absolute py-5 md:m-10 lg:m-40 md:p-5 text-center ">
                 <h1 className="text-5xl md:text-7xl font-black italic tracking-tighter text-white uppercase leading-none">
                     Domina las <span className="text-yellow-400">Calles</span>
                 </h1>
@@ -25,6 +23,6 @@ export default function Hero(){
                     </button>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
