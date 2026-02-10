@@ -7,7 +7,7 @@ export default function LastProducts() {
 
     return (
         <section className="">
-            <h2 className="text-4xl font-bold text-center text-white bg-black/50 p-2">
+            <h2 className="italic text-4xl font-bold text-center text-white bg-black/50 p-2">
                 Nuevos <span className="text-yellow-400"> Productos</span>
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4  px-2">
