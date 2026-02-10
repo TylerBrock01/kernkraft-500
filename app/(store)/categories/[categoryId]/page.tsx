@@ -21,12 +21,12 @@ export default async function StorePage({params}: { params: Params}) {
     const {categoryId} = await params
     const category= await getProducts(categoryId)
     return(
-        <div className={"mt-1"}>
-            <h2 className="text-3xl font-black text-white uppercase italic animate-fade-in-right">
+        <div className={""}>
+            <h2 className=" p-1 text-3xl font-black text-white uppercase italic animate-fade-in-right">
                 Nuestra <span className="text-yellow-400">Colección</span>
             </h2>
             <h2 className={"text-zinc-400 mt-2 text-2xl p-1 animate-fade-in-right"}>{category.name}:</h2>
-            <div className='p-2 grid grid-cols-2 gap-2 md:grid-cols-4 xl:grid-cols-5 '>
+            <div className='bg-fondo3/20  p-2 grid grid-cols-2 gap-2 md:grid-cols-4 xl:grid-cols-5 '>
                 { category.products.map(product =>
                     <ProductCard key={product.id} product={product}/>)}
             </div>

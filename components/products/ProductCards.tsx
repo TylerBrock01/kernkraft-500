@@ -6,7 +6,7 @@ import AddProductButton from "@/components/products/AddProductButton";
 export default function ProductCard({product}: { product: Product}) {
     return (
         <div
-            className=' bg-zinc-900/40 border border-white/5 rounded-2xl shadow relative text-white hover:bg-zinc-900/80 transition-all duration-300 hover:border-yellow-400 hover:text-yellow-400 p-1 animate-fade-in-up'
+            className=' bg-zinc-900/60 border border-black rounded-2xl shadow relative text-white hover:bg-zinc-900/80 transition-all duration-300 hover:border-yellow-400 hover:text-yellow-400 p-1 animate-fade-in-up'
         >
             <div className={`${!isAvalaible(product.stock)&& 'opacity-40'} `}>
                 <Image
