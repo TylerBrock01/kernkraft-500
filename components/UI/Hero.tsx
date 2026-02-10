@@ -19,7 +19,7 @@ export default function Hero(){
                     <Link href={'/products'} className="px-8 py-4 bg-yellow-400 text-black font-bold rounded-full hover:bg-yellow-300 transition-all hover:scale-105 uppercase tracking-wider">
                         Ver Catálogo
                     </Link>
-                    <Link href={'/products'} className="px-8 py-4 border-2 border-white text-white font-bold rounded-full hover:bg-white hover:text-black transition-all uppercase tracking-wider">
+                    <Link href={'/products?page=1'} className="px-8 py-4 border-2 border-white text-white font-bold rounded-full hover:bg-white hover:text-black transition-all uppercase tracking-wider">
                         Refacciones
                     </Link>
                 </div>
