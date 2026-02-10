@@ -18,7 +18,7 @@ async function getProduct() {
 export default async function LastProductPage() {
     const products = await getProduct()
     return(
-        <div className={"mt-1"}>
+        <div className={""}>
             <div className='p-2 grid grid-cols-2 gap-2 md:grid-cols-4 xl:grid-cols-5 '>
                 { products.products.map(product =>
                     <ProductCard key={product.id} product={product}/>)}
