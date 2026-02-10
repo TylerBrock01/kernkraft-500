@@ -20,17 +20,17 @@ export default function RootLayout({
             </header>
 
             {/* Contenedor Principal (Cuerpo) */}
-            <main className="flex flex-1 overflow-hidden">
+            <main className=" lg:flex flex-1 overflow-y-scroll">
 
                 {/* Sección del Catálogo (Children) con Scroll Propio */}
-                <section className="flex-1 overflow-y-auto scroll-smooth custom-scrollbar">
-                    <div className="max-w-7xl mx-auto  px-4">
+                <section className="flex-1 scroll-smooth custom-scrollbar">
+                    <div className="max-w-7xl ">
                         {children}
                     </div>
                 </section>
 
                 {/* Aside (Carrito) con Scroll Propio */}
-                <aside className="hidden lg:block w-96 h-full overflow-y-auto border-l border-white/10 bg-white p-6 custom-scrollbar">
+                <aside className="lg:sticky inset-0 lg:block md:w-96 h-full overflow-y-scroll border-l border-white/10 bg-white p-6 custom-scrollbar">
                     <ShoppingCart/>
                 </aside>
 
