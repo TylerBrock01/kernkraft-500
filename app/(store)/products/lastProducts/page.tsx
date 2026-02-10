@@ -3,19 +3,19 @@ import ProductCard from "@/components/products/ProductCards";
 import {redirect} from "next/navigation";
 import Link from "next/link";
 
-async function getProduct() {
-    const url = `${process.env.API_URL}/products?take=4`
-    const req = await fetch(url,{
-        next:{
-            tags:['products-by-category']
-        }
-    })
-    const json = await req.json()
-    if (!req.ok){
-        redirect('/categories/1')
-    }
-    return ProductResponseSchema.parse(json)
-}
+// async function getProduct() {
+//     const url = `${process.env.API_URL}/products?take=4`
+//     const req = await fetch(url,{
+//         next:{
+//             tags:['products-by-category']
+//         }
+//     })
+//     const json = await req.json()
+//     if (!req.ok){
+//         redirect('/categories/1')
+//     }
+//     return ProductResponseSchema.parse(json)
+// }
 export default async function LastProductPage() {
     // const products = await getProduct()
     return(
