@@ -13,12 +13,10 @@ export default async function CategoryBar(){
     const categories =await getCategories()
 
     return (
-        <nav className=" flex flex-nowrap row gap-1 justify-center md:justify-end md:gap-2 items-center capitalize p-1">
+        <nav className=" flex row gap-2 justify-center md:justify-end md:gap-2 items-center capitalize p-1">
             {categories.map(category => (
                 <CategoryNav key={category.id} category={category}/>
             ))}
-            <Link href={'/admin/sales'} className={'hidden rounded bg-green-400 font-bold py-1 text--600 '}>panel admin</Link>
-
         </nav>
 
     )
