@@ -5,7 +5,7 @@ import Providers from "@/app/providers";
 const outfit = Outfit ({subsets:['latin']})
 
 export const metadata: Metadata = {
-  title: "CAZA - STORE",
+  title: "VASK8 - STORE",
   description: "POS - NEXT.JS",
 };
 
@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${outfit.className} bg-gray-200`}
+        className={`${outfit.className} bg-fondo2`}
       >
       <Providers>{children}</Providers>
 

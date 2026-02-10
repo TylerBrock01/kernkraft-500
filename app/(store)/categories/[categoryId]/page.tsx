@@ -13,7 +13,7 @@ async function getProducts(categoryId: string) {
     })
     const json = await req.json()
     if (!req.ok){
-        redirect('/1')
+        redirect('/categories/1')
     }
     return CategoryWithProductsResponseSchema.parse(json)
 }
@@ -21,9 +21,17 @@ export default async function StorePage({params}: { params: Params}) {
     const {categoryId} = await params
     const category= await getProducts(categoryId)
     return(
-        <div className='grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3'>
-            { category.products.map(product =>
-                <ProductCard key={product.id} product={product}/>)}
+        <div className={"mt-2"}>
+            <div className={"bg-black/50"}>
+                <h2 className=" p-1 text-3xl font-black text-white uppercase italic animate-fade-in-right">
+                    Nuestra <span className="text-yellow-400">Colección</span>
+                </h2>
+                <h2 className={"text-zinc-400 mt-2 text-2xl p-1 animate-fade-in-right"}>{category.name}:</h2>
+            </div>
+            <div className='  p-2 grid grid-cols-2 gap-2 md:grid-cols-4 xl:grid-cols-5 '>
+                { category.products.map(product =>
+                    <ProductCard key={product.id} product={product}/>)}
+            </div>
         </div>
     )
 }

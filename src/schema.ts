@@ -9,16 +9,24 @@ export const ProductSchema = z.object({
     category: (z.object({
         id: z.number(),
         name: z.string()
-    })).nullish()
+    })).nullish(),
+    color: z.string(),
+    size: z.coerce.number(),
+    deck: (z.object({
+        id: z.number(),
+        name: z.string(),
+    })).nullish(),
+
 })
 
 export const ProductResponseSchema = z.object({
     products: z.array(ProductSchema),
-    total: z.number()
+    total: z.number().nullish()
 })
+
 export const CategorySchema = z.object({
     id: z.number(),
-    name: z.string()
+    name: z.string(),
 })
 
 export const CategoriesResponseSchema = z.array(CategorySchema)
@@ -26,6 +34,16 @@ export const CategoriesResponseSchema = z.array(CategorySchema)
 export const CategoryWithProductsResponseSchema = CategorySchema.extend({
     products: z.array(ProductSchema)
 });
+export const DeckCategorySchema = z.object({
+    id: z.number(),
+    name: z.string(),
+})
+
+export const DeckCategoryResponseSchema = z.array(DeckCategorySchema)
+
+export const DeckCategoryWithProductsResponseSchema = DeckCategorySchema.extend({
+    products: z.array(ProductSchema),
+})
 // shoppin cart
 const shoppingCartContentSchema = ProductSchema.pick({
     name: true,
@@ -94,6 +112,8 @@ export const ProductFormSchema = z.object({
 
 export const TransactionsResponseSchema = z.array(TransactionResponseSchema)
 export type Product = z.infer<typeof ProductSchema>
+export type Category = z.infer<typeof CategorySchema>
+export type Deck = z.infer<typeof DeckCategorySchema>
 export type ShoppingCart = z.infer<typeof shoppingCartSchema>
 export type CartItem = z.infer<typeof shoppingCartContentSchema>
 export type Coupon = z.infer<typeof CouponResponseSchema>

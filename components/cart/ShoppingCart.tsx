@@ -13,7 +13,7 @@ export function ShoppingCart() {
     return(
         <>
             {contents.length?(
-                <>
+                <div>
                     <h2 className='text-4xl font-bold text-gray-900'>Carrito de compras</h2>
                     <ul role="list" className="divide-y divide-gray-200 mt-6 border-t border-gray-200 font-medium text-gray-500">
                         {contents.map(item => (
@@ -30,7 +30,7 @@ export function ShoppingCart() {
                     </dl>
                     <CouponForm/>
                     <SubmitOrder/>
-                </>
+                </div>
             ): (<p className="text-xl text-center text-gray-900">No hay productos en el carrito</p>)}
         </>
     )

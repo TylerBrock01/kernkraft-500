@@ -1,6 +1,10 @@
 import MainNav from "@/components/UI/MainNav";
 import {ShoppingCart} from "@/components/cart/ShoppingCart";
 import ToastNotification from "@/components/UI/ToastNotification";
+import Logo from "@/components/UI/Logo";
+import Link from "next/link";
+import DeckPage from "@/components/UI/DeckNav";
+import LastProducts from "@/app/(store)/products/lastProducts/page";
 
 export default function RootLayout({
                                        children,
@@ -8,17 +12,32 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <>
-            <MainNav/>
-            <main className="lg:flex  lg:h-screen lg:overflow-y-hidden">
-                <div className="md:flex-1 md:h-screen md:overflow-y-scroll pt-10  pb-32 px-10">
-                    {children}
-                </div>
-                <aside className="md:w-96 md:h-screen md:overflow-y-scroll pt-10 pb-32 px-5 bg-white">
+        <div className="flex flex-col h-screen overflow-hidden ">
+            {/* Header Fijo */}
+            <header className="sticky top-0 z-50 bg-black/50 backdrop-blur-xl px-5 md:px-10 py-1 grid  border-b border-white/10 shrink-0">
+                <Logo/>
+                <MainNav/>
+            </header>
+
+            {/* Contenedor Principal (Cuerpo) */}
+            <main className=" lg:flex flex-1 overflow-y-scroll">
+
+                {/* Sección del Catálogo (Children) con Scroll Propio */}
+                <section className="flex-1 scroll-smooth custom-scrollbar">
+                    <div className="max-w-7xl ">
+                        {children}
+                    </div>
+                </section>
+
+                {/* Aside (Carrito) con Scroll Propio */}
+                <aside className="lg:sticky inset-0 lg:block md:w-96 h-full overflow-y-scroll border-l border-white/10 bg-white p-6 custom-scrollbar">
                     <ShoppingCart/>
                 </aside>
+
             </main>
+
             <ToastNotification />
-        </>
+        </div>
+
     );
 }

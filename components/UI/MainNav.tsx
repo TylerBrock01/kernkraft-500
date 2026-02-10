@@ -1,32 +1,17 @@
-import Logo from "@/components/UI/Logo";
-import {CategoriesResponseSchema} from "@/src/schema";
-import Link from "next/link";
+import CategoryBar from "@/components/category/CategoryBar";
+import DeckBar from "@/components/deck/DeckBar";
 
-async function getCategories() {
-    const url = `${process.env.API_URL}/categories`
-    const req = await fetch(url)
-    const json = await req.json()
-    return CategoriesResponseSchema.parse(json)
-}
 export default async function MainNav() {
-    const categories =await getCategories()
+
     return (
-        <header className="px-10 py-5 bg-gray-700 flex flex-col md:flex-row justify-between ">
-            <div className="flex justify-center">
-                <Logo/>
+        <>
+            <div className="overflow-x-auto py-1 grid md:flex md:justify-between border-t border-y-amber-400/50">
+                <CategoryBar/>
             </div>
+            <div className="overflow-x-auto py-1 grid md:flex md:justify-between border-b border-y-amber-400/50">
+                <DeckBar/>
+            </div>
+        </>
 
-            <nav className="flex flex-col md:flex-row gap-2 items-center mt-5 md:mt-0">
-                {categories.map(category => (
-                    <Link
-                        key={category.id}
-                        href={`/${category.id}`}
-                        className="text-white hover:text-green-400 font-bold p-2">
-
-                        {category.name}
-                    </Link>))}
-                <Link href={'/admin/sales'} className={'hidden rounded bg-green-400 font-bold py-2 px-10 text-purple-600 capitalize'}>panel admin</Link>
-            </nav>
-        </header>
     )
 }
