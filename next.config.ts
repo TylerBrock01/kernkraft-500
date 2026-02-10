@@ -12,10 +12,6 @@ const nextConfig: NextConfig = {
                 hostname: 'res.cloudinary.com',
             },
             {
-                protocol: 'http',
-                hostname: process.env.DOMAIN!
-            },
-            {
                 protocol: 'https',
                 hostname: 'http2.mlstatic.com',
                 port: '',
