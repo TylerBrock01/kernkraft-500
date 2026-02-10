@@ -7,11 +7,11 @@ export default function Hero(){
                    alt={"hero"}
                    width="2500"
                    height="2500"/>
-            <div className="absolute py-5 md:m-10 lg:m-40 md:p-5 text-center ">
-                <h1 className="text-5xl md:text-7xl font-black italic tracking-tighter text-white uppercase leading-none">
+            <div className="absolute mt-5 py-5 md:m-10 lg:m-40 md:p-5 text-center ">
+                <h1 className="text-3xl md:text-7xl font-black italic tracking-tighter text-white uppercase leading-none">
                     Domina las <span className="text-yellow-400">Calles</span>
                 </h1>
-                <p className="mt-6 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto font-medium">
+                <p className="mt-6  md:text-xl text-gray-300 max-w-2xl mx-auto font-medium">
                     Desde Street Boards hasta Longboards de descenso. Encuentra las mejores refacciones y tablas armadas con envíos a todo el país.
                 </p>
                 <div className="invisible md:visible mt-10 flex flex-col sm:flex-row gap-4 justify-center">
