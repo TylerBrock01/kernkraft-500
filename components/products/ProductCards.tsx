@@ -6,7 +6,7 @@ import AddProductButton from "@/components/products/AddProductButton";
 export default function ProductCard({product}: { product: Product}) {
     return (
         <div
-            className=' bg-zinc-900/60 border border-black rounded-2xl shadow relative text-white hover:bg-zinc-900/80 transition-all duration-300 hover:border-yellow-400 hover:text-yellow-400 p-1 animate-fade-in-up'
+            className='flex flex-col justify-between align-middle py-2 bg-zinc-900/60 border border-black rounded-2xl shadow text-white hover:bg-zinc-900/80 transition-all duration-300 hover:border-yellow-400 hover:text-yellow-400 p-1 animate-fade-in-up'
         >
             <div className={`${!isAvalaible(product.stock)&& 'opacity-40'} `}>
                 <Image
@@ -18,7 +18,7 @@ export default function ProductCard({product}: { product: Product}) {
                     unoptimized={true}
                     priority={true}
                 />
-                <div className="p-2 space-y-1  tracking-tight leading-snug transition-colors ">
+                <div className="flex flex-col p-2 space-y-1  tracking-tight leading-snug transition-colors ">
                     <h3 className="text-xl font-bold  ">{product.name}</h3>
                     <div className={"grid grid-cols-2 gap-1 "}>
                         <p className="">Size: {product.size}</p>
