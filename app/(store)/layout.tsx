@@ -14,7 +14,7 @@ export default function RootLayout({
     return (
         <div className="flex flex-col h-screen overflow-hidden ">
             {/* Header Fijo */}
-            <header className="sticky top-0 z-50 bg-black/50 backdrop-blur-xl px-5 md:px-10 py-1 grid animate-fade-in-down border-b border-white/10 shrink-0">
+            <header className="sticky top-0 z-50 bg-black/50 backdrop-blur-xl px-5 md:px-10 py-1 grid  border-b border-white/10 shrink-0">
                 <Logo/>
                 <MainNav/>
             </header>
