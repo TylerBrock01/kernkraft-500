@@ -1,7 +1,6 @@
-import {CategoryWithProductsResponseSchema, ProductResponseSchema} from "@/src/schema";
+import { ProductResponseSchema} from "@/src/schema";
 import ProductCard from "@/components/products/ProductCards";
 import {redirect} from "next/navigation";
-import {slice} from "eslint-config-next";
 
 async function getProduct() {
     const url = `${process.env.API_URL}/products?take=4`
