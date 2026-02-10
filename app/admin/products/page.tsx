@@ -22,7 +22,7 @@ export default async function ProductsPage({searchParams}: {searchParams: Search
     const producstPerPage = 10
     const skip = (+page - 1) * producstPerPage;
     const {products, total} =await getProducts(producstPerPage,skip)
-    const totalPages = Math.ceil( total/producstPerPage );
+    const totalPages = Math.ceil( total!/producstPerPage );
     if (+page > totalPages) redirect('/admin/products?page=1');
 
 

@@ -1,8 +1,6 @@
 import Link from "next/link";
 import LastProductPage from "@/app/(store)/products/[productId]/page";
 
-
-
 export default function LastProducts() {
 
     return (
