@@ -5,7 +5,7 @@ export default function Home() {
     return(
         <div className={"grid gap-1"}>
             <Hero/>
-            <LastProducts/>
+            {/*<LastProducts/>*/}
         </div>
     )
 }
