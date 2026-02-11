@@ -12,7 +12,7 @@ export default function Pagination({page, totalPages, baseUrl}: PaginationProps)
         <nav className="flex justify-center py-10 gap-1">
             {page>1&&(
                 <Link href={`${baseUrl}?page=${page -1}`}
-                      className="px-4 py-2 text-sm text-gray-900 ring-1 ring-inset ring-gray-900   focus:z-20 focus:outline-offset-0">
+                      className="bg-black/30  text-white ring-yellow-400 px-4 py-2 text-sm  ring-1 ring-inset    focus:z-20 focus:outline-offset-0">
                     &laquo;
                 </Link>
             )}
@@ -21,7 +21,8 @@ export default function Pagination({page, totalPages, baseUrl}: PaginationProps)
                 <Link
                     key={currentPage}
                     href={`${baseUrl}?page=${currentPage}`}
-                    className={`${page === currentPage && "bg-green-400 font-black "} px-4 py-2 text-sm text-gray-900 ring-1 ring-inset ring-gray-900   focus:z-20 focus:outline-offset-0`}
+                    className={`${page === currentPage
+                        ? "bg-yellow-400 text-black font-black ring-gray-900  ":"bg-black/30 text-white ring-yellow-400 "} px-4 py-2 text-sm  ring-1 ring-inset  focus:z-20 focus:outline-offset-0`}
                 >
                     {currentPage}
                 </Link>
@@ -29,7 +30,7 @@ export default function Pagination({page, totalPages, baseUrl}: PaginationProps)
 
             {page<totalPages&&(
                 <Link href={`${baseUrl}?page=${page +1}`}
-                      className="px-4 py-2 text-sm text-gray-900 ring-1 ring-inset ring-gray-900   focus:z-20 focus:outline-offset-0">
+                      className="bg-black/30  text-white ring-yellow-400 px-4 py-2 text-sm  ring-1 ring-inset    focus:z-20 focus:outline-offset-0">
                     &raquo;
                 </Link>
             )}
