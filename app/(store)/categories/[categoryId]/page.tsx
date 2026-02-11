@@ -1,6 +1,7 @@
 import {CategoryWithProductsResponseSchema} from "@/src/schema";
 import ProductCard from "@/components/products/ProductCards";
 import {redirect} from "next/navigation";
+import HeadingHighlight from "@/components/UI/HeadingHighlight";
 
 type Params = Promise<{categoryId: string}>;
 
@@ -23,10 +24,9 @@ export default async function StorePage({params}: { params: Params}) {
     return(
         <div className={"mt-2"}>
             <div className={"bg-black/50"}>
-                <h2 className=" p-1 text-3xl font-black text-white uppercase italic animate-fade-in-right">
-                    Nuestra <span className="text-yellow-400">Colección</span>
-                </h2>
-                <h2 className={"text-zinc-400 mt-2 text-2xl p-1 animate-fade-in-right"}>{category.name}:</h2>
+                <HeadingHighlight highlight={"coleccion"}>nuestra </HeadingHighlight>
+
+                <h2 className={"text-zinc-200 mt-2 text-2xl p-1 animate-fade-in-right"}>{category.name}:</h2>
             </div>
             <div className='  p-2 grid grid-cols-2 gap-2 md:grid-cols-4 xl:grid-cols-5 '>
                 { category.products.map(product =>
