@@ -4,6 +4,7 @@ import {redirect} from "next/navigation";
 import Link from "next/link";
 import Pagination from "@/components/UI/Pagination";
 import {isValidPage} from "@/src/utils";
+import HeadingHighlight from "@/components/UI/HeadingHighlight";
 
 async function getProducts(take:number, skip:number){
     const url = `${process.env.API_URL}/products?take=${take}&skip=${skip}`;
@@ -33,9 +34,7 @@ export default async function ProductsPage({searchParams}: {searchParams: Search
 
     return(
         <section className="grid">
-            <h2 className="italic text-4xl font-bold text-center text-white bg-black/50 py-2">
-                Catalogo de <span className="text-yellow-400"> Productos</span>
-            </h2>
+            <HeadingHighlight highlight={"productos"}>catalogos de </HeadingHighlight>
             <div className='p-2 grid grid-cols-2 gap-2 md:grid-cols-4 xl:grid-cols-5 '>
                 { products.map(product =>
                     <ProductCard key={product.id} product={product}/>)}
