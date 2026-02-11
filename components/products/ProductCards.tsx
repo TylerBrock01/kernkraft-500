@@ -10,8 +10,8 @@ export default function ProductCard({product}: { product: Product}) {
         >
             <div className={`${!isAvalaible(product.stock)&& 'opacity-40'} `}>
                 <Image
-                    className={"bg-white rounded-2xl"}
-                    src={product.image}
+                    className={"bg-black rounded-2xl"}
+                    src={'https://cdn.pixabay.com/photo/2014/04/02/16/29/skate-board-307418_1280.png'}
                     alt={`imagen de ${product.name}`}
                     width={400}
                     height={600}
