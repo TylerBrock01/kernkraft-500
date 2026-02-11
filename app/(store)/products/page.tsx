@@ -34,7 +34,7 @@ export default async function ProductsPage({searchParams}: {searchParams: Search
     return(
         <section className="grid">
             <h2 className="italic text-4xl font-bold text-center text-white bg-black/50 py-2">
-                Nuevos <span className="text-yellow-400"> Productos</span>
+                Catalogo de <span className="text-yellow-400"> Productos</span>
             </h2>
             <div className='p-2 grid grid-cols-2 gap-2 md:grid-cols-4 xl:grid-cols-5 '>
                 { products.map(product =>
