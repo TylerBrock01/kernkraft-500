@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'kernkraft-400.onrender.com'
+                hostname: "kernkraft-400.onrender.com"
             },
             {
                 protocol:'https',
