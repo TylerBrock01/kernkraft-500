@@ -24,7 +24,6 @@ type SearchParams = Promise<{page:string}>
 
 export default async function ProductsPage({searchParams}: {searchParams: SearchParams}) {
     const {page} = await searchParams
-    console.log(page)
     if (!isValidPage(+page)) redirect('/products?page=1');
     const producstPerPage = 10
     const skip = (+page - 1) * producstPerPage;
