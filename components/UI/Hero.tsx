@@ -16,7 +16,7 @@ export default function Hero(){
                     Desde Street Boards hasta Longboards de descenso. Encuentra las mejores refacciones y tablas armadas con envíos a todo el país.
                 </p>
                 <div className="invisible md:visible mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-                    <Link href={'/products'} className="px-8 py-4 bg-yellow-400 text-black font-bold rounded-full hover:bg-yellow-300 transition-all hover:scale-105 uppercase tracking-wider">
+                    <Link href={'/products?take=10&skip=0'} className="px-8 py-4 bg-yellow-400 text-black font-bold rounded-full hover:bg-yellow-300 transition-all hover:scale-105 uppercase tracking-wider">
                         Ver Catálogo
                     </Link>
                     <Link href={'/products?page=1'} className="px-8 py-4 border-2 border-white text-white font-bold rounded-full hover:bg-white hover:text-black transition-all uppercase tracking-wider">
