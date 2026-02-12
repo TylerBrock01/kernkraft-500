@@ -53,8 +53,6 @@ export default function Footer() {
                         <Image
                             src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeHI0OWt6cmYzc2Q3OXA4ZWluMThia3pjY2VlanZ0N3RmZmZyajUzdSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/OTfveh3PRaAPS/giphy.gif"
                             alt="Skate GIF"
-                            // width={100}
-                            // height={100}
                             fill
                             unoptimized
                             className="object-contain"
