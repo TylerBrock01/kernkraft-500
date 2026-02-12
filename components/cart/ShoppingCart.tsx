@@ -29,7 +29,7 @@ export function ShoppingCart() {
                         <Amount label="Total a pagar" amount={total}/>
                     </dl>
                     <CouponForm/>
-                    <SubmitOrder/>
+                    {/*<SubmitOrder/>*/}
                 </div>
             ): (<p className="text-xl text-center text-gray-900">No hay productos en el carrito</p>)}
         </>
