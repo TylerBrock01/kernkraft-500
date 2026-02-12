@@ -21,15 +21,18 @@ export default async function LastProductPage() {
     const products = await getProduct()
     return(
         <section className="grid">
-            <HeadingHighlight highlight={"productos"}>nuevos </HeadingHighlight>
-
-            <div className="">
-                <div className={""}>
-                    <div className='p-2 grid grid-cols-2 gap-2 md:grid-cols-4 xl:grid-cols-5 '>
-                        { products.products.map(product =>
-                            <ProductCard key={product.id} product={product}/>)}
-                    </div>
+            <div className="bg-zinc-950/40 border-l-4 border-yellow-400 py-3 md:p-6 backdrop-blur-md">
+                <div className="uppercase tracking-tighter leading-none">
+                    <HeadingHighlight highlight="colección">
+                        nueva
+                    </HeadingHighlight>
                 </div>
+
+            </div>
+
+            <div className='bg-black p-2 grid grid-cols-2 gap-2 md:grid-cols-4 xl:grid-cols-5 '>
+                { products.products.map(product =>
+                    <ProductCard key={product.id} product={product}/>)}
             </div>
             <div className="text-center flex justify-center  p-3">
                 <Link href="/products?take=10&skip=0" className="   text-white hover:text-yellow-400 border border-white hover:border-yellow-400 py-3 px-8 rounded-full transition duration-300">
