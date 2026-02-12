@@ -51,6 +51,17 @@ export default async function ProductPage({params}: { params: Params}) {
                     </p>
 
                     {/* Specs Técnicas */}
+                    <div className="grid grid-cols-2 gap-4 ">
+                        <div className="bg-zinc-900/50 p-4 rounded-2xl border border-white/5">
+                            <p className="text-zinc-500 text-xs uppercase font-bold">Medida</p>
+                            <p className="text-xl font-bold">{product.size}"</p>
+                        </div>
+                        <div className="bg-zinc-900/50 p-4 rounded-2xl border border-white/5">
+                            <p className="text-zinc-500 text-xs uppercase font-bold">Color</p>
+                            <p className="text-xl font-bold">{product.color}</p>
+                        </div>
+                    </div>
+
                     <div className="mt-10 p-8 rounded-3xl border border-white/5 bg-zinc-900/30 backdrop-blur-sm">
                         <div className="flex items-center justify-between gap-6">
                             <div className="flex flex-col">
