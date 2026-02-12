@@ -39,7 +39,6 @@ export default function ProductCard({product}: { product: Product}) {
                 </div>
             </div>
 
-            {/* Info del Producto */}
             <div className="p-5 flex flex-col gap-1">
                 <div className="flex justify-between items-start">
                     <h3 className="text-lg font-bold text-white tracking-tight leading-tight group-hover:text-yellow-400 transition-colors line-clamp-1">
@@ -53,21 +52,19 @@ export default function ProductCard({product}: { product: Product}) {
                     <span className="text-[10px] uppercase font-bold text-zinc-500 tracking-widest">Size: {product.size}</span>
                 </div>
 
-                {/* Precio y Botón */}
                 <div className="mt-5 flex items-center justify-between">
                     <div className="flex flex-col">
-                <span className={`text-2xl font-black italic tracking-tighter ${product.stock === 0 ? 'text-zinc-600' : 'text-white'}`}>
-                    ${product.price.toLocaleString()}
-                </span>
+                        <span className={`text-2xl font-black italic tracking-tighter ${product.stock === 0 ? 'text-zinc-600' : 'text-white'}`}>
+                            ${product.price.toLocaleString()}
+                        </span>
                     </div>
 
-                    {/* Lógica para ocultar o deshabilitar el botón si no hay stock */}
                     {product.stock > 0 ? (
                         <AddProductButton product={product}/>
                     ) : (
                         <span className="text-[10px] font-black uppercase text-zinc-600 border border-zinc-800 px-3 py-2 rounded-xl">
-                    No disponible
-                </span>
+                            No disponible
+                        </span>
                     )}
                 </div>
             </div>
