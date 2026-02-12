@@ -30,7 +30,7 @@ export default async function LastProductPage() {
 
             </div>
 
-            <div className='bg-black p-2 grid grid-cols-2 gap-2 md:grid-cols-4 xl:grid-cols-5 '>
+            <div className='bg-black py-5 px-4 grid grid-cols-2 gap-2 md:grid-cols-4 xl:grid-cols-5 '>
                 { products.products.map(product =>
                     <ProductCard key={product.id} product={product}/>)}
             </div>
