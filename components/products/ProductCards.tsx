@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function ProductCard({product}: { product: Product}) {
     return (
-        <Link href={`/products/${product.id}`} className="group cursor-pointer relative bg-zinc-900/30 border border-white rounded-2xl overflow-hidden transition-all duration-500 hover:border-yellow-400/40 hover:bg-zinc-900/60 hover:shadow-[0_0_30px_rgba(250,204,21,0.05)]">
+        <Link href={`/products/${product.id}`} className="group cursor-pointer relative bg-zinc-900/30 border  rounded-2xl overflow-hidden transition-all duration-500 hover:border-yellow-400/40 hover:bg-zinc-900/60 hover:shadow-[0_0_30px_rgba(250,204,21,0.05)]">
 
             {/* Contenedor de Imagen */}
             <div className="relative aspect-[4/5] w-full overflow-hidden bg-zinc-950">
@@ -52,15 +52,17 @@ export default function ProductCard({product}: { product: Product}) {
                     <span className="text-[10px] uppercase font-bold text-zinc-500 tracking-widest">Size: {product.size}</span>
                 </div>
 
-                <div className="mt-5 flex items-center justify-between">
+                <div className="mt-5 grid items-center">
                     <div className="flex flex-col">
                         <span className={`text-2xl font-black italic tracking-tighter ${product.stock === 0 ? 'text-zinc-600' : 'text-white'}`}>
-                            ${product.price.toLocaleString()}
+                            {formatCurrency(product.price)}
                         </span>
                     </div>
 
                     {product.stock > 0 ? (
-                        <AddProductButton product={product}/>
+                        <div className={"grid justify-end"}>
+                            <AddProductButton product={product}/>
+                        </div>
                     ) : (
                         <span className="text-[10px] font-black uppercase text-zinc-600 border border-zinc-800 px-3 py-2 rounded-xl">
                             No disponible
