@@ -24,6 +24,12 @@ const nextConfig: NextConfig = {
                 pathname: '/**',
             },
             {
+                protocol: 'https',
+                hostname: 'media*.giphy.com', // El asterisco permite media0, media1, media2, etc.
+                port: '',
+                pathname: '/media/**',
+            },
+            {
                 protocol:'http',
                 hostname:'localhost',
             }
