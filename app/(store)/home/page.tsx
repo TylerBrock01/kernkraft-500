@@ -4,7 +4,7 @@ import Footer from "@/components/UI/Footer";
 
 export default function Home() {
     return(
-        <div className={"grid gap-1"}>
+        <div className={"grid"}>
             <Hero/>
             <LastProducts/>
         </div>

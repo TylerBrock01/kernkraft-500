@@ -34,7 +34,7 @@ export default async function LastProductPage() {
                 { products.products.map(product =>
                     <ProductCard key={product.id} product={product}/>)}
             </div>
-            <div className="bg-black mb-1 text-center flex justify-center  p-3">
+            <div className="bg-black text-center flex justify-center  p-3">
                 <Link href="/products?take=10&skip=0" className="   text-white hover:text-yellow-400 border border-white hover:border-yellow-400 py-3 px-8 rounded-full transition duration-300">
                     Ver Tienda Completa
                 </Link>

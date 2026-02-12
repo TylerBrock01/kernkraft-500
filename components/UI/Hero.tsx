@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Hero(){
     return (
-        <div className="relative mt-1 mx-1 grid bg-black ">
+        <div className="relative p-1 grid bg-black ">
             <Image className=" object-cover opacity-50" src={"https://cdn.pixabay.com/photo/2019/02/22/12/31/fashion-4013456_1280.jpg"}
                    alt={"hero"}
                    width="2500"
