@@ -32,4 +32,4 @@ export function getImagePath(image: string) {
     }
 }
 
-export const isAvalaible= (stock: number) => stock >0
+export const isAvailable= (stock: number) => stock >0
