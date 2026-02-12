@@ -11,7 +11,7 @@ export default function ProductCard({product}: { product: Product}) {
             {/* Contenedor de Imagen */}
             <div className="relative aspect-[4/5] w-full overflow-hidden bg-zinc-950">
                 <Image
-                    src={getImagePath(product.name)||'https://cdn.pixabay.com/photo/2014/04/02/16/29/skate-board-307418_1280.png'}
+                    src={`${getImagePath(product.image)}`}
                     alt={product.name}
                     fill
                     className={`object-cover transition-transform duration-700 ease-in-out group-hover:scale-110 ${product.stock === 0 ? 'grayscale opacity-30' : 'opacity-90 group-hover:opacity-100'}`}
