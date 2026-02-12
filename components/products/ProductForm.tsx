@@ -20,6 +20,7 @@ export default async function ProductForm({product} :{product?: Product}) {
     const decks = await getDeck();
     return (
         <>
+            {/*name*/}
             <div className="space-y-2 ">
                 <label
                     htmlFor="name"
@@ -34,7 +35,7 @@ export default async function ProductForm({product} :{product?: Product}) {
                     defaultValue={product?.name}
                 />
             </div>
-
+            {/*price*/}
             <div className="space-y-2 ">
                 <label
                     htmlFor="price"
@@ -50,7 +51,7 @@ export default async function ProductForm({product} :{product?: Product}) {
                     defaultValue={product?.price}
                 />
             </div>
-
+            {/*stock*/}
             <div className="space-y-2 ">
                 <label
                     htmlFor="stock"
@@ -66,7 +67,7 @@ export default async function ProductForm({product} :{product?: Product}) {
                     defaultValue={product?.stock}
                 />
             </div>
-
+            {/*color*/}
             <div className="space-y-2 ">
                 <label
                     htmlFor="color"
@@ -81,7 +82,7 @@ export default async function ProductForm({product} :{product?: Product}) {
                     defaultValue={product?.color}
                 />
             </div>
-
+            {/*size*/}
             <div className="space-y-2 ">
                 <label
                     htmlFor="size"
@@ -89,14 +90,14 @@ export default async function ProductForm({product} :{product?: Product}) {
                 >Medida de Producto</label>
                 <input
                     id="size"
-                    type="text"
+                    type="number"
                     placeholder="Medida de Producto"
                     className="border border-gray-300 w-full p-2"
                     name="size"
                     defaultValue={product?.size}
                 />
             </div>
-
+            {/*category*/}
             <div className="space-y-2 ">
                 <label
                     htmlFor="categoryId"
@@ -114,7 +115,7 @@ export default async function ProductForm({product} :{product?: Product}) {
                     ))}
                 </select>
             </div>
-
+            {/*deck*/}
             <div className="space-y-2 ">
                 <label
                     htmlFor="deckId"
