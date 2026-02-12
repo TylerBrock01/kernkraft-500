@@ -128,8 +128,8 @@ export default async function ProductForm({product} :{product?: Product}) {
                     defaultValue={product?.deck?.id}
                 >
                     <option value="" >Seleccionar Deck</option>
-                    {decks.data?.map(category => (
-                        <option key={category.id} value={category.id}>{category.name}</option>
+                    {decks.data?.map(deck => (
+                        <option key={deck.id} value={deck.id}>{deck.name}</option>
                     ))}
                 </select>
             </div>
