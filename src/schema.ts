@@ -104,10 +104,14 @@ export const ProductFormSchema = z.object({
         .min(1, {message: 'El Nombre del Producto no puede ir vacio'}),
     price: z.coerce.number({message: 'Precio no válido'})
         .min(1, {message: 'El Precio debe ser mayor a 0'}),
-    image: z.string({message: 'La imagen es obligatoria'}),
+    // image: z.string({message: 'La imagen es obligatoria'}),
     stock: z.coerce.number({message: 'Inventario no válido'})
-        .min(1, {message: 'El inventario debe ser mayor a 0'}),
-    categoryId: z.coerce.number({message: 'La Categoria no es válida'})
+        .min(1, {message: 'El inventario debe ser mayor a 0'}).nullish(),
+    categoryId: z.coerce.number({message: 'La Categoria no es válida'}),
+    color: z.string({message : 'color es obligatorio'}),
+    size: z.coerce.number({message:'medida es obligatorio'})
+        .min(1, {message: 'La medida debe ser mayor a 0'}),
+    deckId: z.coerce.number({message:'La Categoria no es válida'})
 })
 
 export const TransactionsResponseSchema = z.array(TransactionResponseSchema)
