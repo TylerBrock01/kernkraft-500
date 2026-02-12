@@ -39,9 +39,9 @@ export default async function ProductPage({params}: { params: Params}) {
 
                 {/* Columna Derecha: Información y Compra */}
                 <div className="flex flex-col justify-center">
-          <span className="text-yellow-400 font-black uppercase tracking-[0.3em] text-xs mb-2">
-            Modelo {product.deck?.name}
-          </span>
+                    <span className="text-yellow-400 font-black uppercase tracking-[0.3em] text-xs mb-2">
+                        Modelo {product.deck?.name}
+                    </span>
                     <h1 className="text-5xl md:text-6xl font-black italic uppercase leading-none mb-6">
                         {product.name}
                     </h1>
@@ -56,8 +56,8 @@ export default async function ProductPage({params}: { params: Params}) {
                             <div className="flex flex-col">
                                 <span className="text-zinc-500 text-xs uppercase font-black tracking-widest mb-1">Precio Final</span>
                                 <span className={`text-5xl font-black italic tracking-tighter ${!isAvailable(product.stock) ? 'text-zinc-700 line-through' : 'text-white'}`}>
-        ${product.price.toLocaleString()}
-      </span>
+                                    ${product.price.toLocaleString()}
+                                </span>
                             </div>
 
                             {/* Condicional para el Botón o Mensaje de Agotado */}
@@ -65,9 +65,9 @@ export default async function ProductPage({params}: { params: Params}) {
                                 <AddProductButton product={product} />
                             ) : (
                                 <div className="flex flex-col items-end">
-        <span className="bg-red-600 text-white px-6 py-3 rounded-xl font-black uppercase italic -rotate-2 shadow-[0_0_20px_rgba(220,38,38,0.3)]">
-          Sold Out
-        </span>
+                                    <span className="bg-red-600 text-white px-6 py-3 rounded-xl font-black uppercase italic -rotate-2 shadow-[0_0_20px_rgba(220,38,38,0.3)]">
+                                      Sold Out
+                                    </span>
                                     <p className="text-[10px] text-zinc-500 mt-2 uppercase font-bold tracking-tighter">
                                         Próxima reposición: Pronto
                                     </p>
