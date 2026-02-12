@@ -2,6 +2,7 @@ import MainNav from "@/components/UI/MainNav";
 import {ShoppingCart} from "@/components/cart/ShoppingCart";
 import ToastNotification from "@/components/UI/ToastNotification";
 import Logo from "@/components/UI/Logo";
+import Footer from "@/components/UI/Footer";
 
 export default function RootLayout({
                                        children,
@@ -24,13 +25,14 @@ export default function RootLayout({
                     <div className="max-w-7xl ">
                         {children}
                     </div>
+                    <Footer/>
+
                 </section>
 
                 {/* Aside (Carrito) con Scroll Propio */}
                 <aside className="lg:sticky inset-0 lg:block md:w-96 h-full overflow-y-scroll border-l border-white/10 bg-white p-6 custom-scrollbar">
                     <ShoppingCart/>
                 </aside>
-
             </main>
 
             <ToastNotification />
