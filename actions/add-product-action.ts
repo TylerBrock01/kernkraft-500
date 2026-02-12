@@ -12,8 +12,11 @@ export async function addProduct(prevState: ActionStateType, formData: FormData)
         name : formData.get('name'),
         price : formData.get('price'),
         stock: formData.get('stock'),
-        image : formData.get('image'),
+        // image : formData.get('image'),
         categoryId: formData.get('categoryId'),
+        color: formData.get('color'),
+        size: formData.get('size'),
+        deckId: formData.get('deckId'),
     })
 
     if (!product.success) {
