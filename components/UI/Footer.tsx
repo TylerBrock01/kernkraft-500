@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import HeadingHighlight from "@/components/UI/HeadingHighlight";
 
 export default function Footer() {
     return (
@@ -8,9 +9,7 @@ export default function Footer() {
 
                 {/* Columna 1: Brand & Logo */}
                 <div className="flex flex-col gap-4">
-          <span className="text-2xl font-black italic tracking-tighter text-white uppercase">
-            SKATE<span className="text-yellow-400">SHOP</span>
-          </span>
+          <HeadingHighlight highlight={"vask8"}>skate shop </HeadingHighlight>
                     <p className="text-zinc-400 text-sm leading-relaxed">
                         La mejor selección de tablas, refacciones y cultura urbana desde 2024.
                         Patina o muere. 🛹
@@ -64,7 +63,7 @@ export default function Footer() {
             {/* Barra Inferior de Copyright */}
             <div className="max-w-7xl mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p className="text-zinc-600 text-xs uppercase tracking-widest">
-                    © 2024 SkateShop. Todos los derechos reservados.
+                    © 2026 VASK8. Todos los derechos reservados.
                 </p>
                 <p className="text-zinc-600 text-[10px] uppercase">
                     Diseñado para la calle.
