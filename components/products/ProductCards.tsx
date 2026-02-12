@@ -53,21 +53,22 @@ export default function ProductCard({product}: { product: Product}) {
                 </div>
 
                 <div className="mt-5 grid items-center">
-                    <div className="flex flex-col">
+                    <div className="grid md:flex ">
                         <span className={`text-2xl font-black italic tracking-tighter ${product.stock === 0 ? 'text-zinc-600' : 'text-white'}`}>
                             {formatCurrency(product.price)}
                         </span>
-                    </div>
-
-                    {product.stock > 0 ? (
-                        <div className={"grid justify-end"}>
-                            <AddProductButton product={product}/>
-                        </div>
-                    ) : (
-                        <span className="text-[10px] font-black uppercase text-zinc-600 border border-zinc-800 px-3 py-2 rounded-xl">
+                        {product.stock > 0 ? (
+                            <div className={"flex justify-end"}>
+                                <AddProductButton product={product}/>
+                            </div>
+                        ) : (
+                            <span className="text-[10px] font-black uppercase text-zinc-600 border border-zinc-800 px-3 py-2 rounded-xl">
                             No disponible
                         </span>
-                    )}
+                        )}
+                    </div>
+
+
                 </div>
             </div>
 
