@@ -30,7 +30,7 @@ export default function SubmitOrder() {
 
             <input type="submit"
                    value="confirmar compra"
-                   className="hidden mt-5 w-full p-3 bg-indigo-600 hover:bg-indigo-700 text-white uppercase font-bold hover:cursor-pointer"
+                   className=" mt-5 w-full p-3 bg-indigo-600 hover:bg-indigo-700 text-white uppercase font-bold hover:cursor-pointer"
 
             />
         </form>
