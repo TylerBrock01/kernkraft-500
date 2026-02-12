@@ -1,4 +1,4 @@
-import {CategoriesResponseSchema, Product} from "@/src/schema";
+import {CategoriesResponseSchema, DeckCategoryResponseSchema, Product} from "@/src/schema";
 import UploadProductImage from "@/components/products/UploadProductImage";
 
 async function getCategories(){
@@ -8,8 +8,16 @@ async function getCategories(){
     const categories = CategoriesResponseSchema.safeParse(json);
     return categories;
 }
+async function getDeck(){
+    const url = `${process.env.API_URL}/decks`;
+    const request = await fetch(url);
+    const json = await request.json();
+    const deck = DeckCategoryResponseSchema.safeParse(json);
+    return deck;
+}
 export default async function ProductForm({product} :{product?: Product}) {
     const categories = await getCategories();
+    const decks = await getDeck();
     return (
         <>
             <div className="space-y-2 ">
@@ -61,6 +69,36 @@ export default async function ProductForm({product} :{product?: Product}) {
 
             <div className="space-y-2 ">
                 <label
+                    htmlFor="color"
+                    className="block"
+                >Color de Producto</label>
+                <input
+                    id="color"
+                    type="text"
+                    placeholder="Color de Producto"
+                    className="border border-gray-300 w-full p-2"
+                    name="color"
+                    defaultValue={product?.color}
+                />
+            </div>
+
+            <div className="space-y-2 ">
+                <label
+                    htmlFor="size"
+                    className="block"
+                >Medida de Producto</label>
+                <input
+                    id="size"
+                    type="text"
+                    placeholder="Medida de Producto"
+                    className="border border-gray-300 w-full p-2"
+                    name="size"
+                    defaultValue={product?.size}
+                />
+            </div>
+
+            <div className="space-y-2 ">
+                <label
                     htmlFor="categoryId"
                     className="block"
                 >Categoría</label>
@@ -72,6 +110,24 @@ export default async function ProductForm({product} :{product?: Product}) {
                 >
                     <option value="" >Seleccionar Categoría</option>
                     {categories.data?.map(category => (
+                        <option key={category.id} value={category.id}>{category.name}</option>
+                    ))}
+                </select>
+            </div>
+
+            <div className="space-y-2 ">
+                <label
+                    htmlFor="deckId"
+                    className="block"
+                >Deck</label>
+                <select
+                    id="deckId"
+                    className="border border-gray-300 w-full p-2 bg-white"
+                    name="deckId"
+                    defaultValue={product?.deck?.id}
+                >
+                    <option value="" >Seleccionar Deck</option>
+                    {decks.data?.map(category => (
                         <option key={category.id} value={category.id}>{category.name}</option>
                     ))}
                 </select>
