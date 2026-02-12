@@ -32,11 +32,23 @@ export default async function ProductsPage({searchParams}: {searchParams: Search
     if (+page > totalPages) redirect('/products?page=1');
 
     return(
-        <section className="grid mt-2">
-            <HeadingHighlight highlight={"completa"}>tienda </HeadingHighlight>
-            <div className='p-2 grid grid-cols-2 gap-2 md:grid-cols-4 xl:grid-cols-5 '>
-                { products.map(product =>
-                    <ProductCard key={product.id} product={product}/>)}
+        <section className=" grid mt-2">
+            <div className="bg-zinc-950/40 border-l-4 border-yellow-400 py-3 md:p-6 backdrop-blur-md">
+                <div className="uppercase tracking-tighter leading-none">
+                    <HeadingHighlight highlight="colección">
+                        nueva
+                    </HeadingHighlight>
+                </div>
+
+            </div>
+            <div className="min-h-screen bg-black bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-zinc-900/20 via-black to-black py-5 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
+                        {products.map(product => (
+                            <ProductCard key={product.id} product={product} />
+                        ))}
+                    </div>
+                </div>
             </div>
             <Pagination
                 page={+page}
