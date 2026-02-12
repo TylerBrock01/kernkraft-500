@@ -30,9 +30,9 @@ export default function ProductCard({product}: { product: Product}) {
                 {/* Badge de Stock */}
                 <div className="absolute top-3 left-3 z-20">
             <span className={`px-2 py-1 rounded-md text-[10px] font-black uppercase tracking-tighter backdrop-blur-md border ${
-                product.stock <= 3 && product.stock > 0
-                    ? "bg-red-500/20 border-red-500/50 text-red-500"
-                    : "bg-black/80 border-white/10 text-zinc-400"
+                product.stock >=1 && product.stock <= 3 ? "bg-red-500/20 border-red-500/50 text-red-500" : 
+                    product.stock == 0 ? "text-zinc-400":
+                        product.stock > 3? "bg-black/80 border-white/10 text-green-400": "bg-black"
             }`}>
                 {product.stock === 0 ? 'Sin existencias' : product.stock <= 3 ? `¡Solo ${product.stock}!` : `Stock: ${product.stock}`}
             </span>
