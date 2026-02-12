@@ -32,8 +32,8 @@ export default async function ProductsPage({searchParams}: {searchParams: Search
     if (+page > totalPages) redirect('/products?page=1');
 
     return(
-        <section className="grid">
-            <HeadingHighlight highlight={"productos"}>catalogos de </HeadingHighlight>
+        <section className="grid mt-2">
+            <HeadingHighlight highlight={"completa"}>tienda </HeadingHighlight>
             <div className='p-2 grid grid-cols-2 gap-2 md:grid-cols-4 xl:grid-cols-5 '>
                 { products.map(product =>
                     <ProductCard key={product.id} product={product}/>)}
@@ -43,11 +43,7 @@ export default async function ProductsPage({searchParams}: {searchParams: Search
                 totalPages={+totalPages}
                 baseUrl={"/products"}
             />
-            <div className="text-center flex justify-center  p-3">
-                <Link href="#" className="   text-white hover:text-yellow-400 border border-white hover:border-yellow-400 py-3 px-8 rounded-full transition duration-300">
-                    Ver Tienda Completa
-                </Link>
-            </div>
+
         </section>
 
     )
