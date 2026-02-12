@@ -36,7 +36,7 @@ export default async function ProductsPage({searchParams}: {searchParams: Search
             <div className="bg-zinc-950/40 border-l-4 border-yellow-400 py-3 md:p-6 backdrop-blur-md">
                 <div className="uppercase tracking-tighter leading-none">
                     <HeadingHighlight highlight="colección">
-                        nueva
+                        ultima
                     </HeadingHighlight>
                 </div>
 
