@@ -6,12 +6,18 @@ export default function AddProductButton({product}: { product: Product}) {
 
     const addToCart = useStore((state) => state.addtoCart)
     return(
-        <button
-            type="button"
-            className="border p-3 rounded-full text-black bg-green-400 hover:bg-green-700 hover:text-yellow-400 hover:border-yellow-400 "
-            onClick={()=> addToCart(product)}
-        >
-            <p className="font-bold ">Agregar al carrito</p>
-        </button>
+        <>
+            <button
+                type="button"
+                onClick={()=> addToCart(product)}
+                className="h-11 w-11 flex items-center justify-center rounded-xl bg-white text-black transition-all duration-300 hover:bg-yellow-400 hover:scale-110 active:scale-95 shadow-lg">
+                <svg xmlns="http://www.w3.org" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+            </button>
+        </>
+
+
     )
 }
