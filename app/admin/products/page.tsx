@@ -29,6 +29,7 @@ export default async function ProductsPage({searchParams}: {searchParams: Search
     return (
         <>
             <Link href="/admin/products/new"
+                  id={'add-new-product-link'}
                   className={"rounded bg-green-400 font-bold py-2 px-10"}>
                 Nuevo Producto
             </Link>
