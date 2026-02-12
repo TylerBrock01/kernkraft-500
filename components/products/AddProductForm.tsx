@@ -32,6 +32,7 @@ export default function AddProductForm({children}:{children:React.ReactNode}) {
         >
             {children}
             <input type={"submit"}
+                   id={"submitProductButton"}
             className={"rounded bg-green-400 font-bold py-2 w-full cursor-pointer"}
                    value={"Agregar Producto"}
             />
