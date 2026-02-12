@@ -1,11 +1,12 @@
 import {Product} from "@/src/schema";
-import {formatCurrency, getImagePath, isAvalaible} from "@/src/utils";
+import {formatCurrency, getImagePath, isAvailable} from "@/src/utils";
 import Image from "next/image";
 import AddProductButton from "@/components/products/AddProductButton";
+import Link from "next/link";
 
 export default function ProductCard({product}: { product: Product}) {
     return (
-        <div className="group relative bg-zinc-900/30 border border-white rounded-2xl overflow-hidden transition-all duration-500 hover:border-yellow-400/40 hover:bg-zinc-900/60 hover:shadow-[0_0_30px_rgba(250,204,21,0.05)]">
+        <Link href={`/products/${product.id}`} className="group cursor-pointer relative bg-zinc-900/30 border border-white rounded-2xl overflow-hidden transition-all duration-500 hover:border-yellow-400/40 hover:bg-zinc-900/60 hover:shadow-[0_0_30px_rgba(250,204,21,0.05)]">
 
             {/* Contenedor de Imagen */}
             <div className="relative aspect-[4/5] w-full overflow-hidden bg-zinc-950">
@@ -73,7 +74,7 @@ export default function ProductCard({product}: { product: Product}) {
 
             {/* Línea decorativa inferior */}
             <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-yellow-400 transition-all duration-500 group-hover:w-full"></div>
-        </div>
+        </Link>
 
     )
 }

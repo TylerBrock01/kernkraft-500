@@ -1,11 +1,13 @@
-import {DeckCategoryWithProductsResponseSchema, ProductResponseSchema} from "@/src/schema";
-import ProductCard from "@/components/products/ProductCards";
+import {ProductSchema} from "@/src/schema";
 import {redirect} from "next/navigation";
+import Image from "next/image";
+import AddProductButton from "@/components/products/AddProductButton";
+import {isAvailable} from "@/src/utils";
 
-type Params = Promise<{deckId: string}>;
+type Params = Promise<{productId: string}>;
 
-async function getProducts(deckId: string) {
-    const url = `${process.env.API_URL}/products/${deckId}`
+async function getProducts(productId: string) {
+    const url = `${process.env.API_URL}/products/${productId}`
     const req = await fetch(url,{
         next:{
             tags:['products-by-category']
@@ -13,26 +15,80 @@ async function getProducts(deckId: string) {
     })
     const json = await req.json()
     if (!req.ok){
-        redirect('/decks/1')
+        redirect('/')
     }
-    return ProductResponseSchema.parse(json)
+    return ProductSchema.parse(json)
 }
 export default async function ProductPage({params}: { params: Params}) {
-    const {deckId} = await params
-    const deck = await getProducts(deckId)
+    const {productId} = await params
+    const product = await getProducts(productId)
     return(
-        <div className={"mt-2"}>
-            <div className={" bg-black/50"}>
-                <h2 className="p-1 text-3xl font-black text-white uppercase italic animate-fade-in-right">
-                    Nuestra <span className="text-yellow-400">Colección</span>
-                </h2>
+        <div className="min-h-screen bg-black text-white py-10 px-5">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
 
-            </div>
-            <div className='p-2 grid grid-cols-2 gap-2 md:grid-cols-4 xl:grid-cols-5 '>
-                { deck.products?.map(product =>
-                    <ProductCard key={product.id} product={product}/>
-                )
-                }
+                {/* Columna Izquierda: Imagen Grande */}
+                <div className="relative aspect-square bg-zinc-900 rounded-3xl overflow-hidden border border-white/5">
+                    <Image
+                        src={'https://cdn.pixabay.com/photo/2014/04/02/16/29/skate-board-307418_1280.png'}
+                        alt={product.name}
+                        fill
+                        className="object-contain p-10" // 'contain' para que la tabla se vea completa
+                        priority
+                    />
+                </div>
+
+                {/* Columna Derecha: Información y Compra */}
+                <div className="flex flex-col justify-center">
+          <span className="text-yellow-400 font-black uppercase tracking-[0.3em] text-xs mb-2">
+            Modelo {product.deck?.name}
+          </span>
+                    <h1 className="text-5xl md:text-6xl font-black italic uppercase leading-none mb-6">
+                        {product.name}
+                    </h1>
+
+                    <p className="text-zinc-400 text-lg leading-relaxed mb-8 max-w-xl">
+                        {product.name || "Esta tabla de skate de alto rendimiento está fabricada con 7 capas de arce canadiense, ideal para dominar cualquier spot urbano o park."}
+                    </p>
+
+                    {/* Specs Técnicas */}
+                    <div className="mt-10 p-8 rounded-3xl border border-white/5 bg-zinc-900/30 backdrop-blur-sm">
+                        <div className="flex items-center justify-between gap-6">
+                            <div className="flex flex-col">
+                                <span className="text-zinc-500 text-xs uppercase font-black tracking-widest mb-1">Precio Final</span>
+                                <span className={`text-5xl font-black italic tracking-tighter ${!isAvailable(product.stock) ? 'text-zinc-700 line-through' : 'text-white'}`}>
+        ${product.price.toLocaleString()}
+      </span>
+                            </div>
+
+                            {/* Condicional para el Botón o Mensaje de Agotado */}
+                            {isAvailable(product.stock) ? (
+                                <AddProductButton product={product} />
+                            ) : (
+                                <div className="flex flex-col items-end">
+        <span className="bg-red-600 text-white px-6 py-3 rounded-xl font-black uppercase italic -rotate-2 shadow-[0_0_20px_rgba(220,38,38,0.3)]">
+          Sold Out
+        </span>
+                                    <p className="text-[10px] text-zinc-500 mt-2 uppercase font-bold tracking-tighter">
+                                        Próxima reposición: Pronto
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Mensaje extra si no hay stock */}
+                        {!isAvailable(product.stock) && (
+                            <div className="mt-6 pt-6 border-t border-white/5">
+                                <p className="text-zinc-400 text-sm italic">
+                                    "Este modelo voló de las calles. Déjanos tu correo y te avisamos en cuanto aterrice el próximo embarque."
+                                </p>
+                                <button className="mt-4 text-yellow-400 text-sm font-bold uppercase border-b border-yellow-400/30 hover:border-yellow-400 transition-all">
+                                    Notificarme disponibilidad
+                                </button>
+                            </div>
+                        )}
+                    </div>
+
+                </div>
             </div>
         </div>
     )
