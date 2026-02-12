@@ -11,9 +11,12 @@ export async function updateProduct(productId: Product['id'], prevState: ActionS
     const product = ProductFormSchema.safeParse({
         name : formData.get('name'),
         price : formData.get('price'),
-        image : formData.get('image'),
         stock: formData.get('stock'),
+        image : formData.get('image'),
         categoryId: formData.get('categoryId'),
+        color: formData.get('color'),
+        size: formData.get('size'),
+        deckId: formData.get('deckId'),
     })
 
     if (!product.success) {
