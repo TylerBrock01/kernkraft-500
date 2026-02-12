@@ -2,6 +2,7 @@ import { ProductResponseSchema} from "@/src/schema";
 import ProductCard from "@/components/products/ProductCards";
 import {redirect} from "next/navigation";
 import Link from "next/link";
+import HeadingHighlight from "@/components/UI/HeadingHighlight";
 
 async function getProduct() {
     const url = `${process.env.API_URL}/products?take=4`
@@ -20,9 +21,8 @@ export default async function LastProductPage() {
     const products = await getProduct()
     return(
         <section className="grid">
-            <h2 className="italic text-4xl font-bold text-center text-white bg-black/50 py-2">
-                Nuevos <span className="text-yellow-400"> Productos</span>
-            </h2>
+            <HeadingHighlight highlight={"productos"}>nuevos </HeadingHighlight>
+
             <div className="">
                 <div className={""}>
                     <div className='p-2 grid grid-cols-2 gap-2 md:grid-cols-4 xl:grid-cols-5 '>
