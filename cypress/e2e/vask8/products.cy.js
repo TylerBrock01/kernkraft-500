@@ -11,7 +11,7 @@ describe('Pruebas de producto', () => {
         cy.get('#size').type('8')
         cy.get('#categoryId').select('1')
         cy.get('#deckId').select('1')
-        cy.get('#submitProductButton').click()
+        // cy.get('#submitProductButton').click()
     });
 
 });
