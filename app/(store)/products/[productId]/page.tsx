@@ -2,7 +2,7 @@ import {ProductSchema} from "@/src/schema";
 import {redirect} from "next/navigation";
 import Image from "next/image";
 import AddProductButton from "@/components/products/AddProductButton";
-import {isAvailable} from "@/src/utils";
+import {formatCurrency, isAvailable} from "@/src/utils";
 
 type Params = Promise<{productId: string}>;
 
@@ -52,22 +52,22 @@ export default async function ProductPage({params}: { params: Params}) {
 
                     {/* Specs Técnicas */}
                     <div className="grid grid-cols-2 gap-4 ">
-                        <div className="bg-zinc-900/50 p-4 rounded-2xl border border-white/5">
+                        <div className="bg-zinc-900/90 p-4 rounded-2xl border border-white/5">
                             <p className="text-zinc-500 text-xs uppercase font-bold">Medida</p>
                             <p className="text-xl font-bold">{product.size}"</p>
                         </div>
-                        <div className="bg-zinc-900/50 p-4 rounded-2xl border border-white/5">
+                        <div className="bg-zinc-900/90 p-4 rounded-2xl border border-white/5">
                             <p className="text-zinc-500 text-xs uppercase font-bold">Color</p>
                             <p className="text-xl font-bold">{product.color}</p>
                         </div>
                     </div>
 
-                    <div className="mt-10 p-8 rounded-3xl border border-white/5 bg-zinc-900/30 backdrop-blur-sm">
+                    <div className="mt-10 p-8 rounded-3xl border border-white/5 bg-zinc-900/90 backdrop-blur-sm">
                         <div className="flex items-center justify-between gap-6">
                             <div className="flex flex-col">
                                 <span className="text-zinc-500 text-xs uppercase font-black tracking-widest mb-1">Precio Final</span>
                                 <span className={`text-5xl font-black italic tracking-tighter ${!isAvailable(product.stock) ? 'text-zinc-700 line-through' : 'text-white'}`}>
-                                    ${product.price.toLocaleString()}
+                                    {formatCurrency(product.price)}
                                 </span>
                             </div>
 
