@@ -109,8 +109,10 @@ export const ProductFormSchema = z.object({
         .min(1, {message: 'El inventario debe ser mayor a 0'}).nullish(),
     categoryId: z.coerce.number({message: 'La Categoria no es válida'}),
     color: z.string({message : 'color es obligatorio'}),
-    size: z.coerce.number({message:'medida es obligatorio'})
-        .min(1, {message: 'La medida debe ser mayor a 0'}),
+    size: z.coerce
+        .number({ message: 'La medida es obligatoria' })
+        .min(0.1, { message: 'La medida debe ser mayor a 0' }) // Cambiado a 0.1 por si usas tallas pequeñas
+        .step(0.01, { message: 'Máximo 2 decimales' }),
     deckId: z.coerce.number({message:'La Categoria no es válida'})
 })
 

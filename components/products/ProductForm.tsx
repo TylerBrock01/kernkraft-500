@@ -91,6 +91,7 @@ export default async function ProductForm({product} :{product?: Product}) {
                 <input
                     id="size"
                     type="number"
+                    step="0.01"
                     placeholder="Medida de Producto"
                     className="border border-gray-300 w-full p-2"
                     name="size"
