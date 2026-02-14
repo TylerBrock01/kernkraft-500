@@ -25,7 +25,7 @@ export default async function ProductPage({params}: { params: Params}) {
     const product = await getProducts(productId)
     return(
         <div className="my-1 min-h-screen text-white">
-            <h1 className="md:col-span-2 border-l-3 p-2 bg-black/45 border-amber-400 text-3xl md:text-5xl font-black italic uppercase leading-none ">
+            <h1 className="md:col-span-2 border-l-3 p-2 mx-auto max-w-7xl bg-black/45 border-amber-400 text-3xl md:text-5xl font-black italic uppercase leading-none ">
                 {product.name}
             </h1>
 
