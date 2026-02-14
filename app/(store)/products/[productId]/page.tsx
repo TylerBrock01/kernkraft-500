@@ -44,11 +44,11 @@ export default async function ProductPage({params}: { params: Params}) {
                 {/* Columna Derecha: Información y Compra */}
                 <div className="flex flex-col justify-center">
                     <span className="text-yellow-400 font-black uppercase tracking-[0.3em] text-xs mb-2">
-                        Modelo {product.deck?.name}
+                        Tipo: {product.deck?.name}
                     </span>
 
                     <p className="text-zinc-400 text-lg leading-relaxed mb-8 max-w-xl">
-                        {product.name || "Esta tabla de skate de alto rendimiento está fabricada con 7 capas de arce canadiense, ideal para dominar cualquier spot urbano o park."}
+                        Modelo: {product.category?.name || "Esta tabla de skate de alto rendimiento está fabricada con 7 capas de arce canadiense, ideal para dominar cualquier spot urbano o park."}
                     </p>
 
                     {/* Specs Técnicas */}
