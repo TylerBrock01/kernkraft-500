@@ -2,7 +2,7 @@ describe('Pruebas de producto', () => {
     beforeEach(() => {
         cy.visit('/admin/products?page=1')
     })
-    it('usar el form', () => {
+    it('should create product', () => {
         cy.get('#add-new-product-link').click();
         cy.get('#name').type('prueba');
         cy.get('#price').type('100');
