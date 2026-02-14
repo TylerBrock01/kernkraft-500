@@ -3,12 +3,12 @@ import Logo from './Logo'
 
 export default function AdminNav() {
     return (
-        <header className="px-10 py-5 bg-gray-700 flex justify-between">
+        <header className="px-2 md:px-10 py-5 bg-gray-700 flex flex-col md:flex-row gap-2 md:justify-between">
             <div className="flex gap-5 text-white">
                 <Logo />
             </div>
 
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-2 space-x-2 md:space-x-0 md:items-center">
                 <Link
                     href={'/admin/products'}
                     className="rounded text-white font-bold p-2"
