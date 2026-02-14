@@ -16,9 +16,9 @@ export default function Footer() {
                     </p>
                     <div className="flex gap-4 mt-2">
                         {/* Aquí puedes poner tus iconos de redes sociales */}
-                        <div className="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-yellow-400 hover:text-black transition-colors cursor-pointer text-white">IG</div>
-                        <div className="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-yellow-400 hover:text-black transition-colors cursor-pointer text-white">FB</div>
-                        <div className="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-yellow-400 hover:text-black transition-colors cursor-pointer text-white">TK</div>
+                        <Link href={'https://www.instagram.com/Vask888?fbclid=IwY2xjawP9F3JleHRuA2FlbQIxMABicmlkETJFbjZ1M1dLZXEyNWp5Qjdlc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHipoxa3e7HG8squ8xoZV108Mm39WawHvrYJDX6OmkWhvna5_ulsvb0-ts_kZ_aem_SlxfDWXtmlEy6K9ZI6_F8g'} className="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-yellow-400 hover:text-black transition-colors cursor-pointer text-white">IG</Link>
+                        <Link href={'https://www.facebook.com/profile.php?id=100091412076796'} className="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-yellow-400 hover:text-black transition-colors cursor-pointer text-white">FB</Link>
+                        <div className="invisible w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-yellow-400 hover:text-black transition-colors cursor-pointer text-white">TK</div>
                     </div>
                 </div>
 
