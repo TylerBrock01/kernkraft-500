@@ -43,7 +43,7 @@ export default async function ProductsPage({searchParams}: {searchParams: Search
             </div>
             <div className="min-h-screen bg-black bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-zinc-900/20 via-black to-black py-5 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto">
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-12">
                         {products.map(product => (
                             <ProductCard key={product.id} product={product} />
                         ))}
