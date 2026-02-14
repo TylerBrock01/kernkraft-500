@@ -2,7 +2,7 @@ import {ProductSchema} from "@/src/schema";
 import {redirect} from "next/navigation";
 import Image from "next/image";
 import AddProductButton from "@/components/products/AddProductButton";
-import {formatCurrency, isAvailable} from "@/src/utils";
+import {formatCurrency, getImagePath, isAvailable} from "@/src/utils";
 import LastProductPage from "@/app/(store)/products/lastProducts/page";
 
 type Params = Promise<{productId: string}>;
@@ -33,7 +33,7 @@ export default async function ProductPage({params}: { params: Params}) {
                 {/* Columna Izquierda: Imagen Grande */}
                 <div className=" relative  aspect-square bg-zinc-900 rounded-3xl overflow-hidden border border-white/5">
                     <Image
-                        src={'https://cdn.pixabay.com/photo/2014/04/02/16/29/skate-board-307418_1280.png'}
+                        src={`${getImagePath(product.image)}`}
                         alt={product.name}
                         fill
                         className="object-contain p-1" // 'contain' para que la tabla se vea completa
