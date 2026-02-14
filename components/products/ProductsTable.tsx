@@ -57,7 +57,7 @@ export default function ProductsTable({products} : {products: Product[]}) {
                                     </td>
                                     <td className="relative py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0 ">
                                         <div className='flex gap-5 justify-end items-center'>
-                                            <Link id={`linkUpdate${product.id}`} href={`/admin/products/${product.id}/edit`}
+                                            <Link id={`update-product${product.id}-link`} href={`/admin/products/${product.id}/edit`}
                                                   className={"text-indigo-600 hover:text-indigo-800"}>
                                                 Editar <span className={"sr-only"}>,{product.name}</span>
                                             </Link>
