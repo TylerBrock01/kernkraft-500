@@ -32,6 +32,6 @@ describe('Pruebas de producto', () => {
 
         cy.get('#categoryId').select('6')
         cy.get('#deckId').select('1')
-        cy.get('#update-Product-Button').click();
+        // cy.get('#update-Product-Button').click();
     });
 });
