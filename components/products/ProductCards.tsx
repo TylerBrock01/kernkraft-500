@@ -58,9 +58,10 @@ export default function ProductCard({product}: { product: Product}) {
                             {formatCurrency(product.price)}
                         </span>
                         {product.stock > 0 ? (
-                            <div className={"invisible flex justify-end"}>
-                                <AddProductButton product={product}/>
-                            </div>
+                            // <div className={"invisible flex justify-end"}>
+                            //     <AddProductButton product={product}/>
+                            // </div>
+                            <p className="text-[10px] font-black uppercase text-green-300 border border-zinc-800 px-3 py-2 rounded-xl">disponible</p>
                         ) : (
                             <span className="text-[10px] font-black uppercase text-zinc-600 border border-zinc-800 px-3 py-2 rounded-xl">
                             No disponible
