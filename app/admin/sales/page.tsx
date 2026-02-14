@@ -16,7 +16,7 @@ export default async function SalesPage() {
     return(
         <>
             <Heading>ventas</Heading>
-            <p className=" text-lg"> En esta seccion podras ver las ventas utilizando el calendario para filtrar por fecha</p>
+            <p className=" md:text-lg"> En esta seccion podras ver las ventas utilizando el calendario para filtrar por fecha</p>
 
             <HydrationBoundary state={dehydrate(queryClient) }>
                 <TransactionFilter/>
