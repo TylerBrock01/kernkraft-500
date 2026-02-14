@@ -13,5 +13,25 @@ describe('Pruebas de producto', () => {
         cy.get('#deckId').select('1')
         // cy.get('#submitProductButton').click()
     });
+    it.only('should updated product', () => {
+        cy.get('#update-product2-link').click();
+        cy.get('#name').clear()
+        cy.get('#name').type('Element');
 
+        cy.get('#price').clear()
+        cy.get('#price').type('1500');
+
+        cy.get('#stock').clear()
+        cy.get('#stock').type('1');
+
+        cy.get('#color').clear()
+        cy.get('#color').type('blanca')
+
+        cy.get('#size').clear()
+        cy.get('#size').type('8')
+
+        cy.get('#categoryId').select('6')
+        cy.get('#deckId').select('1')
+        cy.get('#update-Product-Button').click();
+    });
 });
