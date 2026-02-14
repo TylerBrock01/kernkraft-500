@@ -25,13 +25,13 @@ export default async function ProductPage({params}: { params: Params}) {
     const product = await getProducts(productId)
     return(
         <div className="min-h-screen text-white">
-            <div className="p-5 bg-black max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-2">
+            <div className=" p-5 bg-black max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
 
-                <h1 className="border-l-3 p-2 border-amber-400 text-3xl md:text-6xl font-black italic uppercase leading-none ">
+                <h1 className="md:col-span-2 border-l-3 p-2 border-amber-400 text-3xl md:text-5xl font-black italic uppercase leading-none ">
                     {product.name}
                 </h1>
                 {/* Columna Izquierda: Imagen Grande */}
-                <div className="relative  aspect-square bg-zinc-900 rounded-3xl overflow-hidden border border-white/5">
+                <div className=" relative  aspect-square bg-zinc-900 rounded-3xl overflow-hidden border border-white/5">
                     <Image
                         src={'https://cdn.pixabay.com/photo/2014/04/02/16/29/skate-board-307418_1280.png'}
                         alt={product.name}
