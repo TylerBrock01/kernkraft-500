@@ -3,6 +3,7 @@ import {redirect} from "next/navigation";
 import Image from "next/image";
 import AddProductButton from "@/components/products/AddProductButton";
 import {formatCurrency, isAvailable} from "@/src/utils";
+import LastProductPage from "@/app/(store)/products/lastProducts/page";
 
 type Params = Promise<{productId: string}>;
 
@@ -23,10 +24,10 @@ export default async function ProductPage({params}: { params: Params}) {
     const {productId} = await params
     const product = await getProducts(productId)
     return(
-        <div className="min-h-screen bg-black text-white py-5  px-5">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-2">
+        <div className="min-h-screen text-white">
+            <div className="p-5 bg-black max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-2">
 
-                <h1 className="text-3xl md:text-6xl font-black italic uppercase leading-none ">
+                <h1 className="border-l-3 p-2 border-amber-400 text-3xl md:text-6xl font-black italic uppercase leading-none ">
                     {product.name}
                 </h1>
                 {/* Columna Izquierda: Imagen Grande */}
@@ -104,6 +105,7 @@ export default async function ProductPage({params}: { params: Params}) {
 
                 </div>
             </div>
+            <LastProductPage/>
         </div>
     )
 }
