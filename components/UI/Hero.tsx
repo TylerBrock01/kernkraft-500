@@ -4,11 +4,11 @@ import Link from "next/link";
 export default function Hero(){
     return (
         <div className="relative p-1 grid bg-black ">
-            <Image className=" object-cover opacity-50" src={"https://cdn.pixabay.com/photo/2019/02/22/12/31/fashion-4013456_1280.jpg"}
+            <Image className="lg:h-screen object-cover opacity-50" src={"https://cdn.pixabay.com/photo/2019/02/22/12/31/fashion-4013456_1280.jpg"}
                    alt={"hero"}
                    width="2500"
                    height="2500"/>
-            <div className="absolute mt-5 py-5 md:m-10 lg:m-40 md:p-5 text-center ">
+            <div className="absolute inset-y-15 px-3 inset-x-0 md:inset-y-25 lg:inset-y-50 text-center ">
                 <h1 className="text-3xl md:text-7xl font-black italic tracking-tighter text-white uppercase leading-none">
                     Domina las <span className="text-yellow-400">Calles</span>
                 </h1>
