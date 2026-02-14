@@ -23,16 +23,19 @@ export default async function ProductPage({params}: { params: Params}) {
     const {productId} = await params
     const product = await getProducts(productId)
     return(
-        <div className="min-h-screen bg-black text-white py-10 px-5">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="min-h-screen bg-black text-white py-5  px-5">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-2">
 
+                <h1 className="text-3xl md:text-6xl font-black italic uppercase leading-none ">
+                    {product.name}
+                </h1>
                 {/* Columna Izquierda: Imagen Grande */}
-                <div className="relative aspect-square bg-zinc-900 rounded-3xl overflow-hidden border border-white/5">
+                <div className="relative  aspect-square bg-zinc-900 rounded-3xl overflow-hidden border border-white/5">
                     <Image
                         src={'https://cdn.pixabay.com/photo/2014/04/02/16/29/skate-board-307418_1280.png'}
                         alt={product.name}
                         fill
-                        className="object-contain p-10" // 'contain' para que la tabla se vea completa
+                        className="object-contain p-1" // 'contain' para que la tabla se vea completa
                         priority
                     />
                 </div>
@@ -42,9 +45,6 @@ export default async function ProductPage({params}: { params: Params}) {
                     <span className="text-yellow-400 font-black uppercase tracking-[0.3em] text-xs mb-2">
                         Modelo {product.deck?.name}
                     </span>
-                    <h1 className="text-5xl md:text-6xl font-black italic uppercase leading-none mb-6">
-                        {product.name}
-                    </h1>
 
                     <p className="text-zinc-400 text-lg leading-relaxed mb-8 max-w-xl">
                         {product.name || "Esta tabla de skate de alto rendimiento está fabricada con 7 capas de arce canadiense, ideal para dominar cualquier spot urbano o park."}
@@ -73,7 +73,10 @@ export default async function ProductPage({params}: { params: Params}) {
 
                             {/* Condicional para el Botón o Mensaje de Agotado */}
                             {isAvailable(product.stock) ? (
-                                <AddProductButton product={product} />
+                                // <AddProductButton product={product} />
+                                <p className="text-yellow-400 text-sm font-bold uppercase border-b border-yellow-400/30 hover:border-yellow-400 transition-all">
+                                    disponible en stock
+                                </p>
                             ) : (
                                 <div className="flex flex-col items-end">
                                     <span className="bg-red-600 text-white px-6 py-3 rounded-xl font-black uppercase italic -rotate-2 shadow-[0_0_20px_rgba(220,38,38,0.3)]">
