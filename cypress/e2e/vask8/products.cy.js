@@ -9,12 +9,12 @@ describe('Pruebas de producto', () => {
         cy.get('#stock').type('10');
         cy.get('#color').type('rojo')
         cy.get('#size').type('8')
-        cy.get('#categoryId').select('1')
+        cy.get('#categoryId').select('6')
         cy.get('#deckId').select('1')
         // cy.get('#submitProductButton').click()
     });
-    it.only('should updated product', () => {
-        cy.get('#update-product2-link').click();
+    it('should updated product', () => {
+        cy.get('#update-product4-link').click();
         cy.get('#name').clear()
         cy.get('#name').type('Element');
 
