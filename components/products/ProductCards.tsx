@@ -58,7 +58,7 @@ export default function ProductCard({product}: { product: Product}) {
                             {formatCurrency(product.price)}
                         </span>
                         {product.stock > 0 ? (
-                            // <div className={"invisible flex justify-end"}>
+                            // <div className={" flex justify-end"}>
                             //     <AddProductButton product={product}/>
                             // </div>
                             <p className="text-[10px] font-black uppercase text-green-300 border border-zinc-800 px-3 py-2 rounded-xl">disponible</p>
