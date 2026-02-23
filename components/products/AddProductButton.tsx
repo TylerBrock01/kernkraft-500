@@ -10,6 +10,7 @@ export default function AddProductButton({product}: { product: Product}) {
         <>
             <button
                 type="button"
+                id={`add-product-button-${product.id}`}
                 onClick={()=> {
                     addToCart(product)
                     toast.success('Producto agregado al carrito')
