@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Logo from './Logo'
+import LogoutButton from "@/components/UI/LogOutBtn";
 
 export default function AdminNav() {
     return (
@@ -23,6 +24,7 @@ export default function AdminNav() {
                     href={'/'}
                     className="rounded bg-green-400 font-bold py-2 px-10"
                 >Tienda</Link>
+                <LogoutButton/>
             </div>
         </header>
     )
