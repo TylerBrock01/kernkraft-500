@@ -10,9 +10,9 @@ export async function submitOrderAction(data: unknown) {
     const token = cookieStore.get('skate_token')?.value;
 
     // 2. Si no hay token, mandamos al login (Esto detiene la ejecución aquí)
-    if (!token) {
-        redirect('/login');
-    }
+    // if (!token) {
+    //     redirect('/auth/login');
+    // }
 
     // 3. Validar datos con Zod
     const order = OrderSchema.parse(data);

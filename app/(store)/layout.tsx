@@ -29,10 +29,10 @@ export default function RootLayout({
 
                 </section>
 
-                {/* Aside (Carrito) con Scroll Propio */}
-                {/*<aside className=" lg:sticky inset-0 lg:block md:w-96 h-full overflow-y-scroll border-l border-white/10 bg-white p-6 custom-scrollbar">*/}
-                {/*    <ShoppingCart/>*/}
-                {/*</aside>*/}
+                 {/*Aside (Carrito) con Scroll Propio */}
+                <aside className=" lg:sticky inset-0 lg:block md:w-96 h-full overflow-y-scroll border-l border-white/10 bg-white p-6 custom-scrollbar">
+                    <ShoppingCart/>
+                </aside>
             </main>
 
             <ToastNotification />

@@ -74,10 +74,10 @@ export default async function ProductPage({params}: { params: Params}) {
 
                             {/* Condicional para el Botón o Mensaje de Agotado */}
                             {isAvailable(product.stock) ? (
-                                // <AddProductButton product={product} />
-                                <p className="text-yellow-400 text-sm font-bold uppercase border-b border-yellow-400/30 hover:border-yellow-400 transition-all">
-                                    disponible en stock
-                                </p>
+                                <AddProductButton product={product} />
+                                // <p className="text-yellow-400 text-sm font-bold uppercase border-b border-yellow-400/30 hover:border-yellow-400 transition-all">
+                                //     disponible en stock
+                                // </p>
                             ) : (
                                 <div className="flex flex-col items-end">
                                     <span className="bg-red-600 text-white px-6 py-3 rounded-xl font-black uppercase italic -rotate-2 shadow-[0_0_20px_rgba(220,38,38,0.3)]">
