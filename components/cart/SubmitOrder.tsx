@@ -43,6 +43,7 @@ export default function SubmitOrder() {
         if (state.errors && state.errors.length > 0) {
             state.errors.forEach(error => toast.error(error));
             toast.error(state.errors)
+            clearOrder();
         }
 
         if (state.success) {
