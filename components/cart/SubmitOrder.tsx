@@ -15,6 +15,7 @@ export default function SubmitOrder() {
         return (
             <input
                 type="submit"
+                id="submit-order-button"
                 disabled={pending}
                 value={pending ? "Procesando..." : "Confirmar Compra"}
                 className={`mt-5 w-full p-3 uppercase font-bold transition-all ${
