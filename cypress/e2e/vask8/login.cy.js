@@ -1,7 +1,7 @@
 describe('Login', () => {
     const admin = {
         email: "test@test.com",
-        password: "vask81",
+        password: "vask177",
     }
     beforeEach(() => {
         cy.visit('/auth/login')
@@ -27,7 +27,7 @@ describe('Login', () => {
         cy.get('#add-product-button-1').click();
         cy.get('#submit-order-button').click()
     })
-    it.only('should create transaction as admin', () => {
+    it('should create transaction as admin', () => {
         cy.get('#email').type(admin.email)
         cy.get('#password').type(admin.password)
         cy.get('#logInButton').click()
@@ -38,5 +38,13 @@ describe('Login', () => {
         cy.get('#product-card-1').click()
         cy.get('#add-product-button-1').click();
         cy.get('#submit-order-button').click()
+    })
+    it.only('should see shooping cart', () => {
+        cy.get('#email').type(admin.email)
+        cy.get('#password').type(admin.password)
+        cy.get('#logInButton').click()
+
+        cy.get('#store').click()
+        cy.get('#shooping-cart').should('exist')
     })
 })
