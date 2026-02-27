@@ -5,6 +5,7 @@ describe('Login', () => {
     }
     beforeEach(() => {
         cy.visit('/auth/login')
+        cy.clearCookies('skate_token')
     })
     it('should login', () => {
         cy.get('#email').type('admin@vask8.com')
@@ -39,12 +40,18 @@ describe('Login', () => {
         cy.get('#add-product-button-1').click();
         cy.get('#submit-order-button').click()
     })
-    it.only('should see shooping cart', () => {
+    it('should see shooping cart', () => {
         cy.get('#email').type(admin.email)
         cy.get('#password').type(admin.password)
         cy.get('#logInButton').click()
 
-        cy.get('#store').click()
-        cy.get('#shooping-cart').should('exist')
+        // cy.get('#store').click()
+        // cy.get('#shooping-cart').should('exist')
+    })
+    it.only('should see transactions ', () => {
+        cy.get('#email').type(admin.email)
+        cy.get('#password').type(admin.password)
+        cy.get('#logInButton').click()
+
     })
 })

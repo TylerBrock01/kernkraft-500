@@ -98,6 +98,13 @@ export const TransactionResponseSchema = z.object({
     couponDiscount: z.string().nullable(),
     contents: z.array(ContentsSchema)
 })
+export const SalesResponseSchema = z.object({
+    transactions: z.array(TransactionResponseSchema),
+    total: z.number(),
+    page: z.number()
+});
+
+export type SalesResponse = z.infer<typeof SalesResponseSchema>;
 
 export const ProductFormSchema = z.object({
     name: z.string()
