@@ -3,6 +3,11 @@ describe('Login', () => {
         email: "test@test.com",
         password: "vask177",
     }
+    const vendedor = {
+        "email": "test1@test1.com",
+        "password": "vask177",
+    }
+
     beforeEach(() => {
         cy.visit('/auth/login')
         cy.clearCookies('skate_token')
@@ -40,18 +45,39 @@ describe('Login', () => {
         cy.get('#add-product-button-1').click();
         cy.get('#submit-order-button').click()
     })
+    it.only('should see transactions as admin ', () => {
+        cy.get('#email').type(admin.email)
+        cy.get('#password').type(admin.password)
+        cy.get('#logInButton').click()
+
+    })
+
+    it('should create transaction as vendedor', () => {
+        cy.get('#email').type(vendedor.email)
+        cy.get('#password').type(vendedor.password)
+        cy.get('#logInButton').click()
+
+        cy.get('#store').click()
+
+        cy.visit('/products?page=1')
+        cy.get('#product-card-2').click()
+        cy.get('#add-product-button-2').click();
+        cy.get('#submit-order-button').click()
+    })
+    it('should see transactions as vendedor ', () => {
+        cy.get('#email').type(vendedor.email)
+        cy.get('#password').type(vendedor.password)
+        cy.get('#logInButton').click()
+
+    })
+
     it('should see shooping cart', () => {
         cy.get('#email').type(admin.email)
         cy.get('#password').type(admin.password)
         cy.get('#logInButton').click()
 
-        // cy.get('#store').click()
-        // cy.get('#shooping-cart').should('exist')
+        cy.get('#store').click()
+        cy.get('#shooping-cart').should('exist')
     })
-    it.only('should see transactions ', () => {
-        cy.get('#email').type(admin.email)
-        cy.get('#password').type(admin.password)
-        cy.get('#logInButton').click()
 
-    })
 })
