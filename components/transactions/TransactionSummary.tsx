@@ -53,6 +53,7 @@ export default function TransactionSummary({transaction} : {transaction: Transac
                     )}
 
                     <div className="flex justify-between">
+                        <p>vendedor: {transaction.user.name}</p>
                         <dt className="text-lg text-black font-black">Total</dt>
                         <dd className="text-lg text-black font-black">{formatCurrency(+transaction.total)}</dd>
                     </div>

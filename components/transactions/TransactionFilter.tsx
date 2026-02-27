@@ -37,7 +37,7 @@ export default function TransactionFilter() {
             </div>
 
             <div>
-                {isLoading && <p className="text-center">Cargando ventas...</p>}
+                {isLoading && <p className="text-2xl text-center">Cargando ventas...</p>}
 
                 {/* Usamos 'transactions' en lugar de 'data' */}
                 {transactions.length > 0 ? (

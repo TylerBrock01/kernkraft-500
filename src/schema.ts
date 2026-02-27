@@ -89,13 +89,18 @@ export const ContentsSchema = z.object({
     price: z.string(),
     product: ProductSchema
 })
-
+export const UserResponseSchema = z.object({
+    id: z.number(),
+    name: z.string(),
+    email: z.string().email()
+});
 export const TransactionResponseSchema = z.object({
     id: z.number(),
     total: z.string(),
     transactionDate: z.string(),
     coupon: z.string().nullable(),
     couponDiscount: z.string().nullable(),
+    user: UserResponseSchema,
     contents: z.array(ContentsSchema)
 })
 export const SalesResponseSchema = z.object({
