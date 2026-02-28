@@ -21,98 +21,142 @@ async function getProducts(productId: string) {
     }
     return ProductSchema.parse(json)
 }
-export default async function ProductPage({params}: { params: Params}) {
-    const {productId} = await params
-    const product = await getProducts(productId)
+
+import { ShieldCheck, Truck, RotateCcw } from "lucide-react";
+
+export default async function ProductPage({ params }: { params: Params }) {
+    const { productId } = await params;
+    const product = await getProducts(productId);
     const cookieStore = await cookies();
     const isAuthenticated = cookieStore.has('skate_token');
 
-    return(
-        <div className="my-1 min-h-screen text-white">
-            <h1 className="md:col-span-2 border-l-3 p-2 mx-auto max-w-7xl bg-black/45 border-amber-400 text-3xl md:text-5xl font-black italic uppercase leading-none ">
-                {product.name}
-            </h1>
+    return (
+        <div className="min-h-screen text-white bg-black">
+            {/* Header de Producto: Estilo Brutalista */}
+            <div className="w-full bg-zinc-950/80 border-b border-white/5  md:py-12 backdrop-blur-md">
+                <div className="max-w-7xl mx-auto px-5">
+                    <p className="text-yellow-400 text-[10px] font-black uppercase tracking-[0.5em] mb-4">
+                        Equipment / {product.deck?.name || "Hardware"}
+                    </p>
+                    <h1 className="text-4xl md:text-7xl font-black italic uppercase tracking-tighter leading-tight max-w-4xl">
+                        {product.name}
+                    </h1>
+                </div>
+            </div>
 
-            <div className=" p-5 bg-black max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
-                {/* Columna Izquierda: Imagen Grande */}
-                <div className=" relative  aspect-square bg-zinc-900 rounded-3xl overflow-hidden border border-white/5">
-                    <Image
-                        src={`${getImagePath(product.image)}`}
-                        alt={product.name}
-                        fill
-                        className="object-contain p-1" // 'contain' para que la tabla se vea completa
-                        priority
-                    />
+            <div className="max-w-7xl mx-auto p-5 grid grid-cols-1 lg:grid-cols-12 gap-10 mt-10">
+
+                {/* COLUMNA IZQUIERDA (7/12): Media Display */}
+                <div className="lg:col-span-7 space-y-4">
+                    <div className="relative aspect-square bg-zinc-900/50 rounded-3xl overflow-hidden border border-white/10 group">
+                        <Image
+                            src={getImagePath(product.image)}
+                            alt={product.name}
+                            fill
+                            className="object-contain p-8 transition-transform duration-700 group-hover:scale-110"
+                            priority
+                        />
+                        {/* Glow decorativo de fondo */}
+                        <div className="absolute inset-0 bg-yellow-400/5 blur-[100px] -z-10" />
+                    </div>
                 </div>
 
-                {/* Columna Derecha: Información y Compra */}
-                <div className="flex flex-col justify-center">
-                    <span className="text-yellow-400 font-black uppercase tracking-[0.3em] text-xs mb-2">
-                        Tipo: {product.deck?.name}
-                    </span>
+                {/* COLUMNA DERECHA (5/12): Panel de Control de Compra */}
+                <div className="lg:col-span-5 flex flex-col gap-8">
 
-                    <p className="text-zinc-400 text-lg leading-relaxed mb-8 max-w-xl">
-                        Modelo: {product.category?.name || "Esta tabla de skate de alto rendimiento está fabricada con 7 capas de arce canadiense, ideal para dominar cualquier spot urbano o park."}
-                    </p>
-
-                    {/* Specs Técnicas */}
-                    <div className="grid grid-cols-2 gap-4 ">
-                        <div className="bg-zinc-900/90 p-4 rounded-2xl border border-white/5">
-                            <p className="text-zinc-500 text-xs uppercase font-bold">Medida</p>
-                            <p className="text-xl font-bold">{product.size}"</p>
+                    <div className="space-y-6">
+                        <div className="flex items-center gap-4">
+                            <span className="bg-zinc-800 text-zinc-400 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest border border-white/5">
+                                Ref: {product.id.toString().padStart(5, '0')}
+                            </span>
+                            {isAvailable(product.stock) && (
+                                <span className="text-green-400 text-[10px] font-black uppercase tracking-widest flex items-center gap-1">
+                                    <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+                                    In Stock
+                                </span>
+                            )}
                         </div>
-                        <div className="bg-zinc-900/90 p-4 rounded-2xl border border-white/5">
-                            <p className="text-zinc-500 text-xs uppercase font-bold">Color</p>
-                            <p className="text-xl font-bold">{product.color}</p>
+
+                        <p className="text-zinc-400 text-lg leading-relaxed font-medium">
+                            {product.category?.name
+                                ? `Explora lo mejor de nuestra categoría ${product.category.name}.`
+                                : "Hardware de alta gama diseñado para soportar impactos de alto nivel en concreto y metal."}
+                        </p>
+                    </div>
+
+                    {/* Specs Técnicas: Estilo Grid Industrial */}
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="bg-zinc-900/40 p-5 rounded-2xl border border-white/5 hover:border-white/10 transition-colors">
+                            <p className="text-zinc-600 text-[10px] uppercase font-black tracking-widest mb-1">Medida</p>
+                            <p className="text-2xl font-black italic">{product.size}"</p>
+                        </div>
+                        <div className="bg-zinc-900/40 p-5 rounded-2xl border border-white/5 hover:border-white/10 transition-colors">
+                            <p className="text-zinc-600 text-[10px] uppercase font-black tracking-widest mb-1">Acabado</p>
+                            <p className="text-2xl font-black italic">{product.color}</p>
                         </div>
                     </div>
 
-                    <div className="mt-10 p-8 rounded-3xl border border-white/5 bg-zinc-900/90 backdrop-blur-sm">
-                        <div className="flex items-center justify-between gap-6">
-                            <div className="flex flex-col">
-                                <span className="text-zinc-500 text-xs uppercase font-black tracking-widest mb-1">Precio Final</span>
-                                <span className={`text-5xl font-black italic tracking-tighter ${!isAvailable(product.stock) ? 'text-zinc-700 line-through' : 'text-white'}`}>
+                    {/* Caja de Acción de Compra */}
+                    <div className="p-8 rounded-[2rem] border border-white/10 bg-gradient-to-br from-zinc-900 to-black shadow-2xl relative overflow-hidden">
+                        <div className="flex flex-col gap-6 relative z-10">
+                            <div>
+                                <span className="text-zinc-500 text-[10px] uppercase font-black tracking-[0.3em] mb-2 block">Price Tag</span>
+                                <span className={`text-6xl font-black italic tracking-tighter ${!isAvailable(product.stock) ? 'text-zinc-800 line-through' : 'text-yellow-400'}`}>
                                     {formatCurrency(product.price)}
                                 </span>
                             </div>
 
-                            {/* Condicional para el Botón o Mensaje de Agotado */}
                             {isAvailable(product.stock) ? (
-                                <>
-                                    {isAuthenticated?(<AddProductButton product={product} />):(<p className="text-yellow-400 text-sm font-bold uppercase border-b border-yellow-400/30 hover:border-yellow-400 transition-all">
-                                        disponible en stock
-                                    </p>)}
-                                </>
-
-
+                                isAuthenticated ? (
+                                    <AddProductButton product={product} />
+                                ) : (
+                                    <div className="space-y-4">
+                                        <p className="text-zinc-500 text-xs italic">Inicia sesión para armar tu carrito.</p>
+                                        <button className="w-full py-4 bg-white text-black font-black uppercase tracking-tighter rounded-full hover:bg-yellow-400 transition-all">
+                                            Log In to Shop
+                                        </button>
+                                    </div>
+                                )
                             ) : (
-                                <div className="flex flex-col items-end">
-                                    <span className="bg-red-600 text-white px-6 py-3 rounded-xl font-black uppercase italic -rotate-2 shadow-[0_0_20px_rgba(220,38,38,0.3)]">
-                                      Sold Out
-                                    </span>
-                                    <p className="text-[10px] text-zinc-500 mt-2 uppercase font-bold tracking-tighter">
-                                        Próxima reposición: Pronto
-                                    </p>
+                                <div className="space-y-4">
+                                    <div className="bg-red-600/10 border border-red-600/20 p-4 rounded-xl text-center">
+                                        <p className="text-red-500 font-black uppercase italic tracking-tighter">Agotado Temporalmente</p>
+                                    </div>
+                                    <button className="w-full py-4 border border-white/10 text-white font-black uppercase tracking-tighter rounded-full hover:bg-white hover:text-black transition-all">
+                                        Notificarme
+                                    </button>
                                 </div>
                             )}
                         </div>
-
-                        {/* Mensaje extra si no hay stock */}
-                        {!isAvailable(product.stock) && (
-                            <div className="mt-6 pt-6 border-t border-white/5">
-                                <p className="text-zinc-400 text-sm italic">
-                                    "Este modelo voló de las calles. Déjanos tu correo y te avisamos en cuanto aterrice el próximo embarque."
-                                </p>
-                                <button className="mt-4 text-yellow-400 text-sm font-bold uppercase border-b border-yellow-400/30 hover:border-yellow-400 transition-all">
-                                    Notificarme disponibilidad
-                                </button>
-                            </div>
-                        )}
                     </div>
 
+                    {/* Trust Badges (Estilo Shein/E-commerce Pro) */}
+                    <div className="grid grid-cols-3 gap-2 py-6 border-t border-white/5">
+                        <div className="flex flex-col items-center text-center gap-2">
+                            <Truck className="w-4 h-4 text-zinc-600" />
+                            <span className="text-[8px] font-bold uppercase text-zinc-500 tracking-tighter">Fast Ship</span>
+                        </div>
+                        <div className="flex flex-col items-center text-center gap-2">
+                            <ShieldCheck className="w-4 h-4 text-zinc-600" />
+                            <span className="text-[8px] font-bold uppercase text-zinc-500 tracking-tighter">Original Gear</span>
+                        </div>
+                        <div className="flex flex-col items-center text-center gap-2">
+                            <RotateCcw className="w-4 h-4 text-zinc-600" />
+                            <span className="text-[8px] font-bold uppercase text-zinc-500 tracking-tighter">Easy Return</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <LastProductPage/>
+
+            {/* Sección de productos relacionados */}
+            <div className=" border-t border-white/5">
+                <div className="max-w-7xl mx-auto px-5">
+                    <h2 className="text-3xl font-black italic uppercase tracking-tighter">
+                        También te <span className="text-yellow-400">interesa</span>
+                    </h2>
+                </div>
+                <LastProductPage />
+            </div>
         </div>
-    )
+    );
 }

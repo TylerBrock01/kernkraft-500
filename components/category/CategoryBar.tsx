@@ -13,11 +13,10 @@ export default async function CategoryBar(){
     const categories =await getCategories()
 
     return (
-        <nav className=" flex row gap-2 justify-center md:justify-end md:gap-2 items-center capitalize p-1">
-            {categories.map(category => (
-                <CategoryNav key={category.id} category={category}/>
+        <nav className="flex items-center gap-4 md:gap-8 overflow-x-auto no-scrollbar py-2">
+            {categories.map((category) => (
+                <CategoryNav key={category.id} category={category} />
             ))}
         </nav>
-
     )
 };

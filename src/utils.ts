@@ -33,3 +33,11 @@ export function getImagePath(image: string) {
 }
 
 export const isAvailable= (stock: number) => stock >0
+
+// src/utils/index.ts
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+    return twMerge(clsx(inputs));
+}

@@ -15,11 +15,14 @@ async function getDecks(){
 export default async function DeckBar(){
     const decks = await getDecks()
     return (
-        <nav className=" flex row gap-2 justify-center md:justify-end md:gap-2 items-center   capitalize p-1">
-            {decks.map(deck => (
-                <DeckNav key={deck.id} deck={deck}/>
+        <nav className="flex items-center gap-3 md:gap-4 overflow-x-auto no-scrollbar">
+            {/* Etiqueta técnica para el DeckBar */}
+            <span className="text-[9px] font-black text-zinc-600 uppercase tracking-widest border-r border-white/10 pr-4 mr-2 hidden md:block">
+        Hardware / Type
+      </span>
+            {decks.map((deck) => (
+                <DeckNav key={deck.id} deck={deck} />
             ))}
-
         </nav>
 
     )
