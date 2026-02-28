@@ -21,8 +21,7 @@ export default function Hero() {
             </div>
 
             {/* 2. Contenido Táctico */}
-            <div className="relative z-10 h-full md:h-9/12 max-w-[1400px] mx-auto px-6 flex flex-col justify-center items-center  text-center lg:text-left">
-
+            <div className="relative z-10 h-full max-w-[1400px] mx-auto px-6 flex flex-col justify-center items-center lg:items-start text-center lg:text-left">
                 {/* Badge de Temporada (Estilo Shein/Pro) */}
                 <div className="flex items-center gap-2 bg-yellow-400 text-black px-3 py-1 rounded-full mb-6 animate-bounce">
                     <Zap className="h-3 w-3 fill-black" />
