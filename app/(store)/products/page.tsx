@@ -37,7 +37,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Sea
     if (currentPage > totalPages && totalPages > 0) redirect('/products?page=1');
 
     return (
-        <section className="flex flex-col min-h-screen bg-black">
+        <section className="flex flex-col  bg-black">
             {/* 1. Header del Catálogo: Ahora fluye con el scroll y es más compacto */}
             <div className="bg-zinc-950/30 border-b border-white/5">
                 <div className="max-w-[1600px] mx-auto px-6 py-4 flex flex-row justify-between items-center">
@@ -67,7 +67,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Sea
             </div>
 
             {/* 2. Grid de Productos */}
-            <div className="flex-1 py-8 px-4 sm:px-6 lg:px-10">
+            <div className="flex py-8 px-4 sm:px-6 lg:px-10">
                 <div className="max-w-[1600px] mx-auto">
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-x-4 gap-y-10">
                         {products.map(product => (
@@ -78,13 +78,13 @@ export default async function ProductsPage({ searchParams }: { searchParams: Sea
             </div>
 
             {/* 3. Paginación */}
-            <footer className="py-10 border-t border-white/5">
+            <div className=" border-t border-white/5">
                 <Pagination
                     page={currentPage}
                     totalPages={totalPages}
                     baseUrl={"/products"}
                 />
-            </footer>
+            </div>
         </section>
     );
 }
