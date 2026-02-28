@@ -1,5 +1,6 @@
 import Logo from "@/components/UI/Logo";
 import {Heart, Search, ShoppingBag, UserCircle, Zap} from "lucide-react";
+import Link from "next/link";
 
 // components/UI/Header.tsx
 export default function Header() {
@@ -31,7 +32,7 @@ export default function Header() {
                 </div>
 
                 {/* Acciones */}
-                <div className="flex items-center gap-6 text-white/80">
+                <Link href={'/admin/sales'} className="flex items-center gap-6 text-white/80">
                     <UserCircle className="h-6 w-6 hover:text-yellow-400 cursor-pointer transition-colors" />
                     <div className="relative group cursor-pointer">
                         <ShoppingBag className="h-6 w-6 hover:text-yellow-400 transition-colors" />
@@ -39,7 +40,7 @@ export default function Header() {
                 0
             </span>
                     </div>
-                </div>
+                </Link>
             </div>
         </header>
     );
