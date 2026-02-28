@@ -1,41 +1,58 @@
-import {CartItem} from "@/src/schema";
+// components/cart/ShoppingCartItem.tsx
+import { CartItem } from "@/src/schema";
 import Image from "next/image";
-import {formatCurrency, getImagePath} from "@/src/utils";
-import {useStore} from "@/src/store";
+import { formatCurrency, getImagePath } from "@/src/utils";
+import { useStore } from "@/src/store";
+import { Trash2 } from "lucide-react";
 
-export default function ShoppingCartItem({item}:{item: CartItem}) {
-    const updateStock = useStore(state=> state.updateStock)
-    const clearCart = useStore(state=> state.clearCart)
+export default function ShoppingCartItem({ item }: { item: CartItem }) {
+    const updateStock = useStore(state => state.updateStock)
+    const removeFromCart = useStore(state => state.clearCart) // Cambié el nombre interno por claridad
+
     return (
-        <li className="flex items-center space-x-6 py-6 relative">
-            <div className='h-24 w-24'>
-                <Image src={getImagePath(item.image)} alt={`imagen de: ${item.name}`} width={100} height={100} unoptimized={true} priority={true}/>
+        <li className="flex items-center gap-4 py-6 relative group border-b border-white/5 last:border-0">
+            {/* Miniatura de Producto */}
+            <div className="h-20 w-20 shrink-0 bg-zinc-900 rounded-xl overflow-hidden border border-white/5 relative">
+                <Image
+                    src={getImagePath(item.image)}
+                    alt={item.name}
+                    fill
+                    className="object-contain p-2 grayscale group-hover:grayscale-0 transition-all duration-500"
+                    priority
+                />
             </div>
-            <div className="flex-auto space-y-2">
-                <h3 className="text-gray-900">
+
+            {/* Detalles Técnicos */}
+            <div className="flex-auto space-y-1">
+                <h3 className="text-sm font-black italic uppercase tracking-tighter text-white leading-tight">
                     {item.name}
                 </h3>
-                <p>{formatCurrency(item.price)}</p>
-                <select
-                    className="w-32 text-center p-2 rounded-lg bg-gray-100"
-                    value={item.quantity}
-                    onChange={(e) => updateStock(item.productId,+e.target.value)}
-                >
-                    {Array.from({length: item.stock},((_, index) => index + 1)).map(num => (
-                        <option key={num} value={num}>{num}</option>
-                    ))}
-                </select>
+                <p className="text-yellow-400 font-black italic text-lg tracking-tighter">
+                    {formatCurrency(item.price)}
+                </p>
+
+                <div className="flex items-center gap-3 mt-2">
+                    <label className="text-[9px] font-bold uppercase text-zinc-600 tracking-widest">Qty:</label>
+                    <select
+                        className="bg-zinc-950 border border-white/10 text-white text-[10px] font-bold py-1 px-3 rounded-md outline-none focus:border-yellow-400 transition-colors appearance-none cursor-pointer"
+                        value={item.quantity}
+                        onChange={(e) => updateStock(item.productId, +e.target.value)}
+                    >
+                        {Array.from({ length: item.stock }, (_, index) => index + 1).map(num => (
+                            <option key={num} value={num}>{num}</option>
+                        ))}
+                    </select>
+                </div>
             </div>
-            <div className='absolute top-10 -right-0'>
-                <button
-                    type="button"
-                    onClick={() => clearCart(item.productId)}
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 text-red-500">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </button>
-            </div>
+
+            {/* Acción de Eliminar */}
+            <button
+                type="button"
+                className="p-2 text-zinc-700 hover:text-red-500 transition-colors"
+                onClick={() => removeFromCart(item.productId)}
+            >
+                <Trash2 className="w-5 h-5 stroke-[1.5]" />
+            </button>
         </li>
     )
 }
