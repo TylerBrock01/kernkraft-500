@@ -30,7 +30,7 @@ describe('Login', () => {
         cy.get('#logInButton').click()
 
         cy.get('#store').click()
-
+        cy.wait(1500)
         cy.visit('/products?page=1')
         cy.get('#product-card-1').click()
         cy.get('#add-product-button-1').click();
