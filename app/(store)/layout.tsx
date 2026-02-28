@@ -38,14 +38,7 @@ export default async function RootLayout({children,}: Readonly<{ children: React
                 {/* Carrito lateral:
                    Solo aparece en pantallas gigantes (xl) para no estorbar.
                 */}
-                {isAuthenticated && (
-                    <aside id={'shooping-cart'} className="hidden xl:block w-[400px] overflow-y-auto border-l border-white/10 bg-zinc-950/80 backdrop-blur-3xl p-8 custom-scrollbar">
-                        <div className="sticky top-0 pb-6 bg-transparent">
-                            <h2 className="text-2xl font-black italic uppercase tracking-tighter text-white">Your Gear</h2>
-                        </div>
-                        <ShoppingCart/>
-                    </aside>
-                )}
+                {isAuthenticated && <ShoppingCart />}
             </main>
 
             <ToastNotification />

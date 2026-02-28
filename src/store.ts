@@ -4,12 +4,17 @@ import { devtools, persist } from "zustand/middleware"; // 👈 Importamos persi
 import { Coupon, CouponResponseSchema, Product, ShoppingCart } from "@/src/schema";
 
 interface Store {
-    userId: string | null // 👈 Identificador del dueño del locker
+    userId: string | null
     total: number
     discount: number
     contents: ShoppingCart
     coupon: Coupon
-    setUserId: (id: string | null) => void // 👈 Para cambiar de "locker"
+    // --- ESTOS SON LOS NUEVOS ---
+    isCartOpen: boolean
+    toggleCart: () => void
+    closeCart: () => void
+    setUserId: (id: string | null) => void
+    // ----------------------------
     addtoCart: (product: Product) => void
     updateStock: (id: Product['id'], quantity: number) => void
     clearCart: (id: Product['id']) => void
@@ -24,6 +29,7 @@ const initialState = {
     total: 0,
     discount: 0,
     contents: [],
+    isCartOpen: false, // Empezamos con el carrito cerrado
     coupon: { name: '', discount: 0, message: '' },
 }
 
@@ -32,10 +38,19 @@ export const useStore = create<Store>()(
         persist( // 👈 Envolvemos con persist
             (set, get) => ({
                 ...initialState,
+                toggleCart: () => set((state) => ({ isCartOpen: !state.isCartOpen })),
+                closeCart: () => set({ isCartOpen: false }),
                 setUserId: (id) => {
-                    set({ userId: id });
-                    // Si el usuario cambia, podrías decidir si limpiar o mantener.
-                    // Aquí simplemente lo vinculamos.
+                    const currentId = get().userId;
+
+                    // Solo actuamos si el ID es distinto al que ya tenemos
+                    if (id !== currentId) {
+                        // Si había un usuario y entra uno nuevo (o se cierra sesión)
+                        if (currentId !== null || id !== null) {
+                            get().clearOrder();
+                        }
+                        set({ userId: id });
+                    }
                 },
                 addtoCart: (product) => {
                     const { id: productId, category, ...data } = product

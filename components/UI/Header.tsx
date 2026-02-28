@@ -1,9 +1,15 @@
+"use client"
 import Logo from "@/components/UI/Logo";
 import {Heart, Search, ShoppingBag, UserCircle, Zap} from "lucide-react";
 import Link from "next/link";
+import {useStore} from "@/src/store";
 
 // components/UI/Header.tsx
 export default function Header() {
+    const toggleCart = useStore(state => state.toggleCart);
+    const contents = useStore(state => state.contents);
+    const itemsCount = contents.length;
+
     return (
         <header className="flex flex-col w-full sticky top-0 z-50">
 
@@ -32,15 +38,27 @@ export default function Header() {
                 </div>
 
                 {/* Acciones */}
-                <Link href={'/admin/sales'} className="flex items-center gap-6 text-white/80">
-                    <UserCircle className="h-6 w-6 hover:text-yellow-400 cursor-pointer transition-colors" />
-                    <div className="relative group cursor-pointer">
-                        <ShoppingBag className="h-6 w-6 hover:text-yellow-400 transition-colors" />
-                        <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-[9px] font-black h-4 w-4 rounded-full flex items-center justify-center">
-                0
-            </span>
+                <div className="flex items-center gap-6 text-white/80">
+                    {/* Link al Admin/Perfil */}
+                    <Link href={'/admin/sales'}>
+                        <UserCircle className="h-6 w-6 hover:text-yellow-400 cursor-pointer transition-colors" />
+                    </Link>
+
+                    {/* BOTÓN DEL CARRITO */}
+                    <div
+                        className="relative group cursor-pointer"
+                        onClick={toggleCart} // 👈 ¡Aquí es donde conectas el 'maldito' interruptor!
+                    >
+                        <ShoppingBag className="h-6 w-6 group-hover:text-yellow-400 transition-colors" />
+
+                        {/* 3. Solo mostramos el badge si hay algo en el carrito */}
+                        {itemsCount > 0 && (
+                            <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-[9px] font-black h-4 w-4 rounded-full flex items-center justify-center animate-pulse">
+                        {itemsCount}
+                    </span>
+                        )}
                     </div>
-                </Link>
+                </div>
             </div>
         </header>
     );

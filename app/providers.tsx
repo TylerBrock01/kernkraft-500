@@ -1,6 +1,4 @@
-// app/providers.tsx
 'use client'
-
 import { useEffect } from "react";
 import { useStore } from "@/src/store";
 import {
@@ -42,20 +40,12 @@ export default function Providers({ children, userId }: ProvidersProps) {
 
     // Acciones de Zustand para el locker del usuario
     const setUserId = useStore(state => state.setUserId);
-    const currentStoreUserId = useStore(state => state.userId);
-    const clearOrder = useStore(state => state.clearOrder);
 
+    // En tu providers.tsx
     useEffect(() => {
-        /** * PROTOCOLO DE SINCRONIZACIÓN VASK8
-         * Si el ID de la cookie es diferente al guardado en LocalStorage,
-         * significa que hubo un cambio de cuenta o cierre de sesión.
-         */
-        if (userId !== currentStoreUserId) {
-            console.log("🛠️ Sincronizando Locker de Usuario...");
-            clearOrder(); // Evitamos que el carrito de "Juan" lo vea "Pedro"
-            setUserId(userId);
-        }
-    }, [userId, currentStoreUserId, setUserId, clearOrder]);
+        // Solo sincronizamos el ID. La lógica de "limpiar" ya está dentro de setUserId
+        setUserId(userId);
+    }, [userId, setUserId]); // Quita 'currentStoreUserId' de las dependencias
 
     return (
         <QueryClientProvider client={queryClient}>
