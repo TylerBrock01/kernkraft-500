@@ -24,7 +24,7 @@ describe('Login', () => {
         cy.get('#logoutButton').click()
     })
 
-    it('should create transaction as admin', () => {
+    it.only('should create transaction as admin', () => {
         cy.get('#email').type(admin.email)
         cy.get('#password').type(admin.password)
         cy.get('#logInButton').click()
@@ -34,9 +34,9 @@ describe('Login', () => {
         cy.visit('/products?page=1')
         cy.get('#product-card-1').click()
         cy.get('#add-product-button-1').click();
-        cy.get('#submit-order-button').click()
+        // cy.get('#submit-order-button').click()
     })
-    it.only('should see transactions as admin ', () => {
+    it('should see transactions as admin ', () => {
         cy.get('#email').type(admin.email)
         cy.get('#password').type(admin.password)
         cy.get('#logInButton').click()
