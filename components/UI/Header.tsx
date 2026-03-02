@@ -40,12 +40,12 @@ export default function Header() {
                 {/* Acciones */}
                 <div className="flex items-center gap-6 text-white/80">
                     {/* Link al Admin/Perfil */}
-                    <Link href={'/admin/sales'}>
+                    <Link href={'/admin/sales'} id={'profile-button'}>
                         <UserCircle className="h-6 w-6 hover:text-yellow-400 cursor-pointer transition-colors" />
                     </Link>
 
                     {/* BOTÓN DEL CARRITO */}
-                    <div
+                    <div id={'cart-button'}
                         className="relative group cursor-pointer"
                         onClick={toggleCart} // 👈 ¡Aquí es donde conectas el 'maldito' interruptor!
                     >
