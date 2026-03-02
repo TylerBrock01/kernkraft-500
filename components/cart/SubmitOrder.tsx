@@ -9,7 +9,7 @@ import { useFormStatus } from "react-dom";
 import { ShieldCheck, Lock, Loader2 } from "lucide-react";
 
 export default function SubmitOrder() {
-    const coupon = useStore(state => state.coupon.coupon?.name);
+    const coupon = useStore(state => state.coupon.name);
     const contents = useStore(state => state.contents);
     const clearOrder = useStore(state => state.clearOrder);
 

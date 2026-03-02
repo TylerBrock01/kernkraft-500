@@ -40,7 +40,7 @@ describe('Login', () => {
         cy.get('#coupon-input').type(coupon)
         cy.get('#coupon-submit').click()
 
-        // cy.get('#submit-order-button').click()
+        cy.get('#submit-order-button').click()
 
         cy.get('#profile-button').click()
 

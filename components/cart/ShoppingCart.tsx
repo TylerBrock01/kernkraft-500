@@ -55,7 +55,7 @@ export function ShoppingCart() {
                 {/* Cabecera del Panel */}
                 <div className="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
                     <h2 className="text-2xl font-black italic uppercase tracking-tighter text-white">Your Gear</h2>
-                    <button onClick={toggleCart} className="xl:hidden text-zinc-500 hover:text-yellow-400">
+                    <button id={'close-cart-button'} onClick={toggleCart} className="xl:hidden text-zinc-500 hover:text-yellow-400">
                         <X className="h-6 w-6" />
                     </button>
                 </div>

@@ -4,42 +4,49 @@ import { devtools, persist } from "zustand/middleware"; // 👈 Importamos persi
 import { Coupon, CouponResponseSchema, Product, ShoppingCart } from "@/src/schema";
 
 interface Store {
-    userId: string | null
-    total: number
-    discount: number
-    contents: ShoppingCart
-    coupon: Coupon
-    // --- ESTOS SON LOS NUEVOS ---
-    isCartOpen: boolean
-    toggleCart: () => void
-    closeCart: () => void
-    setUserId: (id: string | null) => void
-    // ----------------------------
-    addtoCart: (product: Product) => void
-    updateStock: (id: Product['id'], quantity: number) => void
-    clearCart: (id: Product['id']) => void
-    calculateTotal: () => void
-    applyCoupon: (couponName: string) => Promise<void>
-    applyDiscount: () => void
-    clearOrder: () => void
+    userId: string | null;
+    total: number;
+    discount: number;
+    contents: ShoppingCart;
+    coupon: CouponState; // Estructura industrial
+    isCartOpen: boolean;
+    toggleCart: () => void;
+    closeCart: () => void;
+    setUserId: (id: string | null) => void;
+    addtoCart: (product: Product) => void;
+    updateStock: (id: Product['id'], quantity: number) => void;
+    clearCart: (id: Product['id']) => void;
+    calculateTotal: () => void;
+    applyCoupon: (data: { coupon_name: string, total: number }) => Promise<void>; // 👈 DTO de entrada
+    removeCoupon: () => void;
+    applyDiscount: () => void;
+    clearOrder: () => void;
 }
-
+interface CouponState {
+    id: number;
+    name: string;
+    discount: number;
+    isPercentage: boolean;
+    minPurchase: number;
+    message: string;
+}
 const initialState = {
     userId: null,
     total: 0,
     discount: 0,
     contents: [],
-    isCartOpen: false, // Empezamos con el carrito cerrado
-    coupon: { name: '', discount: 0, message: '' },
+    isCartOpen: false,
+    coupon: { id: 0, name: '', discount: 0, isPercentage: true, minPurchase: 0, message: '' },
 }
-
 export const useStore = create<Store>()(
     devtools(
         persist( // 👈 Envolvemos con persist
             (set, get) => ({
                 ...initialState,
                 toggleCart: () => set((state) => ({ isCartOpen: !state.isCartOpen })),
+
                 closeCart: () => set({ isCartOpen: false }),
+
                 setUserId: (id) => {
                     const currentId = get().userId;
 
@@ -52,6 +59,7 @@ export const useStore = create<Store>()(
                         set({ userId: id });
                     }
                 },
+
                 addtoCart: (product) => {
                     const { id: productId, category, ...data } = product
                     let contents: ShoppingCart = []
@@ -92,49 +100,75 @@ export const useStore = create<Store>()(
                 },
 
                 calculateTotal: () => {
-                    const subtotal = get().contents.reduce((total, item) => total + (item.price * item.quantity), 0)
+                    const subtotal = get().contents.reduce((total, item) => total + (item.price * item.quantity), 0);
 
-                    if (get().coupon.coupon?.discount) {
-                        get().applyDiscount()
+                    // Si hay un cupón activo, recalculamos el descuento basado en el subtotal actual
+                    if (get().coupon.id !== 0) {
+                        get().applyDiscount();
                     } else {
-                        set(() => ({ total: subtotal, discount: 0 }))
+                        set(() => ({ total: subtotal, discount: 0 }));
                     }
                 },
 
-                applyCoupon: async (couponName) => {
+                applyCoupon: async ({ coupon_name, total }) => {
                     try {
-                        const req = await fetch('/coupons/api', {
+                        // Enviamos el protocolo de validación al backend (Proxy de Next.js)
+                        const req = await fetch('/coupons/api', { // 👈 Asegúrate que esta ruta exista en tu Next.js
                             method: 'POST',
-                            body: JSON.stringify({ coupon_name: couponName })
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ coupon_name, total })
                         });
 
                         const json = await req.json();
-                        const result = CouponResponseSchema.safeParse(json);
 
-                        if (result.success) {
-                            set({ coupon: result.data });
-                            get().applyDiscount()
+                        if (req.ok) {
+                            // Si NestJS acepta el cupón, lo inyectamos en el estado
+                            set({
+                                coupon: {
+                                    ...json.coupon,
+                                    message: "Protocolo Aceptado: Descuento Aplicado"
+                                }
+                            });
+                            get().applyDiscount();
                         } else {
-                            // Si el cupón falla, mantenemos el mensaje pero limpiamos el descuento
-                            set({ coupon: { ...initialState.coupon, message: json.message || "Cupón no válido" } });
+                            // Si falla (expirado, límite alcanzado, etc), limpiamos y mostramos error
+                            set({
+                                coupon: {
+                                    ...initialState.coupon,
+                                    message: json.message || "Error de Validación"
+                                }
+                            });
                             get().calculateTotal();
                         }
                     } catch (e) {
-                        console.error('Error al aplicar cupón:', e);
+                        set({ coupon: { ...initialState.coupon, message: "Error de Conexión con Mainframe" } });
                     }
                 },
 
                 applyDiscount: () => {
-                    const subTotal = get().contents.reduce((total, item) => total + (item.price * item.quantity), 0)
-                    const discountPercent = get().coupon.coupon?.discount || 0;
-                    const discount = (discountPercent / 100) * subTotal
-                    const total = subTotal - discount
-                    set(() => ({ discount, total }))
+                    const subTotal = get().contents.reduce((total, item) => total + (item.price * item.quantity), 0);
+                    const { discount: val, isPercentage } = get().coupon;
+
+                    // LÓGICA DE DESCUENTO DUAL:
+                    let discountAmount = isPercentage ? (val / 100) * subTotal : val;
+
+                    // Blindaje: El descuento nunca puede ser mayor que lo que el usuario va a pagar
+                    discountAmount = Math.min(discountAmount, subTotal);
+
+                    const finalTotal = subTotal - discountAmount;
+
+                    set(() => ({
+                        discount: discountAmount,
+                        total: finalTotal
+                    }));
                 },
 
-                clearOrder: () => {
-                    set(() => ({ ...initialState }))
-                }
+                removeCoupon: () => {
+                    set({ coupon: initialState.coupon });
+                    get().calculateTotal();
+                },
+
+                clearOrder: () => set(() => ({ ...initialState })),
             }),
             {
                 name: 'vask8-secure-storage',
