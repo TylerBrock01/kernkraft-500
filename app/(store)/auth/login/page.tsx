@@ -28,7 +28,7 @@ export default function LoginPage() {
             Cookies.set('skate_token', data.access_token, { expires: 1 })
 
             // 4. REDIRIGIR AL ADMIN
-            router.push('/admin/sales')
+            router.push('/admin')
             router.refresh() // Refresca para que el layout detecte al usuario
         } catch (err: any) {
             setError(err.message)

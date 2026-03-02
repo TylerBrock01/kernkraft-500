@@ -1,7 +1,7 @@
 // components/admin/AdminNav.tsx
 import Link from 'next/link'
-import Logo from './Logo'
-import LogoutButton from "@/components/UI/LogOutBtn";
+import Logo from '../UI/Logo'
+import LogoutButton from "@/components/admin/LogOutBtn";
 
 export default function AdminNav() {
     const linkStyles = "relative px-4 py-2 text-xs font-black uppercase italic tracking-widest transition-all duration-300 transform -skew-x-12 border border-transparent hover:border-yellow-400 hover:text-yellow-400";
@@ -37,7 +37,7 @@ export default function AdminNav() {
                 {/* Botón de Retorno a Tienda con Estética Industrial */}
                 <Link
                     id={'store'}
-                    href={'/'}
+                    href={'/home'}
                     className="relative px-8 py-2 bg-white text-black font-black italic uppercase text-xs -skew-x-12 hover:bg-yellow-400 transition-colors duration-300 shadow-[4px_4px_0px_#444] active:translate-y-1 active:shadow-none"
                 >
                     <span className="inline-block transform skew-x-12">Ir a Tienda</span>

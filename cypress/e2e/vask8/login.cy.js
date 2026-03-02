@@ -12,9 +12,9 @@ describe('Login', () => {
         cy.visit('/auth/login')
         cy.clearCookies('skate_token')
     })
-    it('should login', () => {
-        cy.get('#email').type('admin@vask8.com')
-        cy.get('#password').type('vask81')
+    it.only('should login', () => {
+        cy.get('#email').type(admin.email)
+        cy.get('#password').type(admin.password)
         cy.get('#logInButton').click()
     })
     it('should login & logout', () => {
@@ -24,7 +24,7 @@ describe('Login', () => {
         cy.get('#logoutButton').click()
     })
 
-    it.only('should create transaction as admin', () => {
+    it('should create transaction as admin', () => {
         cy.get('#email').type(admin.email)
         cy.get('#password').type(admin.password)
         cy.get('#logInButton').click()

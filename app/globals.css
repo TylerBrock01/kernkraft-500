@@ -22,3 +22,54 @@
         @apply bg-yellow-400; /* Brilla al tocarlo */
     }
 }
+
+/* globals.css */
+
+.vask8-calendar-container .react-calendar {
+    background: transparent !important;
+    border: none !important;
+    font-family: inherit !important;
+    color: white !important;
+    width: 100% !important;
+}
+
+/* Días de la semana */
+.react-calendar__month-view__weekdays {
+    text-transform: uppercase !important;
+    font-weight: 900 !important;
+    font-size: 0.6rem !important;
+    color: #52525b !important; /* zinc-500 */
+}
+
+/* Botones de los días */
+.react-calendar__tile {
+    padding: 12px 8px !important;
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    transition: all 0.2s ease !important;
+}
+
+.react-calendar__tile:hover {
+    background: #fbbf2433 !important; /* yellow-400 with opacity */
+    color: #fbbf24 !important;
+}
+
+/* Día seleccionado */
+.react-calendar__tile--active {
+    background: #facc15 !important; /* yellow-400 */
+    color: black !important;
+    font-weight: 900 !important;
+    transform: skewX(-12deg);
+}
+
+/* Navegación (Flechas) */
+.react-calendar__navigation button {
+    color: white !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    font-size: 0.8rem !important;
+}
+
+.react-calendar__navigation button:hover {
+    background: #27272a !important; /* zinc-800 */
+}
