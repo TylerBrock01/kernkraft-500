@@ -81,7 +81,7 @@ export default function InventoryTable({
                                 </td>
                                 {/*fin metada data*/}
                                 <td className="px-6 py-4 text-right">
-                    <span className={`text-[10px] uppercase tracking-widest font-bold ${product.isActive ? 'text-blue-400' : 'text-zinc-600'}`}>
+                    <span className={`text-[10px] uppercase tracking-widest font-bold ${product.isActive ? 'text-blue-400' : 'text-red-600'}`}>
                       {product.isActive ? 'Activo' : 'Inactivo'}
                     </span>
                                 </td>
