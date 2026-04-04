@@ -1,5 +1,5 @@
-import AgencyHeader from '@/components/layout/AgencyHeader';
-import AgencyFooter from '@/components/layout/AgencyFooter';
+import AgencyFooter from '@/components/layout/Footer';
+import Navbar from "@/components/layout/Navbar";
 
 export default function AgencyLayout({
                                          children,
@@ -8,7 +8,7 @@ export default function AgencyLayout({
 }) {
     return (
         <div className="flex flex-col min-h-screen">
-            <AgencyHeader />
+            <Navbar />
             <main className="flex-grow">
                 {children}
             </main>

@@ -1,4 +1,4 @@
-import Hero from "@/components/admin/Hero";
+import Hero from "@/components/layout/Hero";
 import LastProducts from "@/app/(store)/products/lastProducts/page";
 import MainNav from "@/components/UI/MainNav";
 
