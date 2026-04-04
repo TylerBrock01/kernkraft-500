@@ -2,6 +2,7 @@ import React from 'react';
 
 // Tipamos las propiedades (Props) que este componente necesita para funcionar
 export interface Product {
+    metadata: any;
     id: number;
     name: string;
     description: string;
@@ -51,14 +52,33 @@ export default function InventoryTable({
                                     <p className="text-xs text-zinc-500 truncate max-w-[200px]">{product.description}</p>
                                 </td>
                                 <td className="px-6 py-4 text-sm text-zinc-300">${Number(product.price).toFixed(2)}</td>
+                                {/*metadata*/}
                                 <td className="px-6 py-4">
-                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${
-                        product.stock <= 5 ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                    }`}>
-                      <div className={`w-1.5 h-1.5 rounded-full ${product.stock <= 5 ? 'bg-red-400 animate-pulse' : 'bg-emerald-400'}`}></div>
-                        {product.stock} unds
-                    </span>
+                                    <p className="text-sm font-medium text-zinc-100 mb-0.5">{product.name}</p>
+                                    <p className="text-xs text-zinc-500 truncate max-w-[200px]">{product.description}</p>
+
+                                    {/* 📦 RENDERIZADOR UNIVERSAL DE METADATA */}
+                                    {product.metadata && Object.keys(product.metadata).length > 0 && (
+                                        <div className="mt-2 flex flex-wrap gap-1">
+                                            {Object.entries(product.metadata)
+                                                .slice(0, 3) // Mostramos máximo 3 para no saturar la tabla
+                                                .map(([key, value]) => (
+                                                    <span key={key} className="inline-flex items-center gap-1 bg-zinc-800/50 border border-zinc-700/50 text-[9px] text-zinc-400 px-1.5 py-0.5 rounded-md font-mono">
+                                                    <span className="text-zinc-500">{key}:</span>
+                                                    <span className="text-zinc-300 truncate max-w-[80px]">
+                                                    {String(value)}
+                                                    </span>
+                                                </span>
+                                                ))}
+                                            {Object.keys(product.metadata).length > 3 && (
+                                                <span className="inline-flex items-center bg-zinc-800/50 border border-zinc-700/50 text-[9px] text-zinc-500 px-1.5 py-0.5 rounded-md font-mono">
+                                                    +{Object.keys(product.metadata).length - 3} más
+                                                </span>
+                                            )}
+                                        </div>
+                                    )}
                                 </td>
+                                {/*fin metada data*/}
                                 <td className="px-6 py-4 text-right">
                     <span className={`text-[10px] uppercase tracking-widest font-bold ${product.isActive ? 'text-blue-400' : 'text-zinc-600'}`}>
                       {product.isActive ? 'Activo' : 'Inactivo'}
