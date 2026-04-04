@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import {useAuth} from "@/app/context/AuthContext";
+import Link from "next/link";
 
 export default function CommandCenter() {
     const { user } = useAuth();
@@ -27,19 +28,22 @@ export default function CommandCenter() {
 
                 {/* 🟢 TARJETA DE CAJA (Solo Cajeros y Admins) */}
                 {canOpenRegister && (
-                    <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="h-40 rounded-2xl border border-zinc-800 bg-zinc-900/40 p-6 flex flex-col justify-between hover:border-blue-500/50 hover:bg-zinc-800/50 transition-all text-left group"
-                    >
-                        <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center border border-blue-500/20 group-hover:bg-blue-500/20 transition-colors">
-                            <span className="text-blue-400">💵</span>
-                        </div>
-                        <div>
-                            <h3 className="text-zinc-100 font-bold text-lg">Terminal de Venta</h3>
-                            <p className="text-zinc-500 text-xs mt-1">Abrir caja y procesar cobros</p>
-                        </div>
-                    </motion.button>
+                    <Link href={'dashboard/inventory'}>
+                        <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            className="h-40 rounded-2xl border border-zinc-800 bg-zinc-900/40 p-6 flex flex-col justify-between hover:border-blue-500/50 hover:bg-zinc-800/50 transition-all text-left group"
+                        >
+                            <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center border border-blue-500/20 group-hover:bg-blue-500/20 transition-colors">
+                                <span className="text-blue-400">💵</span>
+                            </div>
+                            <div>
+                                <h3 className="text-zinc-100 font-bold text-lg">Terminal de Venta</h3>
+                                <p className="text-zinc-500 text-xs mt-1">Abrir caja y procesar cobros</p>
+                            </div>
+                        </motion.button>
+                    </Link>
+
                 )}
 
                 {/* 📦 TARJETA DE INVENTARIO (Solo Almacén y Admins) */}
