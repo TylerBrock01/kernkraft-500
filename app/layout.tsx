@@ -30,7 +30,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             </AuthProvider>
         </Providers>
         <Toaster
-            position="bottom-right"
+            position="top-right"
             toastOptions={{
                 // Estilo por defecto (cristal oscuro)
                 className: '!bg-zinc-900/90 !text-zinc-100 !border !border-zinc-800 !backdrop-blur-md',
