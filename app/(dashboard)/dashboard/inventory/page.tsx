@@ -5,7 +5,7 @@ import InventoryTable, { Product } from '@/components/inventory/InventoryTable';
 import ProductDrawer from '@/components/inventory/ProductDrawer';
 import {api} from "@/app/lib/axios/axios";
 import SearchInput from "@/components/inventory/SearchInput";
-import {router} from "next/client";
+import {useRouter} from "next/navigation";
 
 export default function InventoryPage() {
     // Estados Globales de la Vista
@@ -18,7 +18,7 @@ export default function InventoryPage() {
     const take = 10;
     const [hasMore, setHasMore] = useState(true);
     const [searchTerm, setSearchTerm] = useState(''); // 🔍 Estado del buscador
-
+    const router = useRouter()
     // Función Central de Red
     const fetchProducts = useCallback(async (currentSkip = skip,search = searchTerm) => {
         setIsLoading(true);
