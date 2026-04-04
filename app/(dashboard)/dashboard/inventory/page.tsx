@@ -21,7 +21,7 @@ export default function InventoryPage() {
     const [isLoading, setIsLoading] = useState(true);
     // ⚙️ Controles de Paginación
     const [skip, setSkip] = useState(0);
-    const take = 1; // Límite por página
+    const take = 10; // Límite por página
     const [hasMore, setHasMore] = useState(true); // Para saber si apagamos el botón "Siguiente"
 
 
@@ -31,7 +31,7 @@ export default function InventoryPage() {
         description: '',
         price: 0,
         stock: 0,
-        type: 'RETAIL',
+        type: 'retail',
     });
 
     // 2. Traer la carga inicial (GET)
@@ -63,18 +63,30 @@ export default function InventoryPage() {
     }, [skip]); // <--- Agrega el skip aquí
 
     // 3. Registrar nueva mercancía (POST)
+    // 3. Registrar nueva mercancía (POST)
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            // Mandamos los datos (NestJS se encarga de ponerle el businessId gracias al JWT)
-            await api.post('/products', {
-                ...formData,
-                price: Number(formData.price),
-                stock: Number(formData.stock),
+            // 🏗️ Usamos FormData porque el backend tiene un FileInterceptor
+            const formPayload = new FormData();
+
+            formPayload.append('name', formData.name);
+            formPayload.append('description', formData.description);
+            formPayload.append('price', String(formData.price)); // FormData solo acepta strings o archivos
+            formPayload.append('stock', String(formData.stock));
+            formPayload.append('type', formData.type);
+
+            // 💡 Nota para el futuro: Cuando actives Cloudinary,
+            // solo agregarás: formPayload.append('file', archivoSeleccionado);
+
+            await api.post('/products', formPayload, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
             });
 
             setIsDrawerOpen(false); // Cerramos compuerta
-            fetchProducts(); // Recargamos la tabla
+            fetchProducts(); // Recargamos la tabla para ver el nuevo producto
 
             // Limpiamos el formulario
             setFormData({ name: '', description: '', price: 0, stock: 0, type: 'RETAIL' });
