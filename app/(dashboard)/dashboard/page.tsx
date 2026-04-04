@@ -8,9 +8,9 @@ export default function CommandCenter() {
     const { user } = useAuth();
 
     // Definimos qué roles pueden ver qué acciones
-    const canOpenRegister = ['ADMIN', 'GERENTE', 'CAJERO'].includes(user?.role || '');
-    const canManageInventory = ['ADMIN', 'GERENTE', 'ALMACEN'].includes(user?.role || '');
-    const canSeeAnalytics = ['ADMIN', 'GERENTE'].includes(user?.role || '');
+    const canOpenRegister = ['admin', 'supervisor', 'vendedor'].includes(user?.role || '');
+    const canManageInventory = ['admin', 'supervisor', 'almacen'].includes(user?.role || '');
+    const canSeeAnalytics = ['admin', 'supervisor'].includes(user?.role || '');
 
     return (
         <div className="w-full">
