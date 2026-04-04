@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { api } from '@/app/lib/axios/axios';
+import toast from "react-hot-toast";
 
 interface TeamDrawerProps {
     isOpen: boolean;
@@ -17,6 +18,7 @@ export default function TeamDrawer({ isOpen, onClose, onSuccess }: TeamDrawerPro
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
+        const toastId = toast.loading('Verificando credenciales...');
         try {
             // 🚀 MODIFICACIÓN AQUÍ: Le pegamos a la ruta exacta de tu backend
             await api.post('/users/employee', formData); // O '/auth/employee', según tu Controller
@@ -24,6 +26,7 @@ export default function TeamDrawer({ isOpen, onClose, onSuccess }: TeamDrawerPro
             setFormData({ name: '', lastName: '', email: '', password: '', phone: '', role: '' });
             onSuccess();
             onClose();
+            toast.success('Personal registrado con éxito', { id: toastId });
         } catch (error) {
             console.error('Error registrando personal:', error);
         } finally {

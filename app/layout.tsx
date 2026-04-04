@@ -4,6 +4,7 @@ import "./globals.css";
 import Providers from "@/app/providers";
 import { cookies } from "next/headers";
 import { AuthProvider } from "./context/AuthContext";
+import {Toaster} from "react-hot-toast";
 
 const outfit = Outfit({ subsets: ['latin'] });
 
@@ -28,6 +29,26 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 {children}
             </AuthProvider>
         </Providers>
+        <Toaster
+            position="bottom-right"
+            toastOptions={{
+                // Estilo por defecto (cristal oscuro)
+                className: '!bg-zinc-900/90 !text-zinc-100 !border !border-zinc-800 !backdrop-blur-md',
+                style: {
+                    borderRadius: '12px',
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    letterSpacing: '0.05em',
+                    textTransform: 'uppercase',
+                },
+                success: {
+                    iconTheme: { primary: '#10b981', secondary: '#09090b' },
+                },
+                error: {
+                    iconTheme: { primary: '#ef4444', secondary: '#09090b' },
+                },
+            }}
+        />
         </body>
         </html>
     );
