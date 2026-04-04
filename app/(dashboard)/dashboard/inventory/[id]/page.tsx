@@ -4,6 +4,7 @@ import React, { useEffect, useState, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import {api} from "@/app/lib/axios/axios";
+import ProductDrawer from "@/components/inventory/ProductDrawer";
 
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const router = useRouter();
@@ -12,6 +13,19 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
     const [product, setProduct] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isEditDrawerOpen, setIsEditDrawerOpen] = useState(false);
+
+    const fetchProduct = async () => {
+        setIsLoading(true);
+        try {
+            const response = await api.get(`/products/${productId}`);
+            setProduct(response.data);
+        } catch (error) {
+            console.error('Error fetching product:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -30,6 +44,20 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         }
     }, [productId]);
 
+    const handleToggleStatus = async () => {
+        try {
+            // Mandamos un JSON sencillo porque el backend NestJS (ValidationPipe) lo detecta
+            // y procesa sin problemas aunque tenga el FileInterceptor, gracias a que no mandamos FormData.
+            await api.patch(`/products/${productId}`, {
+                isActive: !product.isActive
+            });
+            // Recargamos el producto para ver el cambio instantáneo
+            fetchProduct();
+        } catch (error) {
+            console.error('Error cambiando el estado:', error);
+        }
+    };
+
     if (isLoading) return <div className="p-8 text-zinc-500 font-mono text-sm uppercase tracking-widest animate-pulse">Recopilando expediente...</div>;
     if (!product) return <div className="p-8 text-red-500 font-mono text-sm uppercase tracking-widest">Expediente no encontrado.</div>;
 
@@ -41,7 +69,26 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             >
                 ← Volver al Inventario
             </button>
+            {/* 🛠️ BOTONES DE CONTROL TÁCTICO */}
+            <div className="flex gap-3">
+                <button
+                    onClick={handleToggleStatus}
+                    className={`px-4 py-2 text-[10px] font-bold uppercase tracking-widest rounded-lg border transition-all ${
+                        product.isActive
+                            ? 'bg-red-500/10 text-red-500 border-red-500/20 hover:bg-red-500 hover:text-white'
+                            : 'bg-blue-500/10 text-blue-400 border-blue-500/20 hover:bg-blue-500 hover:text-white'
+                    }`}
+                >
+                    {product.isActive ? 'Desactivar Mercancía' : 'Reactivar Mercancía'}
+                </button>
 
+                <button
+                    onClick={() => setIsEditDrawerOpen(true)}
+                    className="px-4 py-2 bg-zinc-100 text-zinc-950 text-[10px] font-bold uppercase tracking-widest rounded-lg hover:bg-white transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+                >
+                    Editar Expediente
+                </button>
+            </div>
             {/* 🚀 TARJETA DEL PRODUCTO REESTRUCTURADA */}
             <div className="bg-zinc-900/40 border border-zinc-800 rounded-2xl backdrop-blur-md overflow-hidden flex flex-col md:flex-row shadow-2xl">
 
@@ -126,7 +173,15 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                         </div>
                     </div>
                 </div>
+
+
             </div>
+            <ProductDrawer
+                isOpen={isEditDrawerOpen}
+                onClose={() => setIsEditDrawerOpen(false)}
+                onSuccess={fetchProduct} // Si edita con éxito, recarga la ficha técnica al instante
+                productToEdit={product}  // Le pasamos el cerebro completo
+            />
         </div>
     );
 }

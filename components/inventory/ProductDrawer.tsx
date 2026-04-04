@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {api} from "@/app/lib/axios/axios";
 
@@ -6,9 +6,10 @@ interface ProductDrawerProps {
     isOpen: boolean;
     onClose: () => void;
     onSuccess: () => void;
+    productToEdit?: any;
 }
 
-export default function ProductDrawer({ isOpen, onClose, onSuccess }: ProductDrawerProps) {
+export default function ProductDrawer({ isOpen, onClose, onSuccess,productToEdit }: ProductDrawerProps) {
     const [formData, setFormData] = useState({
         name: '', description: '', price: 0, stock: 0, type: 'retail',
     });
@@ -20,7 +21,35 @@ export default function ProductDrawer({ isOpen, onClose, onSuccess }: ProductDra
     const [isUploading, setIsUploading] = useState(false);
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    // 🔄 EFECTO DE AUTORELLENADO (Cuando se abre el Drawer para editar)
+    useEffect(() => {
+        if (productToEdit && isOpen) {
+            setFormData({
+                name: productToEdit.name,
+                description: productToEdit.description || '',
+                price: Number(productToEdit.price),
+                stock: Number(productToEdit.stock),
+                type: productToEdit.type,
+            });
+            setImageUrl(productToEdit.image || null);
 
+            // Desempaquetar el JSONB de la base de datos a filas del formulario
+            if (productToEdit.metadata && Object.keys(productToEdit.metadata).length > 0) {
+                const metaArray = Object.entries(productToEdit.metadata).map(([key, value]) => ({
+                    key,
+                    value: String(value)
+                }));
+                setMetadataParams(metaArray);
+            } else {
+                setMetadataParams([]);
+            }
+        } else if (!isOpen) {
+            // Limpiar cuando se cierra
+            setFormData({ name: '', description: '', price: 0, stock: 0, type: 'retail' });
+            setMetadataParams([]);
+            setImageUrl(null);
+        }
+    }, [productToEdit, isOpen]);
     // --- LÓGICA DE DRAG & DROP ---
     const handleDragOver = (e: React.DragEvent) => {
         e.preventDefault();
@@ -106,8 +135,12 @@ export default function ProductDrawer({ isOpen, onClose, onSuccess }: ProductDra
                 formPayload.append('metadata', JSON.stringify(metadataObject));
             }
 
-            await api.post('/products', formPayload, { headers: { 'Content-Type': 'multipart/form-data' } });
-
+            // 🎯 LA MAGIA HÍBRIDA: Decide dinámicamente si hacer POST o PATCH
+            if (productToEdit) {
+                await api.patch(`/products/${productToEdit.id}`, formPayload, { headers: { 'Content-Type': 'multipart/form-data' } });
+            } else {
+                await api.post('/products', formPayload, { headers: { 'Content-Type': 'multipart/form-data' } });
+            }
             // Reset total
             setFormData({ name: '', description: '', price: 0, stock: 0, type: 'retail' });
             setMetadataParams([]);
@@ -127,7 +160,9 @@ export default function ProductDrawer({ isOpen, onClose, onSuccess }: ProductDra
                     <motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ type: 'spring', damping: 25, stiffness: 200 }} className="fixed top-0 right-0 h-full w-full max-w-md bg-zinc-950 border-l border-zinc-800 z-50 p-6 flex flex-col shadow-2xl overflow-y-auto">
 
                         <div className="flex justify-between items-center mb-8 shrink-0">
-                            <h2 className="text-xl font-bold text-zinc-100">Nueva Carga</h2>
+                            <h2 className="text-xl font-bold text-zinc-100">
+                                {productToEdit ? 'Editar Expediente' : 'Nueva Carga'} {/* 🧠 Título dinámico */}
+                            </h2>
                             <button onClick={onClose} className="text-zinc-500 hover:text-white">✕</button>
                         </div>
 
