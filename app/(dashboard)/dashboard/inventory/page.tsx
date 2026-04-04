@@ -63,7 +63,6 @@ export default function InventoryPage() {
     }, [skip]); // <--- Agrega el skip aquí
 
     // 3. Registrar nueva mercancía (POST)
-    // 3. Registrar nueva mercancía (POST)
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
@@ -212,7 +211,7 @@ export default function InventoryPage() {
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
                                         <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 ml-1">Precio ($)</label>
-                                        <input required type="number" step="0.01" value={formData.price} onChange={(e) => setFormData({...formData, price: Number(e.target.value)})} className="w-full mt-1 bg-zinc-900/50 border border-zinc-800 text-zinc-100 text-sm rounded-lg px-4 py-3 focus:ring-1 focus:ring-zinc-500 outline-none transition-all font-mono" />
+                                        <input required type="number" value={formData.price} onChange={(e) => setFormData({...formData, price: Number(e.target.value)})} className="w-full mt-1 bg-zinc-900/50 border border-zinc-800 text-zinc-100 text-sm rounded-lg px-4 py-3 focus:ring-1 focus:ring-zinc-500 outline-none transition-all font-mono" />
                                     </div>
                                     <div>
                                         <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 ml-1">Stock Inicial</label>
