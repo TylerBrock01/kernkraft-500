@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {useAuth} from "@/app/context/AuthContext";
+import {AppRole, SIDEBAR_MENU} from "@/app/config/Navigation";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const { user, logout } = useAuth();
@@ -44,12 +45,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     </button>
                 </div>
 
-                <nav className="flex-1 space-y-2">
-                    {['Overview', 'Inventario', 'Ventas', 'Rentas', 'Clientes'].map((item) => (
-                        <button key={item} className="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-zinc-500 hover:text-zinc-100 hover:bg-zinc-900/50 transition-all uppercase tracking-widest text-[10px]">
-                            {item}
-                        </button>
-                    ))}
+                <nav className="flex-1 space-y-2 mt-6">
+                    {SIDEBAR_MENU.map((item) => {
+                        // El filtro mágico: ¿El rol del usuario está en la lista de permitidos?
+                        const canSee = user && item.allowedRoles.includes(user.role as AppRole);
+
+                        if (!canSee) return null; // Si no tiene permiso, la opción ni siquiera se dibuja
+
+                        return (
+                            <button key={item.name} className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-zinc-500 hover:text-zinc-100 hover:bg-zinc-900/50 transition-all uppercase tracking-widest text-[10px] group">
+                                <span className="text-sm opacity-50 group-hover:opacity-100">{item.icon}</span>
+                                {item.name}
+                            </button>
+                        );
+                    })}
                 </nav>
 
                 {/* Info del Usuario */}
