@@ -16,6 +16,11 @@ export const SIDEBAR_MENU: MenuItem[] = [
         path: '/dashboard',
         icon: '⌘',
         allowedRoles: ['admin', 'vendedor', 'almacen'] // Todos entran aquí
+    },{
+        name: 'Personal',
+        path: '/dashboard/team',
+        icon: '👥',
+        allowedRoles: ['admin'] // Todos entran aquí
     },
     {
         name: 'Terminal POS',
