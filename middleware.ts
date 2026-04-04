@@ -15,7 +15,7 @@ export function middleware(request: NextRequest) {
     // 3. Opcional pero recomendado: Si YA tiene token e intenta ir al login,
     // lo regresamos a su estación de trabajo para que no pierda el tiempo.
     if (pathname === '/login' && token) {
-        return NextResponse.redirect(new URL('/pos', request.url));
+        return NextResponse.redirect(new URL('/dashboard', request.url));
     }
 
     return NextResponse.next();
