@@ -3,6 +3,7 @@ import { Outfit } from "next/font/google";
 import "./globals.css";
 import Providers from "@/app/providers";
 import { cookies } from "next/headers";
+import { AuthProvider } from "./context/AuthContext";
 
 const outfit = Outfit({ subsets: ['latin'] });
 
@@ -23,7 +24,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <body className={`${outfit.className} bg-[#0a0a0a] text-zinc-400 antialiased selection:bg-zinc-800 selection:text-white`}>
         {/* Le pasamos el ID al cliente a través de Providers */}
         <Providers userId={userSessionId}>
-            {children}
+            <AuthProvider>
+                {children}
+            </AuthProvider>
         </Providers>
         </body>
         </html>
