@@ -20,17 +20,18 @@ interface InventoryTableProps {
     hasMore: boolean;
     onNextPage: () => void;
     onPrevPage: () => void;
+    onRowClick: (id: number) => void; // <--- ESTO ES NUEVO
 }
 
 export default function InventoryTable({
-                                           products, isLoading, skip, take, hasMore, onNextPage, onPrevPage
+                                           products, isLoading, skip, take, hasMore, onNextPage, onPrevPage,onRowClick
                                        }: InventoryTableProps) {
     return (
         <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 backdrop-blur-md overflow-hidden flex flex-col h-full">
             <div className="overflow-x-auto flex-1">
                 <table className="w-full text-left border-collapse">
                     <thead>
-                    <tr className="border-b border-zinc-800 bg-zinc-900/50">
+                    <tr  className="border-b border-zinc-800 bg-zinc-900/50">
                         <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">ID</th>
                         <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Producto</th>
                         <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Precio</th>
@@ -45,7 +46,7 @@ export default function InventoryTable({
                         <tr><td colSpan={5} className="text-center py-8 text-zinc-500 text-sm">Bóveda vacía. Registre mercancía.</td></tr>
                     ) : (
                         products.map((product) => (
-                            <tr key={product.id} className="hover:bg-zinc-800/20 transition-colors group">
+                            <tr  key={product.id} onClick={() => onRowClick(product.id)} className="hover:bg-zinc-800/20 transition-colors group">
                                 <td className="px-6 py-4 text-xs font-mono text-zinc-500">#{product.id}</td>
                                 <td className="px-6 py-4">
                                     <p className="text-sm font-medium text-zinc-100">{product.name}</p>
