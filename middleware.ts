@@ -1,20 +1,27 @@
-import {NextRequest, NextResponse} from 'next/server'
-// import type { NextRequest } from 'next/request'
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-    // Intentamos obtener el token de las cookies
-    const token = request.cookies.get('skate_token')
+    // 1. Buscamos la llave maestra de CAZA
+    const token = request.cookies.get('caza_token')?.value;
+    const { pathname } = request.nextUrl;
 
-    // Si el usuario intenta entrar a /admin pero NO tiene token
-    if (request.nextUrl.pathname.startsWith('/admin') && !token) {
-        // Lo mandamos al login de inmediato
-        return NextResponse.redirect(new URL('/auth/login', request.url))
+    // 2. Si intenta entrar a operaciones (/dashboard o /pos) SIN token
+    if ((pathname.startsWith('/dashboard') || pathname.startsWith('/pos')) && !token) {
+        // Alerta roja: lo mandamos al login
+        return NextResponse.redirect(new URL('/login', request.url));
     }
 
-    return NextResponse.next()
+    // 3. Opcional pero recomendado: Si YA tiene token e intenta ir al login,
+    // lo regresamos a su estación de trabajo para que no pierda el tiempo.
+    if (pathname === '/login' && token) {
+        return NextResponse.redirect(new URL('/pos', request.url));
+    }
+
+    return NextResponse.next();
 }
 
-// Aquí defines qué rutas debe vigilar el middleware
+// Protegemos el Cuartel General y la ruta de acceso
 export const config = {
-    matcher: ['/admin/:path*'], // Protege /admin y todo lo que esté adentro
-}
+    matcher: ['/dashboard/:path*', '/pos/:path*', '/login'],
+};
