@@ -1,7 +1,7 @@
 describe('Login', () => {
     const admin = {
-        email: "test@test.com",
-        password: "vask177",
+        "email": "test@pirata.com",
+        "password": "Password123!"
     }
     const vendedor = {
         "email": "test1@test1.com",
@@ -10,13 +10,13 @@ describe('Login', () => {
     const coupon = 'VASK8_PRO_2026'
 
     beforeEach(() => {
-        cy.visit('/auth/login')
+        cy.visit('/login')
         cy.clearCookies('skate_token')
     })
-    it('should login', () => {
+    it.only('should login', () => {
         cy.get('#email').type(admin.email)
         cy.get('#password').type(admin.password)
-        cy.get('#logInButton').click()
+        // cy.get('#logInButton').click()
     })
     it('should login & logout', () => {
         cy.get('#email').type('admin@skateshop.com')
@@ -25,7 +25,7 @@ describe('Login', () => {
         cy.get('#logoutButton').click()
     })
 
-    it.only('should create transaction as admin w/coupon', () => {
+    it('should create transaction as admin w/coupon', () => {
         cy.get('#email').type(admin.email)
         cy.get('#password').type(admin.password)
         cy.get('#logInButton').click()

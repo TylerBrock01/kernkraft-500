@@ -53,7 +53,7 @@ export default function Navbar() {
 
                 {/* BOTÓN DE ACCESO: El portal al backend */}
                 <div className="flex items-center gap-4">
-                    <Link href={'auth/login'} className="text-xs uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">
+                    <Link href={'/login'} className="text-xs uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">
                         Login
                     </Link>
                     <button className="px-5 py-2 bg-zinc-100 text-zinc-950 text-[10px] font-bold uppercase tracking-widest hover:bg-white transition-all rounded-sm">
