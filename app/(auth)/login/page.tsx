@@ -29,7 +29,7 @@ export default function LoginPage() {
             login(access_token, user);
 
             // Redirigimos al panel de control protegido
-            router.push('/pos');
+            router.push('/dashboard');
 
         } catch (err: any) {
             // Si NestJS nos manda un 401, lo atrapamos aquí
