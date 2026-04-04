@@ -70,6 +70,7 @@ export default function LoginPage() {
                                 Credencial Operativa (Email)
                             </label>
                             <input
+                                id={'login-email-input'}
                                 type="email"
                                 required
                                 value={email}
@@ -89,6 +90,7 @@ export default function LoginPage() {
                                 </a>
                             </div>
                             <input
+                                id={'login-password-input'}
                                 type="password"
                                 required
                                 value={password}
@@ -99,6 +101,7 @@ export default function LoginPage() {
                         </div>
 
                         <button
+                            id={'login-submit-button'}
                             type="submit"
                             className="w-full bg-zinc-100 text-zinc-950 font-bold text-xs uppercase tracking-widest py-4 rounded-lg mt-8 hover:bg-white hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all"
                         >
