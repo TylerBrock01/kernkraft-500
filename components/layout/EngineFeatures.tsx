@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 
 export default function EngineFeatures() {
     // Configuración de la coreografía de animación
-    const containerVariants = {
+    const containerVariants: Variants = {
         hidden: { opacity: 0 },
         show: {
             opacity: 1,
@@ -15,7 +15,7 @@ export default function EngineFeatures() {
         },
     };
 
-    const itemVariants = {
+    const itemVariants: Variants = {
         hidden: { opacity: 0, y: 30 },
         show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 50 } },
     };
