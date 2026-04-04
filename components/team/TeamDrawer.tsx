@@ -10,7 +10,7 @@ interface TeamDrawerProps {
 
 export default function TeamDrawer({ isOpen, onClose, onSuccess }: TeamDrawerProps) {
     const [formData, setFormData] = useState({
-        name: '', lastName: '', email: '', password: '', phone: '', role: 'VENDEDOR',
+        name: '', lastName: '', email: '', password: '', phone: '', role: 'vendedor',
     });
     const [isLoading, setIsLoading] = useState(false);
 
@@ -21,7 +21,7 @@ export default function TeamDrawer({ isOpen, onClose, onSuccess }: TeamDrawerPro
             // 🚀 MODIFICACIÓN AQUÍ: Le pegamos a la ruta exacta de tu backend
             await api.post('/users/employee', formData); // O '/auth/employee', según tu Controller
 
-            setFormData({ name: '', lastName: '', email: '', password: '', phone: '', role: 'VENDEDOR' });
+            setFormData({ name: '', lastName: '', email: '', password: '', phone: '', role: '' });
             onSuccess();
             onClose();
         } catch (error) {
@@ -49,7 +49,7 @@ export default function TeamDrawer({ isOpen, onClose, onSuccess }: TeamDrawerPro
                             <div>
                                 <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 ml-1">Nivel de Acceso (Rol)</label>
                                 <div className="grid grid-cols-3 gap-2 mt-2">
-                                    {['ADMIN', 'ALMACEN', 'VENDEDOR'].map((r) => (
+                                    {['ADMIN', 'ALMACEN', 'vendedor'].map((r) => (
                                         <button key={r} type="button" onClick={() => setFormData({ ...formData, role: r })} className={`py-2 text-[10px] uppercase tracking-widest font-bold rounded-lg border transition-all ${formData.role === r ? 'bg-blue-600 text-white border-blue-500 shadow-[0_0_15px_rgba(37,99,235,0.3)]' : 'bg-zinc-900/50 text-zinc-500 border-zinc-800 hover:border-zinc-600'}`}>
                                             {r}
                                         </button>
