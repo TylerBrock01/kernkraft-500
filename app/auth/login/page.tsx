@@ -2,15 +2,39 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import {useRouter} from "next/navigation";
+import {useAuth} from "@/app/context/AuthContext";
+import {api} from "@/app/lib/axios/axios";
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(''); // Para mostrar alertas rojas
 
-    const handleLogin = (e: React.FormEvent) => {
+    const router = useRouter();
+    const { login } = useAuth();
+
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Aquí conectaremos con el backend de NestJS después
-        console.log('Iniciando secuencia de encendido...', { email, password });
+        setError(''); // Limpiamos errores previos
+
+        try {
+            // Disparamos al puerto 3000
+            const response = await api.post('/auth/login', { email, password });
+
+            // Extraemos lo que nos mandó NestJS
+            const { access_token, user } = response.data;
+
+            // Guardamos en nuestro Estado Global y Cookies
+            login(access_token, user);
+
+            // Redirigimos al panel de control protegido
+            router.push('/pos');
+
+        } catch (err: any) {
+            // Si NestJS nos manda un 401, lo atrapamos aquí
+            setError(err.response?.data?.message || 'Error en las credenciales. Acceso denegado.');
+        }
     };
 
     return (
