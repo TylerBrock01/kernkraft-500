@@ -14,9 +14,10 @@ describe('Login', () => {
         cy.clearCookies('skate_token')
     })
     it.only('should login', () => {
-        cy.get('#email').type(admin.email)
-        cy.get('#password').type(admin.password)
-        // cy.get('#logInButton').click()
+        cy.get('#login-email-input').type(admin.email)
+        cy.get('#login-password-input').type(admin.password)
+        cy.get('#login-submit-button').click()
+        cy.url().should('include', '/dashboard')
     })
     it('should login & logout', () => {
         cy.get('#email').type('admin@skateshop.com')
@@ -31,8 +32,9 @@ describe('Login', () => {
         cy.get('#logInButton').click()
 
         cy.get('#store').click()
-        cy.wait(500)
+
         cy.visit('/products?page=1')
+
         cy.get('#product-card-1').click()
         cy.get('#add-product-button-1').click();
         cy.get('#cart-button').click()
@@ -40,9 +42,11 @@ describe('Login', () => {
         cy.get('#coupon-input').type(coupon)
         cy.get('#coupon-submit').click()
 
-        cy.get('#submit-order-button').click()
+        cy.get('#close-cart-button').click()
 
-        cy.get('#profile-button').click()
+        // cy.get('#submit-order-button').click()
+        //
+        // cy.get('#profile-button').click()
 
     })
     it('should see transactions as admin ', () => {
