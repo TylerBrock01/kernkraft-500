@@ -24,32 +24,45 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
 
-    // Al recargar la página, verificamos si hay sesión guardada
+    // 🛡️ 1. LECTURA DEFENSIVA
     useEffect(() => {
         const token = Cookies.get('caza_token');
         const savedUser = Cookies.get('caza_user');
 
-        if (token && savedUser) {
-            setUser(JSON.parse(savedUser));
+        // Verificamos que exista y que NO sea la palabra maldita
+        if (token && savedUser && savedUser !== 'undefined') {
+            try {
+                setUser(JSON.parse(savedUser));
+            } catch (error) {
+                console.error('Detectamos una cookie corrupta. Limpiando zona...');
+                Cookies.remove('caza_token');
+                Cookies.remove('caza_user');
+            }
+        } else if (savedUser === 'undefined') {
+            // Si estaba corrupto, lo borramos silenciosamente
+            Cookies.remove('caza_user');
         }
     }, []);
 
-    // Función para iniciar sesión
+    // 🛡️ 2. ESCRITURA DEFENSIVA
     const login = (token: string, userData: User) => {
-        // Guardamos el token de forma segura en las cookies (caduca en 1 día)
+        // Evitamos que un error del backend nos envenene las cookies
+        if (!userData) {
+            console.error('Alerta: El backend no envió los datos del usuario.');
+            return;
+        }
+
         Cookies.set('caza_token', token, { expires: 1, secure: true, sameSite: 'strict' });
-        // Guardamos los datos del usuario para acceso rápido
         Cookies.set('caza_user', JSON.stringify(userData), { expires: 1, secure: true, sameSite: 'strict' });
 
         setUser(userData);
     };
 
-    // Función para destruir la sesión
     const logout = () => {
         Cookies.remove('caza_token');
         Cookies.remove('caza_user');
         setUser(null);
-        window.location.href = '/login'; // Expulsamos al usuario
+        window.location.href = '/login';
     };
 
     return (
