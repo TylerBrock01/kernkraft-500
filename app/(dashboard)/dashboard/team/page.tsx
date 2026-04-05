@@ -87,8 +87,8 @@ export default function TeamPage() {
                                 <tr key={user.id} className="hover:bg-zinc-800/20 transition-colors group">
                                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest border ${
-                          user.role === 'ADMIN' ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' :
-                              user.role === 'ALMACEN' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
+                          user.role === 'admin' ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' :
+                              user.role === 'almacen' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
                                   'bg-zinc-800 text-zinc-300 border-zinc-700'
                       }`}>
                         {user.role}
@@ -96,8 +96,9 @@ export default function TeamPage() {
                                     </td>
                                     <td className="px-6 py-4"><p className="text-sm font-medium text-zinc-100">{user.name} {user.lastName}</p></td>
                                     <td className="px-6 py-4"><p className="text-xs text-zinc-400 font-mono">{user.email}</p></td>
-                                    <td className="px-6 py-4 text-right"><span className="text-[10px] uppercase tracking-widest font-bold text-emerald-500">Activo</span></td>
-                                </tr>
+                                    <td className="px-6 py-4 text-right"><span className={`text-[10px] uppercase tracking-widest font-bold ${user.isActive ? 'text-emerald-500' : 'text-red-600'}`}>
+                      {user.isActive ? 'Activo' : 'Inactivo'}
+                    </span></td>                                </tr>
                             ))
                         )}
                         </tbody>
