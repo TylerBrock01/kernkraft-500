@@ -2,7 +2,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 // Apuntamos al motor de NestJS
-const API_URL = 'http://localhost:3000';
+// const API_URL = 'http://localhost:3000';
+const API_URL = process.env.API_URL;
 
 export const api = axios.create({
     baseURL: API_URL,
