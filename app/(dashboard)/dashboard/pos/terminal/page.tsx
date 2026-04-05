@@ -25,6 +25,8 @@ export default function POSTerminalPage() {
     const [customerSearch, setCustomerSearch] = useState('');
     const [customerResults, setCustomerResults] = useState<any[]>([]);
     const [isCustomerDrawerOpen, setIsCustomerDrawerOpen] = useState(false);
+    // Este número solo servirá para avisarle al useEffect que debe recargar
+    const [refreshKey, setRefreshKey] = useState(0);
 
     // 🛒 ESTADOS DEL CARRITO Y TICKET
     const [cart, setCart] = useState<CartItem[]>([]);
@@ -58,7 +60,7 @@ export default function POSTerminalPage() {
         }, 300);
 
         return () => clearTimeout(delayDebounceFn);
-    }, [searchTerm]);
+    }, [searchTerm,refreshKey]);
 
 
     // 2. EL RADAR DE CLIENTES (Solo se activa si cambia 'customerSearch')
@@ -158,7 +160,7 @@ export default function POSTerminalPage() {
             };
 
             await api.post('/transactions', payload);
-
+            setRefreshKey(prev => prev + 1);
             toast.success('Transacción completada', { id: toastId });
 
             // Limpiamos la terminal para el siguiente cliente
