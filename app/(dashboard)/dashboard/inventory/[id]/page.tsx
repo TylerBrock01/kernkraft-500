@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import {api} from "@/app/lib/axios/axios";
 import ProductDrawer from "@/components/inventory/ProductDrawer";
+import StockAdjustmentModal from "@/components/inventory/StockAdjustmentModal";
 
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const router = useRouter();
@@ -14,6 +15,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     const [product, setProduct] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isEditDrawerOpen, setIsEditDrawerOpen] = useState(false);
+    const [isMermaModalOpen, setIsMermaModalOpen] = useState(false);
 
     const fetchProduct = async () => {
         setIsLoading(true);
@@ -154,6 +156,16 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                                     </p>
                                     <span className="text-[10px] uppercase font-bold text-emerald-400">Saludable</span>
                                 </div>
+                                {/* 🚀 BOTÓN DE MERMA AQUÍ *!/*/}
+                                <div className="mt-3 text-right">
+                                    <button
+                                        onClick={() => setIsMermaModalOpen(true)}
+                                        disabled={product.stock <= 0}
+                                        className="text-[10px] uppercase font-bold tracking-widest text-red-500 hover:text-white border border-red-900/50 hover:bg-red-600 px-3 py-1.5 rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                                    >
+                                        ⚠ Registrar Merma / Pérdida
+                                    </button>
+                                </div>
                             </div>
 
                             {/* RENDERIZADO UNIVERSAL DE METADATA (Itera sobre cualquier campo JSONB) */}
@@ -181,6 +193,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 onClose={() => setIsEditDrawerOpen(false)}
                 onSuccess={fetchProduct} // Si edita con éxito, recarga la ficha técnica al instante
                 productToEdit={product}  // Le pasamos el cerebro completo
+            />
+            <StockAdjustmentModal
+                isOpen={isMermaModalOpen}
+                onClose={() => setIsMermaModalOpen(false)}
+                onSuccess={fetchProduct} // 🔄 Recarga el producto para ver el nuevo stock mágicamente
+                product={product}
             />
         </div>
     );
