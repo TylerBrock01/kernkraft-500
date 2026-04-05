@@ -38,8 +38,10 @@ export default function POSTerminalPage() {
     const [isProcessing, setIsProcessing] = useState(false);
 
     // 1. CARGAR INVENTARIO
+// 1. EL RADAR DE PRODUCTOS (Solo se activa si cambia 'searchTerm')
     useEffect(() => {
         const fetchProducts = async () => {
+            setIsLoading(true); // Opcional, para que se vea el estado de carga al buscar
             try {
                 const response = await api.get('/products', { params: { take: 50, search: searchTerm } });
                 setProducts(response.data.products || response.data || []);
@@ -50,7 +52,17 @@ export default function POSTerminalPage() {
             }
         };
 
-        // Un pequeño delay para no saturar la red al escribir
+        // Delay táctico de 300ms
+        const delayDebounceFn = setTimeout(() => {
+            fetchProducts();
+        }, 300);
+
+        return () => clearTimeout(delayDebounceFn);
+    }, [searchTerm]);
+
+
+    // 2. EL RADAR DE CLIENTES (Solo se activa si cambia 'customerSearch')
+    useEffect(() => {
         const searchCustomers = async () => {
             if (customerSearch.length < 2) {
                 setCustomerResults([]);
@@ -58,17 +70,19 @@ export default function POSTerminalPage() {
             }
             try {
                 const response = await api.get('/customers', { params: { search: customerSearch, take: 5 } });
-                // Ajusta según cómo devuelve la data tu controlador (arreglo directo o { customers: [] })
                 setCustomerResults(response.data.customers || response.data || []);
             } catch (error) {
                 console.error('Error buscando clientes', error);
             }
         };
 
-        const delayDebounceFn = setTimeout(() => { searchCustomers(),fetchProducts(); }, 300);
-        return () => clearTimeout(delayDebounceFn);
-    }, [customerSearch,searchTerm]);
+        // Delay táctico de 300ms
+        const delayDebounceFn = setTimeout(() => {
+            searchCustomers();
+        }, 300);
 
+        return () => clearTimeout(delayDebounceFn);
+    }, [customerSearch]);
     // 2. LÓGICA DEL CARRITO
     const addToCart = (product: any) => {
         if (product.stock <= 0) {
