@@ -5,6 +5,7 @@ import { api } from '@/app/lib/axios/axios';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 import CashMovementModal from "@/components/pos/CashMovementModal";
+import Link from "next/link";
 
 export default function POSTerminalPage() {
     const [isLoading, setIsLoading] = useState(true);
@@ -216,9 +217,9 @@ export default function POSTerminalPage() {
                         </div>
 
                         <div className="mt-8 pt-8 border-t border-zinc-800 flex flex-col sm:flex-row gap-4">
-                            <button onClick={() => toast('El POS se construirá pronto', { icon: '🚧' })} className="flex-1 py-4 bg-zinc-100 text-zinc-950 font-black uppercase tracking-widest text-xs rounded-xl hover:bg-white transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+                            <Link href={'/dashboard/pos/terminal'} onClick={() => toast('El POS se construirá pronto', { icon: '🚧' })} className="flex-1 py-4 bg-zinc-100 text-zinc-950 font-black uppercase tracking-widest text-xs rounded-xl hover:bg-white transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)]">
                                 🛒 Ir a la Terminal de Ventas
-                            </button>
+                            </Link>
                             <button onClick={() => setIsCloseModalOpen(true)} className="px-8 py-4 bg-red-500/10 text-red-500 border border-red-500/20 font-black uppercase tracking-widest text-xs rounded-xl hover:bg-red-500 hover:text-white transition-all">
                                 Hacer Corte de Caja
                             </button>
