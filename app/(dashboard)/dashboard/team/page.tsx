@@ -86,7 +86,10 @@ export default function TeamPage() {
                             <tr><td colSpan={4} className="text-center py-8 text-zinc-500 text-sm">No se encontraron registros.</td></tr>
                         ) : (
                             users.map((user) => (
-                                <tr key={user.id} onClick={() => router.push(`/dashboard/team/${user.id}`)}  className="hover:bg-zinc-800/20 transition-colors group">
+                                <tr
+                                    key={user.id}
+                                    onClick={() => router.push(`/dashboard/team/${user.id}`)}
+                                    className="hover:bg-zinc-800/20 transition-colors group">
                                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest border ${
                           user.role === 'admin' ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' :
