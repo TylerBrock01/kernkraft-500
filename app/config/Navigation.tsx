@@ -1,5 +1,5 @@
 // Definimos los roles exactos que te devuelve NestJS
-export type AppRole = 'admin' | 'vendedor' | 'almacen';
+export type AppRole = 'admin' | 'vendedor' | 'almacen'| 'super_admin';
 
 export interface MenuItem {
     name: string;
