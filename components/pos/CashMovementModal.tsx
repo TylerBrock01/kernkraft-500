@@ -22,7 +22,7 @@ export default function CashMovementModal({ isOpen, onClose, onSuccess }: CashMo
 
         try {
             // ⚠️ Ajusta la ruta '/cash-movement' al prefijo real de tu controlador NestJS
-            await api.post('/cash-movement', {
+            await api.post('/cash-movements', {
                 type,
                 amount: Number(amount),
                 reason
