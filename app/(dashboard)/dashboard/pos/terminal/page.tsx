@@ -5,6 +5,7 @@ import { api } from '@/app/lib/axios/axios';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import CustomerDrawer from "@/components/customers/CustomerDrawer";
 
 // Tipos extraídos de tu backend
 type TransactionType = 'SALE' | 'RENTAL';
@@ -20,6 +21,10 @@ export default function POSTerminalPage() {
     const [products, setProducts] = useState<any[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [isLoading, setIsLoading] = useState(true);
+    const [selectedCustomer, setSelectedCustomer] = useState<any>(null);
+    const [customerSearch, setCustomerSearch] = useState('');
+    const [customerResults, setCustomerResults] = useState<any[]>([]);
+    const [isCustomerDrawerOpen, setIsCustomerDrawerOpen] = useState(false);
 
     // 🛒 ESTADOS DEL CARRITO Y TICKET
     const [cart, setCart] = useState<CartItem[]>([]);
@@ -46,9 +51,23 @@ export default function POSTerminalPage() {
         };
 
         // Un pequeño delay para no saturar la red al escribir
-        const delayDebounceFn = setTimeout(() => { fetchProducts(); }, 300);
+        const searchCustomers = async () => {
+            if (customerSearch.length < 2) {
+                setCustomerResults([]);
+                return;
+            }
+            try {
+                const response = await api.get('/customers', { params: { search: customerSearch, take: 5 } });
+                // Ajusta según cómo devuelve la data tu controlador (arreglo directo o { customers: [] })
+                setCustomerResults(response.data.customers || response.data || []);
+            } catch (error) {
+                console.error('Error buscando clientes', error);
+            }
+        };
+
+        const delayDebounceFn = setTimeout(() => { searchCustomers(),fetchProducts(); }, 300);
         return () => clearTimeout(delayDebounceFn);
-    }, [searchTerm]);
+    }, [customerSearch,searchTerm]);
 
     // 2. LÓGICA DEL CARRITO
     const addToCart = (product: any) => {
@@ -111,6 +130,7 @@ export default function POSTerminalPage() {
         try {
             // Armamos el Payload exacto como lo pide tu Entity/DTO
             const payload = {
+                customerId: selectedCustomer ? selectedCustomer.id : null, // 👈 Se agrega aquí
                 type: transactionType,
                 paymentMethod,
                 total,
@@ -200,7 +220,58 @@ export default function POSTerminalPage() {
             PANEL DERECHO: EL TICKET / CARRITO
             ========================================= */}
                 <div className="w-96 bg-zinc-900 border-l border-zinc-800 flex flex-col shrink-0">
+                    {/* 👤 SECCIÓN DE CLIENTE */}
+                    <div className="p-4 border-b border-zinc-800 bg-zinc-950 relative z-10">
+                        {!selectedCustomer ? (
+                            <div className="relative">
+                                <div className="flex gap-2">
+                                    <input
+                                        type="text"
+                                        value={customerSearch}
+                                        onChange={(e) => setCustomerSearch(e.target.value)}
+                                        placeholder="Vincular Cliente (Opcional)"
+                                        className="flex-1 bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-blue-500 transition-colors"
+                                    />
+                                    <button onClick={() => setIsCustomerDrawerOpen(true)} className="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-lg text-xs font-bold text-zinc-300 transition-colors">
+                                        + Nuevo
+                                    </button>
+                                </div>
 
+                                {/* Menú Flotante de Resultados de Búsqueda */}
+                                {customerResults.length > 0 && (
+                                    <div className="absolute top-full left-0 w-full mt-1 bg-zinc-800 border border-zinc-700 rounded-lg shadow-xl overflow-hidden z-50">
+                                        {customerResults.map(c => (
+                                            <button
+                                                key={c.id}
+                                                onClick={() => { setSelectedCustomer(c); setCustomerSearch(''); setCustomerResults([]); }}
+                                                className="w-full text-left px-4 py-2 text-xs text-zinc-200 hover:bg-blue-600 hover:text-white transition-colors flex justify-between items-center"
+                                            >
+                                                <span>{c.name}</span>
+                                                {c.hasRetainedId && <span className="text-[9px] uppercase font-bold tracking-widest text-emerald-400 bg-emerald-900/30 px-1.5 py-0.5 rounded">ID Retenida</span>}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            // Cliente Seleccionado Activo
+                            <div className="flex justify-between items-center bg-blue-900/10 border border-blue-900/30 rounded-lg p-2.5">
+                                <div className="flex items-center gap-3 overflow-hidden">
+                                    <div className="w-8 h-8 rounded-full bg-blue-600/20 text-blue-500 flex items-center justify-center font-bold text-sm shrink-0">
+                                        {selectedCustomer.name.charAt(0)}
+                                    </div>
+                                    <div className="truncate">
+                                        <p className="text-xs font-bold text-blue-100 truncate">{selectedCustomer.name}</p>
+                                        <div className="flex gap-2 items-center">
+                                            {selectedCustomer.phone && <p className="text-[9px] font-mono text-blue-300/70">{selectedCustomer.phone}</p>}
+                                            {selectedCustomer.hasRetainedId && <span className="text-[8px] font-bold uppercase tracking-widest text-emerald-400">🛡️ ID Retenida</span>}
+                                        </div>
+                                    </div>
+                                </div>
+                                <button onClick={() => setSelectedCustomer(null)} className="w-6 h-6 flex items-center justify-center rounded-md hover:bg-red-500/20 text-zinc-500 hover:text-red-500 transition-colors">✕</button>
+                            </div>
+                        )}
+                    </div>
                     {/* Tipo de Operación (Venta / Renta) */}
                     <div className="p-4 border-b border-zinc-800 bg-zinc-950/50">
                         <div className="flex rounded-lg bg-zinc-900 p-1 border border-zinc-800">
@@ -316,6 +387,12 @@ export default function POSTerminalPage() {
                     </div>
                 </div>
             </div>
+            <CustomerDrawer
+                isOpen={isCustomerDrawerOpen}
+                onClose={() => setIsCustomerDrawerOpen(false)}
+                onSuccess={(newCustomer) => {
+                    setSelectedCustomer(newCustomer); // Lo autoselecciona en el ticket al crearlo
+                }}/>
         </div>
     );
 }
