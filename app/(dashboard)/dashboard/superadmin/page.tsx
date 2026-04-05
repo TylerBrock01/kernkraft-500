@@ -1,11 +1,16 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+// 🚀 1. Importamos el Router
+import { useRouter } from 'next/navigation';
 import { api } from '@/app/lib/axios/axios';
 import toast from 'react-hot-toast';
 import CreateBusinessModal from '@/components/superadmin/CreateBusinessModal';
 
 export default function SuperAdminPage() {
+    // 🚀 2. Inicializamos el Router
+    const router = useRouter();
+
     const [businesses, setBusinesses] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,7 +20,6 @@ export default function SuperAdminPage() {
         const fetchBusinesses = async () => {
             setIsLoading(true);
             try {
-                // Asumiendo que tu endpoint para listar todos los negocios es GET /business
                 const response = await api.get('/business');
                 setBusinesses(Array.isArray(response.data) ? response.data : response.data.data || []);
             } catch (error) {
@@ -66,7 +70,13 @@ export default function SuperAdminPage() {
                             <tr><td colSpan={5} className="text-center py-10 text-zinc-500 font-mono text-sm">El servidor no tiene instancias activas.</td></tr>
                         ) : (
                             businesses.map((biz) => (
-                                <tr key={biz.id} className="hover:bg-zinc-800/30 transition-colors group cursor-default">
+                                <tr
+                                    key={biz.id}
+                                    // 🚀 3. EL DETONADOR: Al hacer clic, viajamos al expediente
+                                    onClick={() => router.push(`/dashboard/superadmin/${biz.id}`)}
+                                    // 🚀 4. UX: Cambiamos cursor-default por cursor-pointer
+                                    className="hover:bg-zinc-800/30 transition-colors group cursor-pointer"
+                                >
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-3">
                                             <div
@@ -97,7 +107,8 @@ export default function SuperAdminPage() {
                       </span>
                                     </td>
                                     <td className="px-6 py-4 text-right">
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-bold tracking-widest border bg-emerald-900/20 text-emerald-400 border-emerald-900/50">
+                                        {/* Aquí más adelante podemos conectar un isActive real del backend */}
+                                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-bold tracking-widest border bg-emerald-900/20 text-emerald-400 border-emerald-900/50">
                         <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
                         ONLINE
                       </span>
@@ -113,7 +124,7 @@ export default function SuperAdminPage() {
             <CreateBusinessModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                onSuccess={() => setRefreshKey(prev => prev + 1)} // Detonador de recarga inmediata
+                onSuccess={() => setRefreshKey(prev => prev + 1)}
             />
         </div>
     );
