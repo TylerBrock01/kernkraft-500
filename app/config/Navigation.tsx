@@ -24,7 +24,7 @@ export const SIDEBAR_MENU: MenuItem[] = [
     },
     {
         name: 'Terminal POS',
-        path: '/pos',
+        path: '/dashboard/pos',
         icon: '💳',
         allowedRoles: ['admin', 'vendedor'] // Almacén no toca la caja
     },
