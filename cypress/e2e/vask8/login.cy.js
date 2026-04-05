@@ -1,6 +1,6 @@
 describe('Login', () => {
     const admin = {
-        "email": "test@pirata.com",
+        "email": "cto.admin@caza.com",
         "password": "Password123!"
     }
     const vendedor = {

@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'https://kernkraft-500-26jy.vercel.app/'
+                hostname: 'kernkraft-500-26jy.vercel.app/'
             },
             {
                 protocol:'https',
