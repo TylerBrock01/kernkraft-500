@@ -21,25 +21,25 @@ export const SIDEBAR_MENU: MenuItem[] = [
         name: 'transacciones',
         path: '/dashboard/transactions',
         icon: '📊',
-        allowedRoles: ['admin']
+        allowedRoles: ['super_admin','admin']
     },
     {
         name: 'Personal',
         path: '/dashboard/team',
         icon: '👥',
-        allowedRoles: ['admin'] // Todos entran aquí
+        allowedRoles: ['super_admin','admin'] // Todos entran aquí
     },
     {
         name: 'Terminal POS',
         path: '/dashboard/pos',
         icon: '💳',
-        allowedRoles: ['admin', 'vendedor'] // Almacén no toca la caja
+        allowedRoles: ['super_admin','admin', 'vendedor'] // Almacén no toca la caja
     },
     {
         name: 'Inventario',
         path: '/dashboard/inventory',
         icon: '📦',
-        allowedRoles: ['admin', 'almacen'] // vendedor no edita inventario
+        allowedRoles: ['super_admin','admin', 'almacen'] // vendedor no edita inventario
     },
     {
         name: 'Negocios',
