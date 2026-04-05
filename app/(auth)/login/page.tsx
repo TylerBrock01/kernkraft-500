@@ -14,28 +14,26 @@ export default function LoginPage() {
     const router = useRouter();
     const { login } = useAuth();
 
-    const handleLogin = async (e: React.FormEvent) => {
+    // En tu componente de Login:
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError(''); // Limpiamos errores previos
-
         try {
-            // Disparamos al puerto 3000
             const response = await api.post('/auth/login', { email, password });
 
-            // Extraemos lo que nos mandó NestJS
-            const { access_token, user } = response.data;
+            // 🚀 1. PON ESTE RADAR AQUÍ
+            console.log("Respuesta del Backend:", response.data);
 
-            // Guardamos en nuestro Estado Global y Cookies
-            login(access_token, user);
+            // 2. Ajusta estas variables según lo que veas en la consola
+            // Ejemplo: Si en la consola dice "access_token", cambia response.data.token
+            const elToken = response.data.token; // O response.data.access_token
+            const elUsuario = response.data.user; // O response.data.userData
 
-            // Redirigimos al panel de control protegido
-            router.push('/dashboard');
+            login(elToken, elUsuario);
 
-        } catch (err: any) {
-            // Si NestJS nos manda un 401, lo atrapamos aquí
-            setError(err.response?.data?.message || 'Error en las credenciales. Acceso denegado.');
+        } catch (error) {
+            console.error("Error de credenciales", error);
         }
-    };
+    }
 
     return (
         <div className="min-h-screen bg-zinc-950 flex flex-col justify-center items-center relative overflow-hidden px-4">
@@ -63,7 +61,7 @@ export default function LoginPage() {
                     </div>
 
                     {/* Formulario */}
-                    <form onSubmit={handleLogin} className="space-y-5">
+                    <form onSubmit={handleSubmit} className="space-y-5">
 
                         <div className="space-y-1.5">
                             <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 ml-1">
