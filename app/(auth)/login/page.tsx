@@ -29,7 +29,7 @@ export default function LoginPage() {
             const elUsuario = response.data.user; // O response.data.userData
 
             login(elToken, elUsuario);
-
+            router.push('/dashboard');
         } catch (error) {
             console.error("Error de credenciales", error);
         }
