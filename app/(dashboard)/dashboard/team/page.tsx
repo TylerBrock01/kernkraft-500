@@ -86,8 +86,7 @@ export default function TeamPage() {
                             <tr><td colSpan={4} className="text-center py-8 text-zinc-500 text-sm">No se encontraron registros.</td></tr>
                         ) : (
                             users.map((user) => (
-                                <tr
-                                    key={user.id}
+                                <tr key={user.id}
                                     onClick={() => router.push(`/dashboard/team/${user.id}`)}
                                     className="hover:bg-zinc-800/20 transition-colors group">
                                     <td className="px-6 py-4">
