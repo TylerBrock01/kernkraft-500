@@ -15,7 +15,7 @@ export const SIDEBAR_MENU: MenuItem[] = [
         name: 'Centro de Mando',
         path: '/dashboard',
         icon: '⌘',
-        allowedRoles: ['admin', 'vendedor', 'almacen'] // Todos entran aquí
+        allowedRoles: ['super_admin','admin', 'vendedor', 'almacen'] // Todos entran aquí
     },
     {
         name: 'transacciones',
@@ -42,15 +42,21 @@ export const SIDEBAR_MENU: MenuItem[] = [
         allowedRoles: ['admin', 'almacen'] // vendedor no edita inventario
     },
     {
-        name: 'Cortes de Caja',
-        path: '/dashboard/registers',
-        icon: '🧾',
-        allowedRoles: ['admin', 'vendedor']
+        name: 'Negocios',
+        path: '/dashboard/superadmin',
+        icon: '📦',
+        allowedRoles: ['super_admin'] // vendedor no edita inventario
     },
-    {
-        name: 'Devoluciones',
-        path: '/dashboard/returns',
-        icon: '🔄',
-        allowedRoles: ['admin'] // Solo el dueño autoriza esto
-    },
+    // {
+    //     name: 'Cortes de Caja',
+    //     path: '/dashboard/registers',
+    //     icon: '🧾',
+    //     allowedRoles: ['admin', 'vendedor']
+    // },
+    // {
+    //     name: 'Devoluciones',
+    //     path: '/dashboard/returns',
+    //     icon: '🔄',
+    //     allowedRoles: ['admin'] // Solo el dueño autoriza esto
+    // },
 ];
