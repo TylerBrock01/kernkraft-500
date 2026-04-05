@@ -20,16 +20,25 @@ export default function LoginPage() {
         try {
             const response = await api.post('/auth/login', { email, password });
 
-            // 🚀 1. PON ESTE RADAR AQUÍ
             console.log("Respuesta del Backend:", response.data);
 
-            // 2. Ajusta estas variables según lo que veas en la consola
-            // Ejemplo: Si en la consola dice "access_token", cambia response.data.token
-            const elToken = response.data.token; // O response.data.access_token
-            const elUsuario = response.data.user; // O response.data.userData
+            // 🛡️ TÁCTICA DE ATRAPE DOBLE:
+            // Si el backend manda 'token', lo toma. Si manda 'access_token', lo toma.
+            const elToken = response.data.token || response.data.access_token;
+            const elUsuario = response.data.user || response.data.userData || response.data;
 
+            // Validamos antes de guardar para no envenenar la cookie
+            if (!elToken) {
+                console.error("CRÍTICO: El backend no envió ningún token válido. Revisa la consola.");
+                return;
+            }
+
+            // 1. Guardamos la sesión
             login(elToken, elUsuario);
+
+            // 2. Redirigimos
             router.push('/dashboard');
+
         } catch (error) {
             console.error("Error de credenciales", error);
         }
