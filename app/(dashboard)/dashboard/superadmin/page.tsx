@@ -1,27 +1,35 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-// 🚀 1. Importamos el Router
 import { useRouter } from 'next/navigation';
 import { api } from '@/app/lib/axios/axios';
 import toast from 'react-hot-toast';
 import CreateBusinessModal from '@/components/superadmin/CreateBusinessModal';
 
 export default function SuperAdminPage() {
-    // 🚀 2. Inicializamos el Router
     const router = useRouter();
 
+    // 🚀 1. Separamos la data real de la data filtrada
     const [businesses, setBusinesses] = useState<any[]>([]);
+    const [filteredBusinesses, setFilteredBusinesses] = useState<any[]>([]);
+
     const [isLoading, setIsLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);
 
+    // 🚀 2. Estado para la barra de búsqueda
+    const [searchTerm, setSearchTerm] = useState('');
+
+    // TRAER DATOS DEL BACKEND
     useEffect(() => {
         const fetchBusinesses = async () => {
             setIsLoading(true);
             try {
                 const response = await api.get('/business');
-                setBusinesses(Array.isArray(response.data) ? response.data : response.data.data || []);
+                const data = Array.isArray(response.data) ? response.data : response.data.data || [];
+
+                setBusinesses(data);
+                setFilteredBusinesses(data); // Inicialmente mostramos todos
             } catch (error) {
                 toast.error('Error al contactar el servidor maestro');
             } finally {
@@ -32,22 +40,54 @@ export default function SuperAdminPage() {
         fetchBusinesses();
     }, [refreshKey]);
 
+    // 🚀 3. EL RADAR DE ALTA VELOCIDAD (Filtra en tiempo real sin llamar al backend)
+    useEffect(() => {
+        if (!searchTerm.trim()) {
+            setFilteredBusinesses(businesses);
+            return;
+        }
+
+        const term = searchTerm.toLowerCase();
+        const filtered = businesses.filter(biz =>
+            biz.name.toLowerCase().includes(term) ||
+            biz.slug.toLowerCase().includes(term) ||
+            biz.id.toLowerCase().includes(term)
+        );
+
+        setFilteredBusinesses(filtered);
+    }, [searchTerm, businesses]);
+
     return (
         <div className="w-full h-full flex flex-col pt-4 pb-20">
 
             {/* HEADER DE MANDO */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4 shrink-0">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6 shrink-0">
                 <div>
                     <h1 className="text-3xl font-black text-white tracking-tight uppercase">Red de Instancias</h1>
                     <p className="text-zinc-500 font-mono text-xs mt-1 uppercase tracking-widest">Nivel de Acceso: SuperAdmin // ROOT</p>
                 </div>
 
-                <button
-                    onClick={() => setIsModalOpen(true)}
-                    className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold uppercase tracking-widest rounded-xl transition-colors shadow-[0_0_15px_rgba(37,99,235,0.3)]"
-                >
-                    + Desplegar Nuevo Negocio
-                </button>
+                {/* 🚀 4. EL BUSCADOR Y EL BOTÓN */}
+                <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+                    <div className="relative w-full sm:w-64">
+                        <input
+                            type="text"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            placeholder="Buscar por nombre, slug o ID..."
+                            className="w-full bg-zinc-900/80 border border-zinc-800 text-white text-xs rounded-xl pl-10 pr-4 py-3 outline-none focus:border-blue-500 transition-all shadow-inner"
+                        />
+                        {/* Ícono de Lupa usando SVG simple */}
+                        <svg className="absolute left-3 top-3 w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+
+                    <button
+                        onClick={() => setIsModalOpen(true)}
+                        className="w-full sm:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold uppercase tracking-widest rounded-xl transition-colors shadow-[0_0_15px_rgba(37,99,235,0.3)] shrink-0"
+                    >
+                        + Nueva Instancia
+                    </button>
+                </div>
             </div>
 
             {/* LA TABLA MAESTRA */}
@@ -66,17 +106,21 @@ export default function SuperAdminPage() {
                         <tbody className="divide-y divide-zinc-800/50">
                         {isLoading ? (
                             <tr><td colSpan={5} className="text-center py-10 text-zinc-500 font-mono text-sm animate-pulse">Consultando red de bases de datos...</td></tr>
-                        ) : businesses.length === 0 ? (
-                            <tr><td colSpan={5} className="text-center py-10 text-zinc-500 font-mono text-sm">El servidor no tiene instancias activas.</td></tr>
+                        ) : filteredBusinesses.length === 0 ? (
+                            <tr>
+                                <td colSpan={5} className="text-center py-10 text-zinc-500 font-mono text-sm">
+                                    {searchTerm ? `No se encontró ninguna instancia que coincida con "${searchTerm}"` : 'El servidor no tiene instancias activas.'}
+                                </td>
+                            </tr>
                         ) : (
-                            businesses.map((biz) => (
+                            // 🚀 5. Mapeamos filteredBusinesses en lugar de businesses
+                            filteredBusinesses.map((biz) => (
                                 <tr
                                     key={biz.id}
-                                    // 🚀 3. EL DETONADOR: Al hacer clic, viajamos al expediente
                                     onClick={() => router.push(`/dashboard/superadmin/${biz.id}`)}
-                                    // 🚀 4. UX: Cambiamos cursor-default por cursor-pointer
                                     className="hover:bg-zinc-800/30 transition-colors group cursor-pointer"
                                 >
+                                    {/* ... EL RESTO DE TU FILA QUEDA EXACTAMENTE IGUAL ... */}
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-3">
                                             <div
@@ -107,10 +151,13 @@ export default function SuperAdminPage() {
                       </span>
                                     </td>
                                     <td className="px-6 py-4 text-right">
-                                        {/* Aquí más adelante podemos conectar un isActive real del backend */}
-                                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-bold tracking-widest border bg-emerald-900/20 text-emerald-400 border-emerald-900/50">
-                        <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
-                        ONLINE
+                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-bold tracking-widest border ${
+                          biz.isActive
+                              ? 'bg-emerald-900/20 text-emerald-400 border-emerald-900/50'
+                              : 'bg-red-900/20 text-red-500 border-red-900/50'
+                      }`}>
+                        {biz.isActive && <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>}
+                          {biz.isActive ? 'ONLINE' : 'SUSPENDIDO'}
                       </span>
                                     </td>
                                 </tr>
