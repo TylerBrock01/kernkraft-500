@@ -26,8 +26,7 @@ const nextConfig: NextConfig = {
             },
             {
                 protocol: 'https',
-                hostname: 'media*.giphy.com', // El asterisco permite media0, media1, media2, etc.
-                port: '',
+                hostname: '*.giphy.com', // ✅ Corrección: Comodín absoluto para subdominios
                 pathname: '/media/**',
             },
         ]
