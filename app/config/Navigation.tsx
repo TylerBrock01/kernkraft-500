@@ -16,7 +16,14 @@ export const SIDEBAR_MENU: MenuItem[] = [
         path: '/dashboard',
         icon: '⌘',
         allowedRoles: ['admin', 'vendedor', 'almacen'] // Todos entran aquí
-    },{
+    },
+    {
+        name: 'transacciones',
+        path: '/dashboard/transactions',
+        icon: '📊',
+        allowedRoles: ['admin']
+    },
+    {
         name: 'Personal',
         path: '/dashboard/team',
         icon: '👥',
