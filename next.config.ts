@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'kernkraft-500-git-kernkraft-fevask8-tylerbrock01s-projects.vercel.app'
+                hostname: 'https://kernkraft-500-26jy.vercel.app/'
             },
             {
                 protocol:'https',
@@ -30,10 +30,6 @@ const nextConfig: NextConfig = {
                 port: '',
                 pathname: '/media/**',
             },
-            {
-                protocol:'http',
-                hostname:'localhost',
-            }
         ]
     }
 };
