@@ -62,7 +62,7 @@ export default function TeamDrawer({ isOpen, onClose, onSuccess, userToEdit }: T
             // Preparamos los datos y limpiamos espacios accidentales del UUID
             const payload: any = {
                 ...formData,
-                businessId: formData.businessId.trim()
+                businessId: targetBusinessId
             };
             console.log('Datos a enviar:', payload);
             // 🛡️ Si estamos editando y dejaron la contraseña en blanco, NO la enviamos
@@ -73,7 +73,7 @@ export default function TeamDrawer({ isOpen, onClose, onSuccess, userToEdit }: T
 
             if (userToEdit) {
                 // Modo Edición
-                await api.patch(`/users/${userToEdit.id}`, payload);
+                // await api.patch(`/users/${userToEdit.id}`, payload);
                 toast.success('Expediente actualizado', { id: toastId });
             } else {
                 // Modo Creación
