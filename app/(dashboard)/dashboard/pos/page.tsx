@@ -133,7 +133,11 @@ export default function POSTerminalPage() {
                             <div className="text-right text-zinc-300">${closeSummary.summary.openingBalance.toFixed(2)}</div>
 
                             <div className="text-zinc-500">Ventas en Efectivo:</div>
-                            <div className="text-right text-emerald-400">+ ${closeSummary.summary.salesRevenue.toFixed(2)}</div>
+                            <div className={`text-right ${closeSummary.summary.salesRevenue > 0 ? 'text-emerald-400' : closeSummary.summary.salesRevenue < 0
+                                ? 'text-red-500'
+                                : 'text-gray-400'}` }>
+                                {closeSummary.summary.salesRevenue > 0 ? '+' : ''}
+                                ${closeSummary.summary.salesRevenue.toFixed(2)}</div>
 
                             <div className="text-zinc-500">Dinero Esperado:</div>
                             <div className="text-right font-bold text-white border-t border-zinc-700 pt-2">${closeSummary.summary.expectedBalance.toFixed(2)}</div>
@@ -143,6 +147,7 @@ export default function POSTerminalPage() {
 
                             <div className="text-zinc-500 mt-2">Diferencia:</div>
                             <div className={`text-right font-black mt-2 ${closeSummary.summary.difference < 0 ? 'text-red-500' : 'text-zinc-300'}`}>
+                                {closeSummary.summary.difference > 0 ? '+' : ''}
                                 ${closeSummary.summary.difference.toFixed(2)}
                             </div>
                         </div>
