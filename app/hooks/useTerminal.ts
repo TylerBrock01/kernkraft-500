@@ -1,9 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { api } from '@/app/lib/axios/axios';
 import toast from 'react-hot-toast';
-
-export type PaymentMethod = 'CASH' | 'CARD' | 'TRANSFER';
-export type TransactionType = 'SALE' | 'RENTAL';
+import { PaymentMethod, TransactionType } from '@/app/types';
 
 interface CartItem {
     product: any;
