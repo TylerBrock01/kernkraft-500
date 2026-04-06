@@ -19,5 +19,12 @@ describe('User', () => {
         cy.get('#login-submit-button').click()
         cy.wait(1000)
         cy.get("#side-link-Personal").click()
+        cy.get("#recruit-Button").click()
+        cy.get('#button-role-almacen').click()
+
+        cy.get('#input-create-name').type('test')
+        cy.get('#input-create-email').type('almacen@alma.com')
+        cy.get('#input-create-password').type('Password123!')
+        cy.get('#button-submit-create-user').click()
     })
 })
