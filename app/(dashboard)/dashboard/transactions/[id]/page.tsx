@@ -204,7 +204,18 @@ export default function TransactionAuditPage({ params }: { params: Promise<{ id:
                 {tx.type}
               </span>
                         </div>
-                        <p className="text-zinc-500 font-mono text-xs">UUID: {tx.uuid}</p>
+                        <p
+                            onClick={(e) => {
+                                e.stopPropagation(); // 🛡️ Evita que el click accione la redirección de la fila
+                                navigator.clipboard.writeText(tx.uuid);
+                                toast.success('UUID copiado al portapapeles', {
+                                    icon: '📋',
+                                    style: { background: '#18181b', color: '#fff', border: '1px solid #27272a', fontSize: '12px' }
+                                });
+                            }}
+                            className="text-zinc-500 cursor-copy font-mono text-xs"
+                            title="Copiar UUID"
+                        >UUID: {tx.uuid}</p>
                         <p className="text-zinc-400 text-sm mt-4">Fecha Operación: {new Date(tx.transactionDate).toLocaleString()}</p>
                         {isRental && tx.rentalStatus && (
                             <p className="text-blue-400 font-mono text-xs mt-2 font-bold uppercase tracking-widest">
