@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { api } from '@/app/lib/axios/axios';
 import toast from 'react-hot-toast';
+import { useAuth } from '@/app/context/AuthContext';
 
 interface TeamDrawerProps {
     isOpen: boolean;
@@ -11,8 +12,20 @@ interface TeamDrawerProps {
 }
 
 export default function TeamDrawer({ isOpen, onClose, onSuccess, userToEdit }: TeamDrawerProps) {
+    // 🚀 1. Extraemos al usuario que está usando el sistema en este momento
+    const { user: currentUser } = useAuth();
+
+    // Evaluamos si el que está viendo la pantalla es el SuperAdmin maestro
+    const isSuperAdmin = currentUser?.role === 'super_admin' || currentUser?.role === 'SUPER_ADMIN';
+
     const [formData, setFormData] = useState({
-        name: '', lastName: '', email: '', password: '', phone: '', role: 'vendedor',
+        name: '',
+        lastName: '',
+        email: '',
+        password: '',
+        phone: '',
+        role: 'vendedor',
+        businessId: '', // 🚀 NUEVO: El ancla al negocio
     });
     const [isLoading, setIsLoading] = useState(false);
 
@@ -26,20 +39,31 @@ export default function TeamDrawer({ isOpen, onClose, onSuccess, userToEdit }: T
                 password: '', // NUNCA bajamos la contraseña encriptada. La dejamos vacía.
                 phone: userToEdit.phone || '',
                 role: userToEdit.role || 'vendedor',
+                businessId: userToEdit.businessId || '', // 🚀 Recuperamos el ID si existe
             });
         } else if (!isOpen) {
-            setFormData({ name: '', lastName: '', email: '', password: '', phone: '', role: 'vendedor' });
+            setFormData({ name: '', lastName: '', email: '', password: '', phone: '', role: 'vendedor', businessId: '' });
         }
     }, [userToEdit, isOpen]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        const targetBusinessId = isSuperAdmin ? formData.businessId.trim() : currentUser?.businessId;
+
+        if (!targetBusinessId) {
+            toast.error('Error de seguridad: No se detectó un ID de instancia válido.');
+            return;
+        }
+
+
         setIsLoading(true);
         const toastId = toast.loading(userToEdit ? 'Actualizando credenciales...' : 'Verificando credenciales...');
-
         try {
-            // Preparamos los datos
-            const payload: any = { ...formData };
+            // Preparamos los datos y limpiamos espacios accidentales del UUID
+            const payload: any = {
+                ...formData,
+                businessId: formData.businessId.trim()
+            };
 
             // 🛡️ Si estamos editando y dejaron la contraseña en blanco, NO la enviamos
             // (Para que NestJS no intente hashear un string vacío)
@@ -89,6 +113,27 @@ export default function TeamDrawer({ isOpen, onClose, onSuccess, userToEdit }: T
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-6 flex-1 flex flex-col">
+
+                            {/* 🔗 VÍNCULO DE NEGOCIO (UUID) */}
+                            {isSuperAdmin && (
+                                <div className="bg-blue-950/10 border border-blue-900/30 p-4 rounded-xl">
+                                    <label className="text-[10px] font-bold uppercase tracking-widest text-blue-400 mb-2 block">
+                                        Instancia (Business UUID) *
+                                    </label>
+                                    <div className="relative">
+                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-500/50">🔗</span>
+                                        <input
+                                            required={isSuperAdmin} // Solo es requerido en el HTML si es superadmin
+                                            type="text"
+                                            value={formData.businessId}
+                                            onChange={e => setFormData({...formData, businessId: e.target.value})}
+                                            className="w-full pl-9 pr-4 py-2.5 bg-zinc-950 border border-blue-900/50 text-blue-300 font-mono text-sm rounded-lg outline-none focus:border-blue-400 shadow-inner placeholder-blue-900/30"
+                                            placeholder="Ej. 123e4567-e89b..."
+                                        />
+                                    </div>
+                                </div>
+                            )}
+
                             <div>
                                 <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 ml-1">Nivel de Acceso</label>
                                 <div className="grid grid-cols-3 gap-2 mt-2">
