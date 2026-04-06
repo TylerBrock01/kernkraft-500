@@ -138,7 +138,7 @@ export default function TeamDrawer({ isOpen, onClose, onSuccess, userToEdit }: T
                                 <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 ml-1">Nivel de Acceso</label>
                                 <div className="grid grid-cols-3 gap-2 mt-2">
                                     {['admin', 'almacen', 'vendedor'].map((r) => (
-                                        <button key={r} type="button" onClick={() => setFormData({ ...formData, role: r })} className={`py-2 text-[10px] uppercase tracking-widest font-bold rounded-lg border transition-all ${formData.role === r ? 'bg-blue-600 text-white border-blue-500 shadow-[0_0_15px_rgba(37,99,235,0.3)]' : 'bg-zinc-900/50 text-zinc-500 border-zinc-800 hover:border-zinc-600'}`}>
+                                        <button id={`button-role-${r}`} key={r} type="button" onClick={() => setFormData({ ...formData, role: r })} className={`py-2 text-[10px] uppercase tracking-widest font-bold rounded-lg border transition-all ${formData.role === r ? 'bg-blue-600 text-white border-blue-500 shadow-[0_0_15px_rgba(37,99,235,0.3)]' : 'bg-zinc-900/50 text-zinc-500 border-zinc-800 hover:border-zinc-600'}`}>
                                             {r}
                                         </button>
                                     ))}
