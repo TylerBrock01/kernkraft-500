@@ -15,7 +15,7 @@ export default function CreateBusinessModal({ isOpen, onClose, onSuccess }: Crea
         name: '',
         slug: '',
         plan: 'LITE',
-        type: 'RETAIL', // Ajusta los values según tu Enum BusinessType
+        type: 'retail', // Ajusta los values según tu Enum BusinessType
         description: '',
         config: {
             primaryColor: '#3b82f6', // Un azul por defecto
@@ -53,7 +53,7 @@ export default function CreateBusinessModal({ isOpen, onClose, onSuccess }: Crea
             onClose();
             // Reseteo
             setFormData({
-                name: '', slug: '', plan: 'LITE', type: 'RETAIL', description: '',
+                name: '', slug: '', plan: 'lite', type: 'retail', description: '',
                 config: { primaryColor: '#3b82f6', logoUrl: '', currency: 'MXN', taxRate: 16 }
             });
         } catch (error: any) {
@@ -106,7 +106,7 @@ export default function CreateBusinessModal({ isOpen, onClose, onSuccess }: Crea
                                     <select value={formData.type} onChange={e => setFormData({...formData, type: e.target.value})} className="w-full bg-zinc-900 border border-zinc-800 text-white text-sm rounded-lg px-4 py-3 outline-none focus:border-blue-500 cursor-pointer appearance-none">
                                         {/* Reemplaza estas opciones con los valores exactos de tu Enum BusinessType */}
                                         <option value="retail">Punto de Venta (Retail)</option>
-                                        <option value="rental">Rentas y Alquiler</option>
+                                        {/*<option value="rental">Rentas y Alquiler</option>*/}
                                         <option value="service">Agencia / Servicios</option>
                                         <option value="food">Gastronomía</option>
                                     </select>
