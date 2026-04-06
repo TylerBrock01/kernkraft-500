@@ -64,7 +64,7 @@ export default function TeamDrawer({ isOpen, onClose, onSuccess, userToEdit }: T
                 ...formData,
                 businessId: formData.businessId.trim()
             };
-
+            console.log('Datos a enviar:', payload);
             // 🛡️ Si estamos editando y dejaron la contraseña en blanco, NO la enviamos
             // (Para que NestJS no intente hashear un string vacío)
             if (userToEdit && !payload.password) {
@@ -146,24 +146,24 @@ export default function TeamDrawer({ isOpen, onClose, onSuccess, userToEdit }: T
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
-                                <div><label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 ml-1">Nombre</label><input required type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full mt-1 bg-zinc-900/50 border border-zinc-800 text-zinc-100 text-sm rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-500" /></div>
+                                <div><label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 ml-1">Nombre</label><input id={'input-name'} required type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full mt-1 bg-zinc-900/50 border border-zinc-800 text-zinc-100 text-sm rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-500" /></div>
                                 <div><label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 ml-1">Apellido</label><input type="text" value={formData.lastName} onChange={(e) => setFormData({...formData, lastName: e.target.value})} className="w-full mt-1 bg-zinc-900/50 border border-zinc-800 text-zinc-100 text-sm rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-500" /></div>
                             </div>
 
-                            <div><label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 ml-1">Correo Electrónico</label><input required type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="w-full mt-1 bg-zinc-900/50 border border-zinc-800 text-zinc-100 text-sm rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-500" /></div>
+                            <div><label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 ml-1">Correo Electrónico</label><input id={'input-email'} required type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="w-full mt-1 bg-zinc-900/50 border border-zinc-800 text-zinc-100 text-sm rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-500" /></div>
 
                             <div>
                                 <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 ml-1 flex justify-between">
                                     <span>Contraseña de Acceso</span>
                                     {userToEdit && <span className="text-zinc-600">(Opcional si no cambia)</span>}
                                 </label>
-                                <input required={!userToEdit} type="password" minLength={6} value={formData.password} onChange={(e) => setFormData({...formData, password: e.target.value})} className="w-full mt-1 bg-zinc-900/50 border border-zinc-800 text-zinc-100 text-sm rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-500 font-mono tracking-widest placeholder-zinc-700" placeholder={userToEdit ? 'Dejar en blanco para mantener' : '••••••••'} />
+                                <input id={'input-password'} required={!userToEdit} type="password" minLength={6} value={formData.password} onChange={(e) => setFormData({...formData, password: e.target.value})} className="w-full mt-1 bg-zinc-900/50 border border-zinc-800 text-zinc-100 text-sm rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-500 font-mono tracking-widest placeholder-zinc-700" placeholder={userToEdit ? 'Dejar en blanco para mantener' : '••••••••'} />
                             </div>
 
                             <div><label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 ml-1">Teléfono</label><input type="text" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} className="w-full mt-1 bg-zinc-900/50 border border-zinc-800 text-zinc-100 text-sm rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-500 font-mono" /></div>
 
                             <div className="pt-6 mt-auto border-t border-zinc-800 shrink-0">
-                                <button type="submit" disabled={isLoading} className="w-full bg-zinc-100 text-zinc-950 font-bold text-xs uppercase tracking-widest py-4 rounded-lg hover:bg-white transition-all disabled:opacity-50">
+                                <button id={'button-submit'} type="submit" disabled={isLoading} className="w-full bg-zinc-100 text-zinc-950 font-bold text-xs uppercase tracking-widest py-4 rounded-lg hover:bg-white transition-all disabled:opacity-50">
                                     {isLoading ? 'Procesando...' : userToEdit ? 'Guardar Cambios' : 'Otorgar Acceso'}
                                 </button>
                             </div>
