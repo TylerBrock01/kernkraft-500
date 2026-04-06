@@ -60,6 +60,7 @@ export default function TeamPage() {
                     <SearchInput onSearch={handleSearch} />
 
                     <button
+                        id={"recruit-Button"}
                         onClick={() => setIsDrawerOpen(true)}
                         className="bg-zinc-100 text-zinc-950 px-5 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-white transition-all flex items-center gap-2 shrink-0"
                     >
