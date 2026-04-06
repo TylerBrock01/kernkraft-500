@@ -113,7 +113,18 @@ export default function BusinessDetailPage({ params }: { params: Promise<{ id: s
                   {business.isActive ? 'ONLINE' : 'OFFLINE'}
                 </span>
                             </h1>
-                            <p className="text-zinc-500 font-mono text-xs mt-1">ID: {business.id}</p>
+                            <p
+                                onClick={(e) => {
+                                    e.stopPropagation(); // 🛡️ Evita que el click accione la redirección de la fila
+                                    navigator.clipboard.writeText(business.id);
+                                    toast.success('UUID copiado al portapapeles', {
+                                        icon: '📋',
+                                        style: { background: '#18181b', color: '#fff', border: '1px solid #27272a', fontSize: '12px' }
+                                    });
+                                }}
+                                className="text-zinc-500 font-mono text-xs mt-1 cursor-copy"
+                                title="Clic para copiar UUID"
+                            >ID: {business.id}</p>
                             <div className="flex gap-2 mt-3">
                                 <span className="px-2 py-1 bg-zinc-800 text-zinc-300 border border-zinc-700 text-[10px] font-bold uppercase tracking-widest rounded-md">/{business.slug}</span>
                                 <span className="px-2 py-1 bg-blue-900/20 text-blue-400 border border-blue-900/50 text-[10px] font-bold uppercase tracking-widest rounded-md">{business.plan}</span>
