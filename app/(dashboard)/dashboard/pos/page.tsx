@@ -14,7 +14,7 @@ import {useCashRegister} from "@/app/hooks/useCashRegister";
 
 export default function POSTerminalPage() {
     const vault = useCashRegister();
-
+    // refactor
     if (vault.isLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center text-zinc-500 font-mono text-xs uppercase tracking-widest animate-pulse">
