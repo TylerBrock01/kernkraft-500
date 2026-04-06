@@ -54,7 +54,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         if (!canSee) return null; // Si no tiene permiso, la opción ni siquiera se dibuja
 
                         return (
-                            <Link id={item.name} href={`${item.path}`} key={item.name} className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-zinc-500 hover:text-zinc-100 hover:bg-zinc-900/50 transition-all uppercase tracking-widest text-[10px] group">
+                            <Link id={`side-link-${item.name}`} href={`${item.path}`} key={item.name} className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-zinc-500 hover:text-zinc-100 hover:bg-zinc-900/50 transition-all uppercase tracking-widest text-[10px] group">
                                 <span className="text-sm opacity-50 group-hover:opacity-100">{item.icon}</span>
                                 {item.name}
                             </Link>
