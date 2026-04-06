@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {PaymentMethod} from "@/app/(dashboard)/dashboard/pos/terminal/page";
+import {PaymentMethod} from "@/app/types";
 
 // Definimos una interfaz robusta para las propiedades
 interface CartPanelProps {
