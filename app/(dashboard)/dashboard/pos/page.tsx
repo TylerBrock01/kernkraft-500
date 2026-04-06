@@ -140,7 +140,7 @@ export default function POSTerminalPage() {
                                 ${closeSummary.summary.salesRevenue.toFixed(2)}</div>
 
                             <div className="text-zinc-500">Dinero Esperado:</div>
-                            <div className="text-right font-bold text-white border-t border-zinc-700 pt-2">${closeSummary.summary.expectedBalance.toFixed(2)}</div>
+                            <div className="text-right font-bold text-yellow-500 border-t border-zinc-700 pt-2">${closeSummary.summary.expectedBalance.toFixed(2)}</div>
 
                             <div className="text-zinc-500">Efectivo Físico Contado:</div>
                             <div className="text-right font-bold text-white">${closeSummary.summary.actualBalance.toFixed(2)}</div>
