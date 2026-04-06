@@ -73,7 +73,7 @@ export default function TeamDrawer({ isOpen, onClose, onSuccess, userToEdit }: T
 
             if (userToEdit) {
                 // Modo Edición
-                // await api.patch(`/users/${userToEdit.id}`, payload);
+                await api.patch(`/users/${userToEdit.id}`, payload);
                 toast.success('Expediente actualizado', { id: toastId });
             } else {
                 // Modo Creación
