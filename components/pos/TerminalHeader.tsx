@@ -12,7 +12,7 @@ export default function TerminalHeader({ searchTerm, setSearchTerm }: TerminalHe
     return (
         <header className="min-h-[4rem] py-3 md:py-0 border-b border-zinc-800 bg-zinc-900/50 flex flex-col sm:flex-row items-center justify-between px-4 md:px-6 shrink-0 gap-3 z-30">
             <div className="flex items-center justify-between w-full sm:w-auto gap-4">
-                <button onClick={() => router.push('/dashboard')} className="w-8 h-8 flex items-center justify-center rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-400 transition-colors shrink-0">
+                <button onClick={() => router.push('/dashboard/pos')} className="w-8 h-8 flex items-center justify-center rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-400 transition-colors shrink-0">
                     ←
                 </button>
                 <h1 className="font-black text-base md:text-lg tracking-widest uppercase truncate">Terminal CAZA</h1>
