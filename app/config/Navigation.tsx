@@ -47,12 +47,12 @@ export const SIDEBAR_MENU: MenuItem[] = [
         icon: '📦',
         allowedRoles: ['super_admin'] // vendedor no edita inventario
     },
-    // {
-    //     name: 'Cortes de Caja',
-    //     path: '/dashboard/registers',
-    //     icon: '🧾',
-    //     allowedRoles: ['admin', 'vendedor']
-    // },
+    {
+        name: 'Tickets',
+        path: '/ticket',
+        icon: '🧾',
+        allowedRoles: ['super_admin','admin', 'vendedor','almacen']
+    },
     // {
     //     name: 'Devoluciones',
     //     path: '/dashboard/returns',
