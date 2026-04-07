@@ -29,14 +29,14 @@ export default function Navbar() {
             <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
 
                 {/* LOGO: Minimalista y fuerte */}
-                <div className="flex items-center gap-2 group cursor-pointer">
+                <Link href={'/'} className="flex items-center gap-2 group cursor-pointer">
                     <div className="w-8 h-8 bg-zinc-100 rounded-sm flex items-center justify-center group-hover:bg-blue-500 transition-colors duration-500">
                         <span className="text-zinc-950 font-black text-xs">C</span>
                     </div>
                     <span className="text-xl font-bold tracking-tighter text-zinc-100">
             CRUX <span className="text-zinc-500 font-light italic">AERO</span>
           </span>
-                </div>
+                </Link>
 
                 {/* NAVEGACIÓN: Estilo MCU / HUD */}
                 <nav className="hidden md:flex items-center gap-8">

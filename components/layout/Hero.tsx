@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from "next/link";
 
 const HERO_IMAGE_URL = "https://res.cloudinary.com/tyler-brock/image/upload/v1775171091/CazaHeroImage_gi6wai.jpg";
 
@@ -44,9 +45,9 @@ export default function Hero() {
                     <button className="w-full sm:w-auto px-10 py-4 rounded-sm bg-zinc-100 text-zinc-950 font-bold hover:bg-white transition-all uppercase tracking-widest text-xs">
                         Solicitar Demo
                     </button>
-                    <button className="w-full sm:w-auto px-10 py-4 rounded-sm bg-transparent border border-zinc-700 text-zinc-300 font-bold hover:bg-zinc-900/50 hover:text-white transition-all uppercase tracking-widest text-xs backdrop-blur-sm">
+                    <Link href={'/pricing'} className="w-full sm:w-auto px-10 py-4 rounded-sm bg-transparent border border-zinc-700 text-zinc-300 font-bold hover:bg-zinc-900/50 hover:text-white transition-all uppercase tracking-widest text-xs backdrop-blur-sm">
                         Explorar el Motor
-                    </button>
+                    </Link>
                 </div>
             </div>
 
