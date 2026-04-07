@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 // 🎨 IMPORTAMOS TUS TEMAS PERSONALIZADOS
 import { motion } from "framer-motion";
 import HotdogsDemo from "@/components/themes/HotDogsDemo";
+import MadeByAyax from "@/components/themes/Made-by-ayax";
 // import BarberiaDemo from '@/components/themes/BarberiaDemo';
 
 export default function TenantPublicPage({ params }: { params: Promise<{ tenant: string }> }) {
@@ -48,6 +49,9 @@ export default function TenantPublicPage({ params }: { params: Promise<{ tenant:
 
     if (tenantSlug === 'hotdogs') {
         return <HotdogsDemo />;
+    }
+    if (tenantSlug === 'made-by-ayax') {
+        return <MadeByAyax/>
     }
 
     // if (tenantSlug === 'barberia-bro') {
