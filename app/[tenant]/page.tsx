@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { motion } from "framer-motion";
 import HotdogsDemo from "@/components/themes/HotDogsDemo";
 import MadeByAyax from "@/components/themes/Made-by-ayax";
+import BurritoThemeMockup from "@/components/themes/Burritos";
 // import BarberiaDemo from '@/components/themes/BarberiaDemo';
 
 export default function TenantPublicPage({ params }: { params: Promise<{ tenant: string }> }) {
@@ -52,6 +53,9 @@ export default function TenantPublicPage({ params }: { params: Promise<{ tenant:
     }
     if (tenantSlug === 'made-by-ayax') {
         return <MadeByAyax/>
+    }
+    if (tenantSlug === 'burritos') {
+        return <BurritoThemeMockup/>
     }
 
     // if (tenantSlug === 'barberia-bro') {
