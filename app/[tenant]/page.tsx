@@ -10,6 +10,7 @@ import HotdogsDemo from "@/components/themes/HotDogsDemo";
 import MadeByAyax from "@/components/themes/Made-by-ayax";
 import BurritoThemeMockup from "@/components/themes/Burritos";
 import TamalesThemeMockup from "@/components/themes/Tamales";
+import TortasFightTheme from "@/components/themes/Tortas";
 // import BarberiaDemo from '@/components/themes/BarberiaDemo';
 
 export default function TenantPublicPage({ params }: { params: Promise<{ tenant: string }> }) {
@@ -60,6 +61,9 @@ export default function TenantPublicPage({ params }: { params: Promise<{ tenant:
     }
     if (tenantSlug === 'tamales'){
         return <TamalesThemeMockup/>
+    }
+    if (tenantSlug ==='tortas'){
+        return <TortasFightTheme/>
     }
 
     // if (tenantSlug === 'barberia-bro') {
