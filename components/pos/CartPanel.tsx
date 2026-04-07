@@ -55,7 +55,7 @@ export default function CartPanel(props: CartPanelProps) {
 
             {/* 🛒 EL PANEL (Fijo en PC, Drawer en Móvil) */}
             <div className={`
-                fixed inset-y-0 right-0 z-50 w-[85%] max-w-sm bg-zinc-900 flex flex-col shadow-2xl border-l border-zinc-800
+                fixed inset-y-0 right-0 z-50 w-full max-w-sm bg-zinc-900 flex flex-col shadow-2xl border-l border-zinc-800
                 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
                 md:relative md:w-96 md:h-auto md:z-20 md:shadow-none md:translate-x-0
                 ${isMobileOpen ? 'translate-x-0' : 'translate-x-full'}
@@ -64,7 +64,7 @@ export default function CartPanel(props: CartPanelProps) {
                 {/* 📱 HEADER SOLO PARA MÓVIL (Para poder cerrar el ticket) */}
                 <div className="flex md:hidden items-center justify-between p-4 border-b border-zinc-800 bg-zinc-950">
                     <h3 className="font-black text-sm uppercase tracking-widest text-white">Ticket en Curso</h3>
-                    <button onClick={onCloseMobile} className="text-zinc-500 hover:text-white p-1">✕</button>
+                    <button onClick={onCloseMobile} className="text-red-600 hover:text-white p-2">✕</button>
                 </div>
 
                 {/* 👤 SECCIÓN DE CLIENTE */}
@@ -135,7 +135,7 @@ export default function CartPanel(props: CartPanelProps) {
                 </div>
 
                 {/* Zona de Cobro */}
-                <div className="bg-zinc-950 border-t border-zinc-800 p-3 md:p-4 shrink-0 pb-8 md:pb-4">
+                <div className="bg-zinc-950 border-t border-zinc-800 p-3  md:p-4  pb-12 md:pb-4">
 
                     {/* 🚀 EL BLOQUE DE RENTAS RESTAURADO */}
                     <AnimatePresence>
@@ -144,7 +144,7 @@ export default function CartPanel(props: CartPanelProps) {
                                 <div className="space-y-2 md:space-y-3 p-2.5 md:p-3 bg-blue-900/10 border border-blue-900/30 rounded-xl">
                                     <div className="flex justify-between items-center">
                                         <label className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-blue-400">Depósito</label>
-                                        <input type="number" min="0" value={depositAmount} onChange={e => setDepositAmount(Number(e.target.value))} className="w-20 md:w-24 bg-zinc-900 border border-zinc-800 rounded p-1 text-right font-mono text-[10px] md:text-xs text-white outline-none focus:border-blue-500" placeholder="0.00" />
+                                        <input type="number" min="500" value={depositAmount} onChange={e => setDepositAmount(Number(e.target.value))} className="w-20 md:w-24 bg-zinc-900 border border-zinc-800 rounded p-1 text-right font-mono text-[10px] md:text-xs text-white outline-none focus:border-blue-500" placeholder="0.00" />
                                     </div>
                                     <div className="flex justify-between items-center">
                                         <label className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-blue-400">Devolución</label>
