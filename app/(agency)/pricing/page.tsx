@@ -7,14 +7,13 @@ const CAZA_PLANS = [
     {
         name: "CRUX",
         subtitle: "Arquitectura Ligera",
-        price: "$990",
+        price: "$99",
         period: "/ mes",
         description: "Despliegue de presencia digital de alto rendimiento. Ideal para validación de mercado y captación B2C.",
         features: [
             "Diseño UI/UX Premium (Dark Mode/Light Mode)",
             "Infraestructura Edge (Tiempos de carga < 1s)",
             "Dominio corporativo y certificados SSL",
-            "Enrutamiento directo a WhatsApp API",
             "Mantenimiento de servidores incluido"
         ],
         cta: "Desplegar CRUX",
@@ -23,7 +22,7 @@ const CAZA_PLANS = [
     {
         name: "AERO",
         subtitle: "Motor Central",
-        price: "$2,490",
+        price: "$290",
         period: "/ mes",
         description: "Ecosistema operativo completo. Toma el control absoluto de tus ventas, inventario y flujo de efectivo.",
         features: [
