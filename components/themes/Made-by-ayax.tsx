@@ -62,8 +62,6 @@ export default function MadeByAyax() {
             {/* 🔮 HERO SECTION */}
             <section className="relative min-h-[90vh] flex flex-col items-center justify-center overflow-hidden px-4">
                 {/* Efectos de luz misteriosa */}
-                <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-purple-900/20 blur-[150px] rounded-full pointer-events-none animate-pulse duration-[7000ms]"></div>
-                <div className="absolute bottom-0 w-full h-1/2 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent pointer-events-none z-10"></div>
 
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
