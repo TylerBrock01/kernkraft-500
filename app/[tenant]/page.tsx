@@ -54,19 +54,19 @@ export default function TenantPublicPage({ params }: { params: Promise<{ tenant:
     if (tenantSlug === 'hotdogs') {
         return <HotdogsDemo />;
     }
-    if (tenantSlug === 'made-by-ayax') {
+    else if (tenantSlug === 'made-by-ayax') {
         return <MadeByAyax/>
     }
-    if (tenantSlug === 'burritos') {
+    else if (tenantSlug === 'burritos') {
         return <BurritoThemeMockup/>
     }
-    if (tenantSlug === 'tamales'){
+    else if (tenantSlug === 'tamales'){
         return <TamalesThemeMockup/>
     }
-    if (tenantSlug ==='tortas'){
+    else if (tenantSlug ==='tortas'){
         return <TortasFightTheme/>
     }
-    if (tenantSlug ==='burger'){
+    else if (tenantSlug ==='burger'){
         return <BurgerPicnicTheme/>
     }
 
