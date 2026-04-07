@@ -135,7 +135,7 @@ export default function CartPanel(props: CartPanelProps) {
                 </div>
 
                 {/* Zona de Cobro */}
-                <div className="bg-zinc-950 border-t border-zinc-800 p-3  md:p-4  pb-12 md:pb-4">
+                <div className="bg-zinc-950 border-t border-zinc-800 p-3  md:p-4  pb-8 md:pb-4">
 
                     {/* 🚀 EL BLOQUE DE RENTAS RESTAURADO */}
                     <AnimatePresence>
@@ -155,7 +155,7 @@ export default function CartPanel(props: CartPanelProps) {
                         )}
                     </AnimatePresence>
 
-                    <div className="space-y-1.5 md:space-y-2 mb-3 md:mb-4">
+                    <div className="space-y-1.5 md:space-y-2 mb-6 md:mb-4">
                         <div className="flex justify-between text-[10px] md:text-xs text-zinc-500 font-mono"><span>Subtotal Operación</span><span>${subtotal.toFixed(2)}</span></div>
                         {transactionType === 'RENTAL' && depositAmount > 0 && <div className="flex justify-between text-[10px] md:text-xs text-blue-400 font-mono"><span>Depósito</span><span>+ ${depositAmount.toFixed(2)}</span></div>}
                         <div className="flex justify-between items-end mt-2 pt-2 border-t border-zinc-800"><span className="text-[10px] md:text-xs uppercase font-bold tracking-widest text-zinc-400">Total a Cobrar</span><span className="text-2xl md:text-3xl font-black font-mono text-emerald-400">${total.toFixed(2)}</span></div>
@@ -169,7 +169,7 @@ export default function CartPanel(props: CartPanelProps) {
                         ))}
                     </div>
 
-                    <button onClick={handleCheckout} disabled={isProcessing || cart.length === 0} className="w-full py-3 md:py-4 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-black text-xs md:text-sm uppercase tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(16,185,129,0.2)] disabled:opacity-50">
+                    <button onClick={handleCheckout} disabled={isProcessing || cart.length === 0} className="w-full py-3 mb-6 md:py-4 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-black text-xs md:text-sm uppercase tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(16,185,129,0.2)] disabled:opacity-50">
                         {isProcessing ? 'Autorizando...' : 'Confirmar Cobro'}
                     </button>
                 </div>
