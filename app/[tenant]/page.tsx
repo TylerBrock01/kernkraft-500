@@ -11,6 +11,7 @@ import MadeByAyax from "@/components/themes/Made-by-ayax";
 import BurritoThemeMockup from "@/components/themes/Burritos";
 import TamalesThemeMockup from "@/components/themes/Tamales";
 import TortasFightTheme from "@/components/themes/Tortas";
+import BurgerPicnicTheme from "@/components/themes/burger";
 // import BarberiaDemo from '@/components/themes/BarberiaDemo';
 
 export default function TenantPublicPage({ params }: { params: Promise<{ tenant: string }> }) {
@@ -64,6 +65,9 @@ export default function TenantPublicPage({ params }: { params: Promise<{ tenant:
     }
     if (tenantSlug ==='tortas'){
         return <TortasFightTheme/>
+    }
+    if (tenantSlug ==='burger'){
+        return <BurgerPicnicTheme/>
     }
 
     // if (tenantSlug === 'barberia-bro') {
