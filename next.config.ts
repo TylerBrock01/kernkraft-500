@@ -29,6 +29,10 @@ const nextConfig: NextConfig = {
                 hostname: '*.giphy.com', // ✅ Corrección: Comodín absoluto para subdominios
                 pathname: '/media/**',
             },
+            {
+                protocol:'http',
+                hostname:'localhost',
+            }
         ]
     }
 };
