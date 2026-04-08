@@ -30,27 +30,39 @@ export default function CashMovementsLedger() {
     // -------------------------------------------------------------
     const [movements, setMovements] = useState<CashMovement[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [meta, setMeta] = useState({ total: 0, page: 1, lastPage: 1 });
     const [filter, setFilter] = useState<FilterType>('ALL');
+
+    // Estados para Filtros
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
 
     // -------------------------------------------------------------
     // CONEXIÓN CON EL BACKEND
     // -------------------------------------------------------------
+    const fetchMovements = async () => {
+        setIsLoading(true);
+        try {
+            const params = new URLSearchParams({
+                page: currentPage.toString(),
+                limit: '10',
+                ...(startDate && { startDate }),
+                ...(endDate && { endDate }),
+            });
+            const response = await api.get(`/cash-movements?${params}`);
+            setMovements(response.data.data);
+            setMeta(response.data.meta);
+        } catch (error) {
+            toast.error('Error al sincronizar datos');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchMovements = async () => {
-            try {
-                const response = await api.get('/cash-movements');
-                setMovements(response.data);
-            } catch (error) {
-                console.error('Error fetching movements:', error);
-                toast.error('Error al sincronizar el libro mayor');
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
         fetchMovements();
-    }, []);
-
+    }, [currentPage, startDate, endDate]);
     // -------------------------------------------------------------
     // MATEMÁTICAS EN TIEMPO REAL (Memoizadas para rendimiento)
     // -------------------------------------------------------------
@@ -137,7 +149,34 @@ export default function CashMovementsLedger() {
                     </motion.div>
                 </div>
             </header>
+            {/* 🛠️ PANEL DE FILTROS TÉCNICO (Estilo Apple Dark) */}
+            <div className="grid grid-cols-1 md:flex items-end gap-4 mb-8 bg-zinc-900/40 p-6 rounded-2xl border border-zinc-800 backdrop-blur-md">
+                <div className="flex-1">
+                    <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 mb-2 block">Rango de Auditoría</label>
+                    <div className="flex items-center gap-2">
+                        <input
+                            type="date"
+                            value={startDate}
+                            onChange={(e) => { setStartDate(e.target.value); setCurrentPage(1); }}
+                            className="bg-zinc-950 border border-zinc-800 text-xs rounded-lg px-4 py-2.5 outline-none focus:border-blue-500 transition-colors text-zinc-300"
+                        />
+                        <span className="text-zinc-700">/</span>
+                        <input
+                            type="date"
+                            value={endDate}
+                            onChange={(e) => { setEndDate(e.target.value); setCurrentPage(1); }}
+                            className="bg-zinc-950 border border-zinc-800 text-xs rounded-lg px-4 py-2.5 outline-none focus:border-blue-500 transition-colors text-zinc-300"
+                        />
+                    </div>
+                </div>
 
+                <button
+                    onClick={() => { setStartDate(''); setEndDate(''); setCurrentPage(1); }}
+                    className="px-4 py-2.5 text-[10px] font-bold uppercase tracking-widest text-zinc-500 hover:text-zinc-200 transition-colors"
+                >
+                    Limpiar Filtros
+                </button>
+            </div>
             {/* 🎛️ CONTROLES TÁCTICOS */}
             <div className="flex justify-between items-end mb-6 border-b border-zinc-800 pb-4">
                 <div className="flex gap-2 bg-zinc-900/50 p-1 rounded-lg border border-zinc-800 backdrop-blur-sm">
@@ -212,6 +251,29 @@ export default function CashMovementsLedger() {
                     </AnimatePresence>
                 </motion.div>
             )}
+            {/* 📑 PAGINACIÓN (Controles de Navegación) */}
+            <div className="mt-12 flex items-center justify-between border-t border-zinc-800 pt-6">
+                <p className="text-[10px] font-mono text-zinc-500 uppercase">
+                    Mostrando página {meta.page} de {meta.lastPage} ({meta.total} registros)
+                </p>
+
+                <div className="flex gap-2">
+                    <button
+                        disabled={currentPage === 1}
+                        onClick={() => setCurrentPage(prev => prev - 1)}
+                        className="px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-[10px] font-black uppercase tracking-widest disabled:opacity-30 hover:bg-zinc-800 transition-colors"
+                    >
+                        Anterior
+                    </button>
+                    <button
+                        disabled={currentPage === meta.lastPage}
+                        onClick={() => setCurrentPage(prev => prev + 1)}
+                        className="px-4 py-2 bg-zinc-100 text-zinc-950 rounded-lg text-[10px] font-black uppercase tracking-widest disabled:opacity-30 hover:bg-white transition-colors"
+                    >
+                        Siguiente
+                    </button>
+                </div>
+            </div>
         </div>
     );
 }
