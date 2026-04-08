@@ -22,3 +22,11 @@ api.interceptors.request.use((config: any) => {
     }
     return config;
 });
+
+// 🚀 INSTANCIA PÚBLICA (Para clientes finales, sin tokens ni interceptores)
+export const publicApi = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://192.168.0.2:3000',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});

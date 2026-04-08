@@ -1,108 +1,163 @@
 'use client';
 
-import React, { useEffect, useState, use } from 'react';
-import { api } from '@/app/lib/axios/axios';
-import { useRouter } from 'next/navigation';
+import React, {use} from 'react';
+import { motion } from 'framer-motion';
+import {useCatalog} from "@/app/hooks/useCatalog";
 
-// 🎨 IMPORTAMOS TUS TEMAS PERSONALIZADOS
-import { motion } from "framer-motion";
-import HotdogsDemo from "@/components/themes/HotDogsDemo";
-import MadeByAyax from "@/components/themes/Made-by-ayax";
-import BurritoThemeMockup from "@/components/themes/Burritos";
-import TamalesThemeMockup from "@/components/themes/Tamales";
-import TortasFightTheme from "@/components/themes/Tortas";
-import BurgerPicnicTheme from "@/components/themes/burger";
-// import BarberiaDemo from '@/components/themes/BarberiaDemo';
-
-export default function TenantPublicPage({ params }: { params: Promise<{ tenant: string }> }) {
-    const router = useRouter();
+export default function StorefrontPage({ params }: { params: Promise<{ tenant: string }> }) {    // 🔌 Conectamos el Cerebro (Hook) al Cuerpo (UI)
     const resolvedParams = use(params);
-    const tenantSlug = resolvedParams.tenant;
+    const {
+        store,
+        products,
+        meta,
+        isLoading,
+        error,
+        page,
+        setPage,
+        searchInput,
+        setSearchInput
+    } = useCatalog(resolvedParams.tenant);
+    if (error) {
+        return (
+            <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center p-6 font-sans relative overflow-hidden selection:bg-red-500/30">
 
-    const [businessData, setBusinessData] = useState<any>(null);
-    const [products, setProducts] = useState<any[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isAvailable, setIsAvailable] = useState(false);
+                {/* 🚨 Efecto de Alerta / Radar Perdido */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-600/5 blur-[120px] rounded-full pointer-events-none"></div>
 
-    useEffect(() => {
-        const fetchTenantData = async () => {
-            try {
-                const businessRes = await api.get(`/business/slug/${tenantSlug}`);
-                setBusinessData(businessRes.data);
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="relative z-10 text-center max-w-md w-full"
+                >
+                    {/* Icono Técnico Animado */}
+                    <div className="w-24 h-24 mx-auto border border-zinc-800 bg-zinc-900/50 rounded-full flex items-center justify-center mb-8 relative">
+                        <div className="absolute inset-0 rounded-full border border-red-500/30 border-t-red-500 animate-[spin_4s_linear_infinite]"></div>
+                        <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                    </div>
 
-                // Traemos el inventario
-                const productsRes = await api.get(`/products/public/${tenantSlug}`);
-                setProducts(productsRes.data.products || productsRes.data || []);
-            } catch (error: any) {
-                if (error.response && error.response.status === 404) {
-                    setIsAvailable(true);
-                }
-            } finally {
-                setIsLoading(false);
-            }
-        };
+                    <h1 className="text-3xl md:text-4xl font-black text-zinc-100 uppercase tracking-tighter mb-4">
+                        Señal Perdida
+                    </h1>
 
-        if (tenantSlug) fetchTenantData();
-    }, [tenantSlug]);
+                    {/* La caja que muestra el mensaje real del backend */}
+                    <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6 mb-8 backdrop-blur-sm">
+                        <p className="text-zinc-400 font-medium text-sm leading-relaxed">
+                            {error} {/* 👈 Aquí es donde dice: "La tienda 'test' no existe..." */}
+                        </p>
+                    </div>
 
-    if (isLoading) return <div className="min-h-screen bg-black flex items-center justify-center text-white">Cargando ecosistema...</div>;
-    // if (isAvailable) return <div className="min-h-screen bg-black flex items-center justify-center text-white">Este espacio está libre.</div>; // (Aquí va el espectacular que ya hicimos)
+                    <button
+                        onClick={() => window.history.back()}
+                        className="w-full sm:w-auto px-8 py-3 bg-zinc-100 text-zinc-950 hover:bg-white rounded-lg font-black uppercase tracking-widest text-[10px] transition-all"
+                    >
+                        Retroceder
+                    </button>
+                </motion.div>
 
-    // 🧠 EL MOTOR DE TEMAS (SWITCHER)
-    // Dependiendo del slug del negocio, renderizamos una interfaz completamente distinta
-
-    if (tenantSlug === 'hotdogs') {
-        return <HotdogsDemo />;
+                {/* Marca de agua de la Agencia */}
+                <div className="absolute bottom-10 left-0 w-full text-center pointer-events-none">
+                    <p className="text-zinc-700 text-[9px] uppercase tracking-[0.4em] font-bold">
+                        Infraestructura Protegida por CAZA
+                    </p>
+                </div>
+            </div>
+        );
     }
-    else if (tenantSlug === 'made-by-ayax') {
-        return <MadeByAyax/>
-    }
-    else if (tenantSlug === 'burritos') {
-        return <BurritoThemeMockup/>
-    }
-    else if (tenantSlug === 'tamales'){
-        return <TamalesThemeMockup/>
-    }
-    else if (tenantSlug ==='tortas'){
-        return <TortasFightTheme/>
-    }
-    else if (tenantSlug ==='burger'){
-        return <BurgerPicnicTheme/>
-    }
 
-    // if (tenantSlug === 'barberia-bro') {
-    //   return <BarberiaDemo business={businessData} products={products} />;
-    // }
-
-    // 🛡️ FALLBACK: Si es un cliente nuevo y aún no le diseñas su tema único,
-    // le muestras la plantilla genérica oscura y corporativa.
     return (
-        <div className="min-h-screen bg-zinc-950 relative flex items-center justify-center overflow-hidden">
+        <div className="min-h-screen bg-zinc-950 text-zinc-100 selection:bg-blue-500/30 font-sans">
 
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f15_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f15_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+            {/* 🏬 HEADER DE LA TIENDA */}
+            <header className="pt-20 pb-12 px-6 border-b border-zinc-900 text-center">
+                <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-4 text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 to-zinc-500">
+                    {isLoading && !store ? 'Cargando...' : store?.name}
+                </h1>
+                <p className="text-zinc-500 uppercase tracking-widest text-xs font-bold">
+                    Powered by CAZA Engine
+                </p>
+            </header>
 
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="relative z-10 max-w-2xl text-center px-6">
+            <main className="max-w-7xl mx-auto px-6 py-12">
 
-                <div className="inline-block mb-6 px-4 py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 backdrop-blur-md">
-
-                    <span className="text-[10px] uppercase font-bold tracking-widest text-blue-400">Espacio Digital Disponible</span>
-
+                {/* 🔍 BARRA DE BÚSQUEDA TÁCTICA */}
+                <div className="mb-12 max-w-xl mx-auto relative">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <span className="text-zinc-600">⌕</span>
+                    </div>
+                    <input
+                        type="text"
+                        placeholder="Buscar en el inventario..."
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        className="w-full bg-zinc-900/50 border border-zinc-800 text-zinc-100 text-sm rounded-xl pl-10 pr-4 py-4 outline-none focus:border-blue-500 focus:bg-zinc-900 transition-all backdrop-blur-md"
+                    />
+                    {isLoading && (
+                        <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                            <div className="w-4 h-4 border-2 border-zinc-600 border-t-blue-500 rounded-full animate-spin"></div>
+                        </div>
+                    )}
                 </div>
 
-                <h1 className="text-5xl sm:text-7xl font-black text-white tracking-tighter mb-6 lowercase">{tenantSlug}<span className="text-zinc-700">.</span></h1>
+                {/* 🍱 GRID DE PRODUCTOS */}
+                {products.length === 0 && !isLoading ? (
+                    <div className="text-center py-20 text-zinc-500">
+                        {meta.hasSearch
+                            ? `No encontramos "${searchInput}" en el radar.`
+                            : 'El inventario está vacío.'}
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {products.map((product) => (
+                            <motion.div
+                                key={product.id}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-6 hover:border-zinc-700 transition-colors flex flex-col justify-between"
+                            >
+                                <div>
+                                    <div className="w-full h-40 bg-zinc-900 rounded-xl mb-4 border border-zinc-800 flex items-center justify-center text-zinc-700">
+                                        {/* Aquí iría tu etiqueta <img /> o <Image /> */}
+                                        <span>{product.name.charAt(0)}</span>
+                                    </div>
+                                    <h3 className="font-bold text-lg leading-tight mb-2 truncate">{product.name}</h3>
+                                    <p className="text-zinc-500 text-xs line-clamp-2">{product.description}</p>
+                                </div>
 
-                <p className="text-zinc-400 text-lg mb-10 leading-relaxed max-w-xl mx-auto">Este dominio de comercio está vacío. Sé el primero en reclamarlo y lanza tu ecosistema digital completo con toda la potencia del <strong className="text-zinc-200 font-bold">Motor CAZA</strong>.</p>
+                                <div className="mt-6 flex items-center justify-between">
+                                    <span className="font-mono font-black text-xl">${Number(product.price).toFixed(2)}</span>
+                                    <button className="bg-zinc-100 hover:bg-white text-zinc-950 font-bold text-[10px] uppercase tracking-widest px-4 py-2 rounded-lg transition-colors">
+                                        Agregar
+                                    </button>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                )}
 
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-
-                    <button onClick={() => router.push('/register?tenant=' + tenantSlug)} className="w-full sm:w-auto px-8 py-4 bg-white text-zinc-950 font-bold uppercase tracking-widest text-xs rounded-lg hover:scale-105 transition-all shadow-[0_0_30px_rgba(255,255,255,0.2)]">Reclamar este espacio</button>
-
-                    <button onClick={() => router.push('/')} className="w-full sm:w-auto px-8 py-4 bg-transparent border border-zinc-800 text-zinc-300 font-bold uppercase tracking-widest text-xs rounded-lg hover:bg-zinc-900 transition-all">Conocer más</button>
-
-                </div>
-
-            </motion.div>
-
+                {/* 📑 CONTROLES DE PAGINACIÓN */}
+                {meta.lastPage > 1 && (
+                    <div className="mt-16 flex items-center justify-center gap-4">
+                        <button
+                            disabled={page === 1}
+                            onClick={() => setPage(p => p - 1)}
+                            className="w-10 h-10 flex items-center justify-center bg-zinc-900 border border-zinc-800 rounded-full disabled:opacity-30 hover:bg-zinc-800 transition-colors"
+                        >
+                            ←
+                        </button>
+                        <span className="font-mono text-zinc-500 text-sm">
+              {page} / {meta.lastPage}
+            </span>
+                        <button
+                            disabled={page === meta.lastPage}
+                            onClick={() => setPage(p => p + 1)}
+                            className="w-10 h-10 flex items-center justify-center bg-zinc-900 border border-zinc-800 rounded-full disabled:opacity-30 hover:bg-zinc-800 transition-colors"
+                        >
+                            →
+                        </button>
+                    </div>
+                )}
+            </main>
         </div>
     );
 }
