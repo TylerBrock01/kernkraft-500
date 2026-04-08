@@ -89,7 +89,7 @@ export default function TransactionsHistoryPage() {
                             <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Operación</th>
                             <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Método</th>
                             <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500 text-right">Monto Total</th>
-                            <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500 text-right">Cliente</th>
+                            <th className="hidden lg:block px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500 text-right">Cliente</th>
                             <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500 text-right">Estado</th>
                         </tr>
                         </thead>
@@ -114,7 +114,7 @@ export default function TransactionsHistoryPage() {
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
-                                      <span className={`inline-flex items-center px-2 py-1 rounded text-sm tracking-widest border border-yellow-500/60`}>
+                                      <span className={`inline-flex items-center px-2 py-1 rounded text-sm border border-yellow-500/60`}>
                                         ID: {tx.userId}
                                       </span>
                                     </td>
@@ -131,11 +131,11 @@ export default function TransactionsHistoryPage() {
                                     <td className="px-6 py-4 text-right">
                                         <span className="text-sm font-bold font-mono text-emerald-500">${Number(tx.total).toFixed(2)}</span>
                                     </td>
-                                    <td className="px-6 py-4 text-right">
-                                        <span className={`inline-flex items-center text-sm rounded py-1 px-2 tracking-widest ${tx.customerId? 'border border-blue-600' : ''}`}>{ tx.customerId ? `ID:${tx.customerId}` : ''}</span>
+                                    <td className="hidden lg:block px-6 py-4 text-right">
+                                        <span className={`inline-flex items-center text-sm rounded py-1 px-2 ${tx.customerId? 'border border-blue-600' : ''}`}>{ tx.customerId ? `ID:${tx.customerId}` : ''}</span>
                                     </td>
                                     <td className="px-6 py-4 text-right">
-                                      <span className={`text-[10px] font-bold uppercase tracking-widest ${
+                                      <span className={`text-[10px] font-bold uppercase tracking-widest border py-1 px-2 ${
                                           tx.status === 'COMPLETED' ? 'text-emerald-500' :
                                               tx.status === 'CANCELLED' ? 'text-red-500' :
                                                   'text-orange-400'
