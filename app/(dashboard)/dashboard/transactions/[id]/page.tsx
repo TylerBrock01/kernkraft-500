@@ -197,12 +197,12 @@ export default function TransactionAuditPage({ params }: { params: Promise<{ id:
                                 tx.status === 'COMPLETED' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
                                     tx.status === 'CANCELLED' ? 'bg-red-500/10 text-red-500 border-red-500/20' :
                                         'bg-orange-500/10 text-orange-400 border-orange-500/20'
-                            }`}>
-                {tx.status}
-              </span>
+                                        }`}>
+                                {tx.status}
+                            </span>
                             <span className="px-2 py-1 bg-zinc-800 text-zinc-300 border border-zinc-700 text-[10px] font-bold uppercase tracking-widest rounded-md">
-                {tx.type}
-              </span>
+                                {tx.type}
+                            </span>
                         </div>
                         <p
                             onClick={(e) => {
