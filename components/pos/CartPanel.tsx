@@ -103,7 +103,7 @@ export default function CartPanel(props: CartPanelProps) {
                 {/* Tipo de Operación */}
                 <div className="p-3 md:p-4 border-b border-zinc-800 bg-zinc-950/50 shrink-0">
                     <div className="flex rounded-lg bg-zinc-900 p-1 border border-zinc-800">
-                        <button onClick={() => setTransactionType('SALE')} className={`flex-1 py-1.5 text-[9px] md:text-[10px] font-bold tracking-widest uppercase rounded-md transition-all ${transactionType === 'SALE' ? 'bg-zinc-100 text-zinc-950 shadow-sm' : 'text-zinc-500 hover:text-white'}`}>Venta Directa</button>
+                        <button onClick={() => setTransactionType('SALE')} className={`flex-1 py-1.5 text-[9px] md:text-[10px] font-bold tracking-widest uppercase rounded-md transition-all ${transactionType === 'SALE' ? 'bg-zinc-100 text-zinc-950 shadow-sm' : 'text-zinc-500 hover:text-white'}`}>Venta</button>
                         <button onClick={() => setTransactionType('RENTAL')} className={`flex-1 py-1.5 text-[9px] md:text-[10px] font-bold tracking-widest uppercase rounded-md transition-all ${transactionType === 'RENTAL' ? 'bg-blue-600 text-white shadow-sm' : 'text-zinc-500 hover:text-white'}`}>Alquiler</button>
                     </div>
                 </div>
@@ -146,7 +146,7 @@ export default function CartPanel(props: CartPanelProps) {
                                         <label className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-blue-400">Depósito</label>
                                         <input type="number" min="500" value={depositAmount} onChange={e => setDepositAmount(Number(e.target.value))} className="w-20 md:w-24 bg-zinc-900 border border-zinc-800 rounded p-1 text-right font-mono text-[10px] md:text-xs text-white outline-none focus:border-blue-500" placeholder="0.00" />
                                     </div>
-                                    <div className="flex justify-between items-center">
+                                    <div className="flex justify-between items-center text-white">
                                         <label className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-blue-400">Devolución</label>
                                         <input type="date" required={transactionType === 'RENTAL'} value={returnDate} onChange={e => setReturnDate(e.target.value)} className="w-32 md:w-36 bg-zinc-900 border border-zinc-800 rounded p-1 text-[10px] md:text-xs text-zinc-300 outline-none focus:border-blue-500 cursor-pointer" />
                                     </div>
