@@ -3,9 +3,13 @@
 import React, {use} from 'react';
 import { motion } from 'framer-motion';
 import {useCatalog} from "@/app/hooks/useCatalog";
+import MadeByAyax from "@/components/themes/Made-by-ayax";
 
 export default function StorefrontPage({ params }: { params: Promise<{ tenant: string }> }) {    // 🔌 Conectamos el Cerebro (Hook) al Cuerpo (UI)
     const resolvedParams = use(params);
+    if (resolvedParams.tenant === 'made-by-ayax') {
+        return <MadeByAyax/>
+    }
     const {
         store,
         products,
