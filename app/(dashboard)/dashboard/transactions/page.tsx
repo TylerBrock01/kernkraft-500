@@ -85,6 +85,7 @@ export default function TransactionsHistoryPage() {
                         <thead>
                         <tr className="border-b border-zinc-800 bg-zinc-900/50">
                             <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Folio / Fecha</th>
+                            <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Usuario</th>
                             <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Operación</th>
                             <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Método</th>
                             <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500 text-right">Monto Total</th>
@@ -107,16 +108,21 @@ export default function TransactionsHistoryPage() {
                                         <div className="flex items-center gap-3">
                                             <span className="font-mono text-zinc-400 text-xs">#{tx.id}</span>
                                             <span className="text-sm font-medium text-zinc-200">
-                          {new Date(tx.transactionDate).toLocaleDateString()}
-                        </span>
+                                              {new Date(tx.transactionDate).toLocaleDateString()}
+                                            </span>
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-2 py-1 rounded text-[9px] font-bold uppercase tracking-widest border ${
-                          tx.type === 'SALE' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-blue-500/10 text-blue-400 border-blue-500/20'
-                      }`}>
-                        {tx.type}
-                      </span>
+                                      <span className={`inline-flex items-center px-2 py-1 rounded text-sm tracking-widest border border-yellow-500`}>
+                                        {tx.userId}
+                                      </span>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                      <span className={`inline-flex items-center px-2 py-1 rounded text-[9px] font-bold uppercase tracking-widest border ${
+                                          tx.type === 'SALE' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+                                            }`}>
+                                        {tx.type}
+                                      </span>
                                     </td>
                                     <td className="px-6 py-4">
                                         <span className="text-xs text-zinc-400 font-mono">{tx.paymentMethod}</span>
