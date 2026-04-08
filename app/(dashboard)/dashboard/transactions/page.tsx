@@ -89,6 +89,7 @@ export default function TransactionsHistoryPage() {
                             <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Operación</th>
                             <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Método</th>
                             <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500 text-right">Monto Total</th>
+                            <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500 text-right">Cliente</th>
                             <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500 text-right">Estado</th>
                         </tr>
                         </thead>
@@ -113,8 +114,8 @@ export default function TransactionsHistoryPage() {
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
-                                      <span className={`inline-flex items-center px-2 py-1 rounded text-sm tracking-widest border border-yellow-500`}>
-                                        {tx.userId}
+                                      <span className={`inline-flex items-center px-2 py-1 rounded text-sm tracking-widest border border-yellow-500/60`}>
+                                        ID: {tx.userId}
                                       </span>
                                     </td>
                                     <td className="px-6 py-4">
@@ -128,16 +129,19 @@ export default function TransactionsHistoryPage() {
                                         <span className="text-xs text-zinc-400 font-mono">{tx.paymentMethod}</span>
                                     </td>
                                     <td className="px-6 py-4 text-right">
-                                        <span className="text-sm font-bold font-mono text-zinc-100">${Number(tx.total).toFixed(2)}</span>
+                                        <span className="text-sm font-bold font-mono text-emerald-500">${Number(tx.total).toFixed(2)}</span>
                                     </td>
                                     <td className="px-6 py-4 text-right">
-                      <span className={`text-[10px] font-bold uppercase tracking-widest ${
-                          tx.status === 'COMPLETED' ? 'text-emerald-500' :
-                              tx.status === 'CANCELLED' ? 'text-red-500' :
-                                  'text-orange-400'
-                      }`}>
-                        {tx.status}
-                      </span>
+                                        <span className={`inline-flex items-center text-sm rounded py-1 px-2 tracking-widest ${tx.customerId? 'border border-blue-600' : ''}`}>{ tx.customerId ? `ID:${tx.customerId}` : ''}</span>
+                                    </td>
+                                    <td className="px-6 py-4 text-right">
+                                      <span className={`text-[10px] font-bold uppercase tracking-widest ${
+                                          tx.status === 'COMPLETED' ? 'text-emerald-500' :
+                                              tx.status === 'CANCELLED' ? 'text-red-500' :
+                                                  'text-orange-400'
+                                      }`}>
+                                        {tx.status}
+                                      </span>
                                     </td>
                                 </tr>
                             ))
