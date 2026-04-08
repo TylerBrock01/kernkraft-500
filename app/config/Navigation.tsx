@@ -53,10 +53,10 @@ export const SIDEBAR_MENU: MenuItem[] = [
         icon: '🧾',
         allowedRoles: ['super_admin','admin', 'vendedor','almacen']
     },
-    // {
-    //     name: 'Devoluciones',
-    //     path: '/dashboard/returns',
-    //     icon: '🔄',
-    //     allowedRoles: ['admin'] // Solo el dueño autoriza esto
-    // },
+    {
+        name: 'Movimientos',
+        path: '/dashboard/pos/movements',
+        icon: '🔄',
+        allowedRoles: ['admin'] // Solo el dueño autoriza esto
+    },
 ];
