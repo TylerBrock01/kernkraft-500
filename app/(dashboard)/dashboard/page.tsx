@@ -114,7 +114,7 @@ export default function AnalyticsDashboardPage() {
                         <span className="w-2 h-2 rounded-full bg-zinc-400 animate-pulse"></span> Snapshot 7 Días
                     </h3>
 
-                    <div className="grid grid-cols-3 gap-4 mb-6">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                         <div className="p-4 bg-zinc-950 border border-zinc-800/50 rounded-xl">
                             <p className="text-[9px] uppercase font-bold tracking-widest text-zinc-500 mb-1">Ingreso Bruto</p>
                             <p className="text-lg font-mono text-zinc-200">{formatMoney(weekly.financials.grossRevenue)}</p>
