@@ -1,211 +1,198 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { api } from '@/app/lib/axios/axios';
-import toast from 'react-hot-toast';
+import React from 'react';
+import { motion } from 'framer-motion';
 
-// Utilidad para formatear dinero
-const formatMoney = (amount: number) => {
-    return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(amount);
+// -------------------------------------------------------------
+// 🗄️ BASE DE DATOS DE ACTUALIZACIONES (Mockup)
+// -------------------------------------------------------------
+type UpdateType = 'FEATURE' | 'SECURITY' | 'FIX' | 'SYSTEM';
+
+interface SystemUpdate {
+    id: string;
+    version: string;
+    date: string;
+    type: UpdateType;
+    title: string;
+    description: string;
+    highlights: string[];
+}
+
+const SYSTEM_UPDATES: SystemUpdate[] = [
+    {
+        id: 'upd-004',
+        version: 'v2.4.0',
+        date: '08 ABR 2026',
+        type: 'FEATURE',
+        title: 'Control de Bóveda y Libro Mayor',
+        description: 'Hemos desplegado el nuevo ecosistema financiero. Ahora puedes auditar cada centavo que entra o sale de tus sucursales con precisión matemática.',
+        highlights: [
+            'Nuevo panel de movimientos (Inyecciones y Fugas de capital).',
+            'Filtros de auditoría por rangos de fechas exactos.',
+            'Prevención de doble apertura de caja por el mismo usuario.'
+        ]
+    },
+    {
+        id: 'upd-003',
+        version: 'v2.3.5',
+        date: '05 ABR 2026',
+        type: 'SECURITY',
+        title: 'Aislamiento Multi-Tenant (Headless)',
+        description: 'Reescribimos el motor del catálogo público. Las peticiones de tus clientes ahora están 100% aisladas del panel administrativo, mejorando la seguridad y velocidad de carga.',
+        highlights: [
+            'Rutas dinámicas asíncronas para catálogos públicos.',
+            'Buscador integrado con tecnología Anti-Rebote (Debounce).',
+            'Pantalla táctica de "Señal Perdida" para enlaces rotos.'
+        ]
+    },
+    {
+        id: 'upd-002',
+        version: 'v2.2.1',
+        date: '02 ABR 2026',
+        type: 'FIX',
+        title: 'Sincronización de Inventarios',
+        description: 'Se resolvió un escenario donde los carritos mixtos (Venta + Renta) no descontaban correctamente el inventario en milisegundos.',
+        highlights: [
+            'Motor transaccional optimizado.',
+            'Los productos con stock cero ahora se ocultan automáticamente del catálogo.'
+        ]
+    },
+    {
+        id: 'upd-001',
+        version: 'v2.0.0',
+        date: '15 MAR 2026',
+        type: 'SYSTEM',
+        title: 'Lanzamiento del Motor CAZA',
+        description: 'Inicialización de la arquitectura base. El sistema operativo para negocios físicos y digitales está en línea.',
+        highlights: [
+            'Terminal POS de alto rendimiento.',
+            'Gestión de roles (RBAC) y control de empleados.',
+            'Diseño en Modo Oscuro de grado militar.'
+        ]
+    }
+];
+
+// -------------------------------------------------------------
+// 🎨 DICCIONARIO DE ESTILOS POR TIPO DE ACTUALIZACIÓN
+// -------------------------------------------------------------
+const typeConfig = {
+    FEATURE: { color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/20', dot: 'bg-blue-500', label: 'Nueva Función' },
+    SECURITY: { color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/20', dot: 'bg-red-500', label: 'Seguridad' },
+    FIX: { color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20', dot: 'bg-amber-500', label: 'Corrección' },
+    SYSTEM: { color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', dot: 'bg-emerald-500', label: 'Sistema Base' },
 };
 
-export default function AnalyticsDashboardPage() {
-    const [weekly, setWeekly] = useState<any>(null);
-    const [investor, setInvestor] = useState<any>(null);
-    const [isLoading, setIsLoading] = useState(true);
+export default function DashboardHome() {
+    // Animaciones de cascada
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        show: { opacity: 1, transition: { staggerChildren: 0.15 } }
+    };
 
-    useEffect(() => {
-        const fetchAnalytics = async () => {
-            setIsLoading(true);
-            try {
-                // ⚠️ Asegúrate de que tu controlador en NestJS tenga el prefijo 'analytics' (ej. @Controller('analytics'))
-                const [weeklyRes, investorRes] = await Promise.all([
-                    api.get('/analytics/weekly-snapshot'),
-                    api.get('/analytics/investor')
-                ]);
-
-                setWeekly(weeklyRes.data);
-                setInvestor(investorRes.data);
-            } catch (error) {
-                toast.error('Error al desencriptar las métricas financieras');
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchAnalytics();
-    }, []);
-
-    if (isLoading) {
-        return (
-            <div className="w-full h-full flex flex-col items-center justify-center pt-20">
-                <div className="w-6 h-6 border-2 border-zinc-800 border-t-zinc-400 rounded-full animate-spin mb-4"></div>
-                <p className="text-zinc-600 font-mono text-xs uppercase tracking-widest animate-pulse">Procesando analíticas de la instancia...</p>
-            </div>
-        );
-    }
-
-    if (!weekly || !investor) return null;
-
-    const { kpis } = investor;
-    const growth = kpis.growthMoM.growth;
-    const financial = kpis.financialHealth;
+    const itemVariants = {
+        hidden: { opacity: 0, x: -20 },
+        show: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 100 } }
+    };
 
     return (
-        <div className="max-w-7xl mx-auto w-full pt-4 pb-20 space-y-6">
+        <div className="w-full max-w-5xl mx-auto py-12 px-6 font-sans text-zinc-100 selection:bg-zinc-800">
 
-            {/* HEADER TÁCTICO */}
-            <div className="mb-8">
-                <h1 className="text-3xl font-black text-white tracking-tight uppercase">Radar Financiero</h1>
-                <p className="text-zinc-500 font-mono text-xs mt-1 uppercase tracking-widest">Motor de Inteligencia CAZA // Datos en Tiempo Real</p>
-            </div>
+            {/* 🔮 Efecto Reactor Sutil */}
+            <div className="fixed top-20 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-600/5 rounded-full blur-[150px] pointer-events-none -z-10"></div>
 
-            {/* ================= FILA 1: KPIs GLOBALES (INVESTOR METRICS) ================= */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-
-                {/* Utilidad Neta (MoM) */}
-                <div className="bg-zinc-950 border border-zinc-800/80 rounded-2xl p-6 relative overflow-hidden shadow-2xl">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
-                    <p className="text-[10px] uppercase font-bold tracking-widest text-zinc-500 mb-1">Utilidad Neta (Mes Actual)</p>
-                    <h3 className="text-3xl font-black text-white font-mono">{formatMoney(financial.netProfit.amount)}</h3>
-                    <div className="mt-4 flex items-center gap-2">
-            <span className={`px-2 py-0.5 rounded text-[10px] font-bold tracking-widest flex items-center gap-1 ${growth.isPositive ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'}`}>
-              {growth.isPositive ? '↑' : '↓'} {Math.abs(growth.percentage)}%
-            </span>
-                        <span className="text-[9px] uppercase text-zinc-600 font-mono">vs {kpis.growthMoM.previousMonth.label}</span>
+            {/* 📋 HEADER DE LA BITÁCORA */}
+            <header className="mb-16 border-b border-zinc-800 pb-8">
+                <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 bg-zinc-900 border border-zinc-800 rounded-xl flex items-center justify-center">
+                        <span className="text-xl">📡</span>
+                    </div>
+                    <div>
+                        <h1 className="text-3xl font-black uppercase tracking-tight text-white">Transmisiones del Motor</h1>
+                        <p className="text-zinc-500 text-sm font-medium">Bitácora de mejoras, parches de seguridad y expansiones de CAZA.</p>
                     </div>
                 </div>
 
-                {/* Flujo de Efectivo Físico */}
-                <div className="bg-zinc-950 border border-zinc-800/80 rounded-2xl p-6">
-                    <p className="text-[10px] uppercase font-bold tracking-widest text-zinc-500 mb-1">Liquidez Total en Caja</p>
-                    <h3 className="text-3xl font-black text-white font-mono">{formatMoney(kpis.cashFlowHealth.physicalCashInBusiness)}</h3>
-                    <div className="mt-4 flex items-center justify-between text-[10px] font-mono border-t border-zinc-800/50 pt-3">
-                        <span className="text-zinc-400">Capital Libre: <span className="text-white">{formatMoney(kpis.cashFlowHealth.freeCapitalAllTime)}</span></span>
-                    </div>
+                {/* Banner de Estado del Sistema */}
+                <div className="mt-8 inline-flex items-center gap-3 bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 rounded-lg">
+                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                    <span className="text-xs font-mono font-bold uppercase tracking-widest text-emerald-400">
+            Todos los sistemas operando al 100%
+          </span>
                 </div>
+            </header>
 
-                {/* Pasivo (Depósitos Retenidos) */}
-                <div className="bg-zinc-950 border border-zinc-800/80 rounded-2xl p-6 relative">
-                    <div className="absolute top-0 left-0 w-1 h-full bg-blue-900/50"></div>
-                    <p className="text-[10px] uppercase font-bold tracking-widest text-blue-500/70 mb-1">Pasivo a Devolver (Depósitos)</p>
-                    <h3 className="text-3xl font-black text-blue-400 font-mono">{formatMoney(kpis.cashFlowHealth.retainedCapital)}</h3>
-                    <p className="text-[9px] uppercase text-zinc-600 mt-4 leading-relaxed">Capital retenido por rentas activas. No es ganancia.</p>
-                </div>
+            {/* ⏳ TIMELINE DE ACTUALIZACIONES */}
+            <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="show"
+                className="relative border-l border-zinc-800 ml-4 md:ml-6 space-y-16"
+            >
+                {SYSTEM_UPDATES.map((update, index) => {
+                    const style = typeConfig[update.type];
+                    const isLatest = index === 0;
 
-                {/* Gastos Operativos */}
-                <div className="bg-zinc-950 border border-zinc-800/80 rounded-2xl p-6">
-                    <p className="text-[10px] uppercase font-bold tracking-widest text-zinc-500 mb-1">Gastos Operativos (Mes)</p>
-                    <h3 className="text-3xl font-black text-zinc-300 font-mono">{formatMoney(financial.monthlyExpenses.current)}</h3>
-                    <div className="mt-4 w-full bg-zinc-900 rounded-full h-1.5 overflow-hidden">
-                        {/* Barra visual de margen de ganancia vs gastos */}
-                        <div className="bg-zinc-700 h-full" style={{ width: `${Math.min(100, (financial.monthlyExpenses.current / (financial.netProfit.amount + financial.monthlyExpenses.current || 1)) * 100)}%` }}></div>
-                    </div>
-                </div>
+                    return (
+                        <motion.div key={update.id} className="relative pl-8 md:pl-12">
 
-            </div>
+                            {/* Nodo del Timeline (El punto en la línea) */}
+                            <div className={`absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full ${style.dot} ring-4 ring-zinc-950 shadow-[0_0_10px_currentColor]`} style={{ color: style.dot.replace('bg-', '') }}></div>
 
-            {/* ================= FILA 2: RADIOGRAFÍA DE 7 DÍAS & LEALTAD ================= */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            {/* Pulso animado para la actualización más reciente */}
+                            {isLatest && (
+                                <div className={`absolute -left-[9px] top-0.5 w-4.5 h-4.5 rounded-full ${style.bg} animate-ping`}></div>
+                            )}
 
-                {/* Snapshot Semanal */}
-                <div className="col-span-1 lg:col-span-2 bg-zinc-900/30 border border-zinc-800/80 rounded-2xl p-6 backdrop-blur-sm">
-                    <h3 className="text-xs font-bold uppercase tracking-widest text-white mb-6 flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-zinc-400 animate-pulse"></span> Snapshot 7 Días
-                    </h3>
+                            {/* Contenido de la Tarjeta */}
+                            <div className={`bg-zinc-900/40 backdrop-blur-sm border ${isLatest ? 'border-zinc-700' : 'border-zinc-800'} rounded-2xl p-6 md:p-8 hover:bg-zinc-900/60 transition-colors`}>
 
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-                        <div className="p-4 bg-zinc-950 border border-zinc-800/50 rounded-xl">
-                            <p className="text-[9px] uppercase font-bold tracking-widest text-zinc-500 mb-1">Ingreso Bruto</p>
-                            <p className="text-lg font-mono text-zinc-200">{formatMoney(weekly.financials.grossRevenue)}</p>
-                        </div>
-                        <div className="p-4 bg-zinc-950 border border-red-900/20 rounded-xl">
-                            <p className="text-[9px] uppercase font-bold tracking-widest text-red-500/70 mb-1">Impacto Mermas</p>
-                            <p className="text-lg font-mono text-red-400">-{formatMoney(weekly.financials.estimatedLoss)}</p>
-                        </div>
-                        <div className="p-4 bg-emerald-950/10 border border-emerald-900/20 rounded-xl">
-                            <p className="text-[9px] uppercase font-bold tracking-widest text-emerald-500/70 mb-1">Ganancia Real</p>
-                            <p className="text-lg font-mono text-emerald-400 font-bold">{formatMoney(weekly.financials.netProfit)}</p>
-                        </div>
-                    </div>
-
-                    <div className="flex gap-6 border-t border-zinc-800/50 pt-4">
-                        <div>
-                            <p className="text-[9px] uppercase tracking-widest text-zinc-500 mb-0.5">Operaciones</p>
-                            <p className="text-sm font-mono text-zinc-300">{weekly.financials.transactionCount} txs</p>
-                        </div>
-                        <div>
-                            <p className="text-[9px] uppercase tracking-widest text-zinc-500 mb-0.5">Ticket Promedio</p>
-                            <p className="text-sm font-mono text-zinc-300">{formatMoney(Number(weekly.financials.averageTicket))}</p>
-                        </div>
-                        <div>
-                            <p className="text-[9px] uppercase tracking-widest text-red-500/70 mb-0.5">Eventos de Pérdida</p>
-                            <p className="text-sm font-mono text-red-400">{weekly.financials.lossEvents} regs</p>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Lealtad de Clientes */}
-                <div className="col-span-1 bg-zinc-950 border border-zinc-800/80 rounded-2xl p-6">
-                    <h3 className="text-xs font-bold uppercase tracking-widest text-white mb-6">Radar de Lealtad (LTV)</h3>
-
-                    <div className="mb-6">
-                        <div className="flex justify-between items-end mb-2">
-                            <span className="text-2xl font-black font-mono text-zinc-200">{kpis.customerInsights.loyaltyPercentage}%</span>
-                            <span className="text-[9px] uppercase tracking-widest text-zinc-500">Ingreso Identificado</span>
-                        </div>
-                        <div className="w-full bg-zinc-900 rounded-full h-1 overflow-hidden">
-                            <div className="bg-blue-500 h-full" style={{ width: `${kpis.customerInsights.loyaltyPercentage}%` }}></div>
-                        </div>
-                    </div>
-
-                    <div className="space-y-4">
-                        <p className="text-[9px] uppercase font-bold tracking-widest text-zinc-500 border-b border-zinc-800/50 pb-2">Top 3 Clientes Históricos</p>
-                        {kpis.customerInsights.topClients.map((client: any, i: number) => (
-                            <div key={i} className="flex justify-between items-center">
-                                <div className="flex items-center gap-2">
-                                    <span className="text-zinc-600 font-mono text-[9px]">0{i+1}</span>
-                                    <p className="text-xs font-bold text-zinc-300 truncate max-w-[120px]">{client.name}</p>
+                                {/* Metadatos (Fecha, Versión, Tipo) */}
+                                <div className="flex flex-wrap items-center gap-3 mb-4">
+                  <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border ${style.bg} ${style.border} ${style.color}`}>
+                    {style.label}
+                  </span>
+                                    <span className="text-zinc-500 font-mono text-[10px] uppercase tracking-widest">
+                    VER {update.version}
+                  </span>
+                                    <span className="text-zinc-600 font-mono text-[10px] uppercase tracking-widest hidden sm:inline">|</span>
+                                    <span className="text-zinc-500 font-mono text-[10px] uppercase tracking-widest">
+                    {update.date}
+                  </span>
+                                    {isLatest && (
+                                        <span className="ml-auto text-[10px] font-bold uppercase tracking-widest text-zinc-400 bg-zinc-800 px-2 py-0.5 rounded text-zinc-100 animate-pulse">
+                      Última Versión
+                    </span>
+                                    )}
                                 </div>
-                                <div className="text-right">
-                                    <p className="text-xs font-mono text-zinc-100">{formatMoney(client.totalSpent)}</p>
-                                    <p className="text-[8px] text-zinc-600 font-mono">{client.transactionCount} txs</p>
+
+                                {/* Título y Descripción */}
+                                <h2 className="text-xl md:text-2xl font-bold text-zinc-100 mb-3 tracking-tight">
+                                    {update.title}
+                                </h2>
+                                <p className="text-zinc-400 text-sm leading-relaxed mb-6 max-w-3xl">
+                                    {update.description}
+                                </p>
+
+                                {/* Puntos Clave (Highlights) */}
+                                <div className="space-y-3 bg-zinc-950/50 p-5 rounded-xl border border-zinc-800/50">
+                                    <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 mb-3">
+                                        Despliegue Técnico:
+                                    </h3>
+                                    <ul className="space-y-2">
+                                        {update.highlights.map((item, i) => (
+                                            <li key={i} className="flex items-start gap-3 text-sm text-zinc-300">
+                                                <span className={`mt-1 flex-shrink-0 w-1.5 h-1.5 rounded-full ${style.dot} opacity-70`}></span>
+                                                <span className="leading-snug">{item}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
                                 </div>
+
                             </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-
-            {/* ================= FILA 3: RENDIMIENTO DE ACTIVOS (ROI Y MERMAS) ================= */}
-            <div className="bg-zinc-900/30 border border-zinc-800/80 rounded-2xl p-6 backdrop-blur-sm">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-white mb-6">Auditoría de Activos (Top 5 Histórico)</h3>
-
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse">
-                        <thead>
-                        <tr className="border-b border-zinc-800/50 bg-zinc-950/30">
-                            <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-500">Producto / Activo</th>
-                            <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-500 text-center">Movimientos</th>
-                            <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-red-500/70 text-center">Mermas</th>
-                            <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-500 text-right">Ingreso Bruto</th>
-                            <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-emerald-500/70 text-right">ROI Libre</th>
-                        </tr>
-                        </thead>
-                        <tbody className="divide-y divide-zinc-800/30">
-                        {kpis.assetPerformance.map((asset: any, i: number) => (
-                            <tr key={i} className="hover:bg-zinc-800/10 transition-colors">
-                                <td className="px-4 py-4 text-xs font-bold text-zinc-200">{asset.product}</td>
-                                <td className="px-4 py-4 text-xs font-mono text-zinc-400 text-center">{asset.utilization.timesRentedOrSold}</td>
-                                <td className="px-4 py-4 text-xs font-mono text-red-400/80 text-center">{asset.utilization.unitsLostToDamage > 0 ? `-${asset.utilization.unitsLostToDamage}` : '0'}</td>
-                                <td className="px-4 py-4 text-xs font-mono text-zinc-300 text-right">{formatMoney(asset.financials.grossRevenue)}</td>
-                                <td className="px-4 py-4 text-xs font-mono text-emerald-400 text-right font-bold">{formatMoney(asset.financials.netRevenue)}</td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                        </motion.div>
+                    );
+                })}
+            </motion.div>
 
         </div>
     );

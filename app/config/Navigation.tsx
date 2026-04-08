@@ -13,7 +13,7 @@ export interface MenuItem {
 export const SIDEBAR_MENU: MenuItem[] = [
     {
         name: 'Centro de Mando',
-        path: '/dashboard',
+        path: '/dashboard/analytics',
         icon: '⌘',
         allowedRoles: ['super_admin','admin', 'vendedor', 'almacen'] // Todos entran aquí
     },
