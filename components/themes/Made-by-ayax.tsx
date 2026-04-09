@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 // 🎩 DATOS MOCKEADOS (Simulando lo que vendría de tu BD)
 // =========================================
 const MAGICIAN_DATA = {
-    name: "AYAX Black",
+    name: "Made By Ayax",
     title: "Ilusionista & Mentalista",
     tagline: "No creas todo lo que ven tus ojos.",
     about: "Con más de 15 años de experiencia en escenarios internacionales, Dorian Black redefine lo imposible. Especialista en ilusionismo psicológico y magia de proximidad para eventos de alta gama.",
