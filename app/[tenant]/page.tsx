@@ -8,6 +8,8 @@ import DemoPage from "@/components/themes/HotDogsDemo";
 import BurritoThemeMockup from "@/components/themes/Burritos";
 import BurgerPicnicTheme from "@/components/themes/burger";
 import TortasFightTheme from "@/components/themes/Tortas";
+import PerfumeryChanelTheme from "@/components/themes/Parfum";
+import ChanelStylePerfumery from "@/components/themes/Parfum";
 
 export default function StorefrontPage({ params }: { params: Promise<{ tenant: string }> }) {    // 🔌 Conectamos el Cerebro (Hook) al Cuerpo (UI)
     const resolvedParams = use(params);
@@ -25,6 +27,9 @@ export default function StorefrontPage({ params }: { params: Promise<{ tenant: s
     }
     if (resolvedParams.tenant === 'tortas-fight') {
         return <TortasFightTheme/>
+    }
+    if (resolvedParams.tenant === 'perfum') {
+        return <ChanelStylePerfumery/>
     }
     const {
         store,
