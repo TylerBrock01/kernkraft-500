@@ -4,11 +4,27 @@ import React, {use} from 'react';
 import { motion } from 'framer-motion';
 import {useCatalog} from "@/app/hooks/useCatalog";
 import MadeByAyax from "@/components/themes/Made-by-ayax";
+import DemoPage from "@/components/themes/HotDogsDemo";
+import BurritoThemeMockup from "@/components/themes/Burritos";
+import BurgerPicnicTheme from "@/components/themes/burger";
+import TortasFightTheme from "@/components/themes/Tortas";
 
 export default function StorefrontPage({ params }: { params: Promise<{ tenant: string }> }) {    // 🔌 Conectamos el Cerebro (Hook) al Cuerpo (UI)
     const resolvedParams = use(params);
     if (resolvedParams.tenant === 'made-by-ayax') {
         return <MadeByAyax/>
+    }
+    if (resolvedParams.tenant === 'hot-dogs') {
+        return <DemoPage/>
+    }
+    if (resolvedParams.tenant === 'burros') {
+        return <BurritoThemeMockup/>
+    }
+    if (resolvedParams.tenant === 'burger') {
+        return <BurgerPicnicTheme/>
+    }
+    if (resolvedParams.tenant === 'tortas-fight') {
+        return <TortasFightTheme/>
     }
     const {
         store,
