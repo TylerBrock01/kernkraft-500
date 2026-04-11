@@ -223,12 +223,50 @@ export default function TransactionAuditPage({ params }: { params: Promise<{ id:
                                 Estado Equipo: {tx.rentalStatus} {tx.returnDate && `(Devolución: ${new Date(tx.returnDate).toLocaleDateString()})`}
                             </p>
                         )}
-                        <div className={"flex justify-between md:justify-start gap-2 py-2"}>
-                            {tx.customerId ?
-                                <h2 className=" text-base border rounded-md border-white/50 p-1  text-white" >Cliente: {tx.customerId}</h2>
-                                : null
-                            }
-                            <h2 className="text-base border rounded-md border-white/50  p-1  text-white">Operado: {tx.userId ||'Desconocido'}</h2>
+                        <div className="flex flex-wrap justify-between md:justify-start gap-3 py-1 mt-3 border-t border-zinc-800/50">
+
+                            {/* 👤 BOTÓN TÁCTICO DE CLIENTE */}
+                            {tx.customerId && (
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        // 🚀 Aquí pones tu redirección, ej: router.push(`/dashboard/customers/${tx.customerId}`)
+                                    }}
+                                    title="Ver expediente del cliente"
+                                    className="group flex items-center gap-2 px-3 py-1.5 bg-zinc-900/80 hover:bg-blue-900/20 border border-zinc-800 hover:border-blue-500/50 rounded-lg transition-all duration-300 cursor-pointer"
+                                >
+                                    <div className="w-5 h-5 rounded-md bg-zinc-800 group-hover:bg-blue-500/20 flex items-center justify-center transition-colors">
+                                        <svg className="w-3 h-3 text-zinc-400 group-hover:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        </svg>
+                                    </div>
+                                    <div className="flex flex-col text-left">
+                <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500 group-hover:text-blue-400/70 transition-colors">
+                    Expediente
+                </span>
+                                        <span className="text-xs font-mono font-bold text-zinc-300 group-hover:text-blue-400 transition-colors leading-none mt-0.5">
+                    {tx.customerId}
+                </span>
+                                    </div>
+                                    {/* Ícono de flecha de redirección */}
+                                    <svg className="w-3 h-3 text-zinc-600 group-hover:text-blue-400 transition-colors ml-1 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                    </svg>
+                                </button>
+                            )}
+
+                            {/* 🛡️ BADGE DE OPERADOR (Mantenemos el estilo para que haga juego) */}
+                            <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-900/30 border border-zinc-800/80 rounded-lg">
+                                <div className="flex flex-col text-left">
+             <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-600">
+                Operador
+            </span>
+                                    <span className="text-xs font-mono text-zinc-400 leading-none mt-0.5">
+                {tx.userId || 'Desconocido'}
+            </span>
+                                </div>
+                            </div>
+
                         </div>
 
                     </div>
