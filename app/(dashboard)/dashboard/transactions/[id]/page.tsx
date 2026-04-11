@@ -200,7 +200,8 @@ export default function TransactionAuditPage({ params }: { params: Promise<{ id:
                                         }`}>
                                 {tx.status}
                             </span>
-                            <span className="px-2 py-1 bg-zinc-800 text-zinc-300 border border-zinc-700 text-[10px] font-bold uppercase tracking-widest rounded-md">
+                            <span className={`px-2 py-1 border  text-[10px] font-bold uppercase tracking-widest rounded-md 
+                            ${tx.type === "RENTAL" ? "bg-blue-500/10 text-blue-400 border-blue-500/20" :"bg-zinc-800 text-zinc-400 border border-zinc-700"}`}>
                                 {tx.type}
                             </span>
                         </div>
