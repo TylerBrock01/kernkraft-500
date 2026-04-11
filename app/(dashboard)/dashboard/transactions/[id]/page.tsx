@@ -242,7 +242,7 @@ export default function TransactionAuditPage({ params }: { params: Promise<{ id:
                                     </div>
                                     <div className="flex flex-col text-left">
                 <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500 group-hover:text-blue-400/70 transition-colors">
-                    Expediente
+                    Cliente
                 </span>
                                         <span className="text-xs font-mono font-bold text-zinc-300 group-hover:text-blue-400 transition-colors leading-none mt-0.5">
                     {tx.customerId}
