@@ -189,7 +189,7 @@ export default function TransactionAuditPage({ params }: { params: Promise<{ id:
             {/* 📄 EL DOCUMENTO DEL FOLIO */}
             <div className="bg-zinc-900/40 border border-zinc-800 rounded-2xl backdrop-blur-md overflow-hidden">
                 {/* Cabecera del Documento */}
-                <div className="p-8 border-b border-zinc-800 bg-zinc-950/50 flex justify-between items-start">
+                <div className=" grid md:flex gap-2 p-8 border-b border-zinc-800 bg-zinc-950/50  justify-between items-start">
                     <div>
                         <div className="flex items-center gap-3 mb-2">
                             <h1 className="text-3xl font-black text-white tracking-tight">Folio #{tx.id}</h1>
@@ -223,14 +223,16 @@ export default function TransactionAuditPage({ params }: { params: Promise<{ id:
                                 Estado Equipo: {tx.rentalStatus} {tx.returnDate && `(Devolución: ${new Date(tx.returnDate).toLocaleDateString()})`}
                             </p>
                         )}
-                        {tx.customerId ?
-                            <h2 className="text-base border p-1 font-black text-white mt-4">Cliente: {tx.customerId}</h2>
-                            : null
-                        }
-                        <h2 className="text-base border p-1 font-black text-white mt-4">Operado: {tx.userId ||'Desconocido'}</h2>
+                        <div className={"flex justify-between md:justify-start gap-2 py-2"}>
+                            {tx.customerId ?
+                                <h2 className=" text-base border rounded-md border-white/50 p-1  text-white" >Cliente: {tx.customerId}</h2>
+                                : null
+                            }
+                            <h2 className="text-base border rounded-md border-white/50  p-1  text-white">Operado: {tx.userId ||'Desconocido'}</h2>
+                        </div>
 
                     </div>
-                    <div className="text-right">
+                    <div className="text-center md:text-right">
                         <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-1">Total Pagado</p>
                         <p className="text-4xl font-black font-mono text-emerald-400">${Number(tx.total).toFixed(2)}</p>
                         <p className="text-xs text-zinc-500 font-mono mt-1">Método: {tx.paymentMethod}</p>
