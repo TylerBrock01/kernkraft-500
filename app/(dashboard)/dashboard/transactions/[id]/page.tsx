@@ -223,6 +223,12 @@ export default function TransactionAuditPage({ params }: { params: Promise<{ id:
                                 Estado Equipo: {tx.rentalStatus} {tx.returnDate && `(Devolución: ${new Date(tx.returnDate).toLocaleDateString()})`}
                             </p>
                         )}
+                        {tx.customerId ?
+                            <h2 className="text-base border p-1 font-black text-white mt-4">Cliente: {tx.customerId}</h2>
+                            : null
+                        }
+                        <h2 className="text-base border p-1 font-black text-white mt-4">Operado: {tx.userId ||'Desconocido'}</h2>
+
                     </div>
                     <div className="text-right">
                         <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-1">Total Pagado</p>
