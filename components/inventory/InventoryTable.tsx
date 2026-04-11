@@ -35,6 +35,7 @@ export default function InventoryTable({
                         <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">ID</th>
                         <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Producto</th>
                         <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Precio</th>
+                        <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Descripcion</th>
                         <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Stock</th>
                         <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500 text-right">Estado</th>
                     </tr>
@@ -57,7 +58,6 @@ export default function InventoryTable({
                                 <td className="px-6 py-4">
                                     <p className="text-sm font-medium text-zinc-100 mb-0.5">{product.name}</p>
                                     <p className="text-xs text-zinc-500 truncate max-w-[200px]">{product.description}</p>
-
                                     {/* 📦 RENDERIZADOR UNIVERSAL DE METADATA */}
                                     {product.metadata && Object.keys(product.metadata).length > 0 && (
                                         <div className="mt-2 flex flex-wrap gap-1">
@@ -79,11 +79,17 @@ export default function InventoryTable({
                                         </div>
                                     )}
                                 </td>
+                                <td className="px-6 py-4 text-right">
+                                    <span className={`text-sm uppercase tracking-widest font-bold ${product.stock > 10 ? 'text-emerald-500' : product.stock === 0 ? 'text-red-600':'text-yellow-500'}`}>
+                                      {/*{product.stock ? 'Activo' : 'Inactivo'}*/}
+                                        {product.stock >= 1? product.stock : 'Agotado'}
+                                    </span>
+                                </td>
                                 {/*fin metada data*/}
                                 <td className="px-6 py-4 text-right">
-                    <span className={`text-[10px] uppercase tracking-widest font-bold ${product.isActive ? 'text-blue-400' : 'text-red-600'}`}>
-                      {product.isActive ? 'Activo' : 'Inactivo'}
-                    </span>
+                                    <span className={`text-[10px] uppercase tracking-widest font-bold ${product.isActive ? 'text-emerald-500' : 'text-red-600'}`}>
+                                      {product.isActive ? '' : 'Inactivo'}
+                                    </span>
                                 </td>
                             </tr>
                         ))
