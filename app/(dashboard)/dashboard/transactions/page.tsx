@@ -87,6 +87,7 @@ export default function TransactionsHistoryPage() {
                             <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Folio / Fecha</th>
                             <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Usuario</th>
                             <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Operación</th>
+                            <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Estado</th>
                             <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Método</th>
                             <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500 text-right">Monto Total</th>
                             <th className="hidden lg:block px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500 text-right">Cliente</th>
@@ -116,6 +117,11 @@ export default function TransactionsHistoryPage() {
                                     <td className="px-6 py-4">
                                       <span className={`inline-flex items-center px-2 py-1 rounded text-sm border border-yellow-500/60`}>
                                         ID: {tx.userId}
+                                      </span>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                      <span className={`inline-flex items-center py-1 rounded text-sm ${ tx.rentalStatus === "OUT"? 'text-yellow-500':tx.rentalStatus === 'RETURNED'? 'text-green-500': 'text-red-600'} `}>
+                                          {tx.rentalStatus === "OUT"? 'SALIDA':tx.rentalStatus === 'RETURNED'? 'ENTRADA': null}
                                       </span>
                                     </td>
                                     <td className="px-6 py-4">
