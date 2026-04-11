@@ -132,7 +132,8 @@ export default function TransactionsHistoryPage() {
                                       </span>
                                     </td>
                                     <td className="px-6 py-4">
-                                        <span className="text-xs text-zinc-400 font-mono">{tx.paymentMethod}</span>
+                                        <span className={`text-xs  font-mono ${tx.paymentMethod == 'CASH'?'text-zinc-400':' text-pink-500'}`}>
+                                            {tx.paymentMethod}</span>
                                     </td>
                                     <td className="px-6 py-4 text-right">
                                         <span className="text-sm font-bold font-mono text-emerald-500">${Number(tx.total).toFixed(2)}</span>
