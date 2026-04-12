@@ -44,7 +44,7 @@ export const SIDEBAR_MENU: MenuItem[] = [
     {
         name: 'Negocios',
         path: '/dashboard/superadmin',
-        icon: '📦',
+        icon: '🗄️',
         allowedRoles: ['super_admin'] // vendedor no edita inventario
     },
     {
@@ -58,5 +58,11 @@ export const SIDEBAR_MENU: MenuItem[] = [
         path: '/dashboard/pos/movements',
         icon: '🔄',
         allowedRoles: ['admin'] // Solo el dueño autoriza esto
+    },
+    {
+        name: 'Radar',
+        path: '/dashboard/radar',
+        icon: '📖',
+        allowedRoles: ['admin','vendedor'] // Solo el dueño autoriza esto
     },
 ];
