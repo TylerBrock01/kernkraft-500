@@ -116,7 +116,7 @@ export default function RadarPage() {
                         Preparar para Entrega
                     </h2>
                     <div className="space-y-4">
-                        {pickups.map((tx) => (
+                        {pickups.map((tx: any) => (
                             <MissionCard key={tx.id} transaction={tx} theme="amber" />
                         ))}
                         {!isLoading && pickups.length === 0 && <EmptyRadar message="No hay entregas programadas." />}
@@ -130,7 +130,7 @@ export default function RadarPage() {
                         Esperando Retorno
                     </h2>
                     <div className="space-y-4">
-                        {returns.map((tx) => (
+                        {returns.map((tx :any) => (
                             <MissionCard key={tx.id} transaction={tx} theme="blue" />
                         ))}
                         {!isLoading && returns.length === 0 && <EmptyRadar message="No hay retornos pendientes." />}
