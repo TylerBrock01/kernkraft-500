@@ -139,26 +139,24 @@ export default function CartPanel(props: CartPanelProps) {
 
                     {/* 🚀 EL BLOQUE DE RENTAS RESTAURADO */}
                     <AnimatePresence>
-                        {transactionType === 'RENTAL' && (
-                            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden mb-3 md:mb-4">
-                                <div className="space-y-2 md:space-y-3 p-2.5 md:p-3 bg-blue-900/10 border border-blue-900/30 rounded-xl">
-                                    <div className="flex justify-between items-center">
-                                        <label className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-blue-400">Depósito</label>
-                                        <input type="number" min="500" value={depositAmount} onChange={e => setDepositAmount(Number(e.target.value))} className="w-20 md:w-24 bg-zinc-900 border border-zinc-800 rounded p-1 text-right font-mono text-[10px] md:text-xs text-white outline-none focus:border-blue-500" placeholder="0.00" />
-                                    </div>
-                                    <div className="flex justify-between items-center text-white">
-                                        <label className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-blue-400">Devolución</label>
-                                        <input
-                                            type="datetime-local"
-                                            required={transactionType === 'RENTAL'}
-                                            value={returnDate}
-                                            onChange={e => setReturnDate(e.target.value)}
-                                            className="w-36 md:w-44 bg-zinc-900 border border-zinc-800 rounded p-1 text-[10px] md:text-xs text-zinc-300 outline-none focus:border-blue-500 cursor-pointer"
-                                        />
-                                    </div>
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden mb-3 md:mb-4">
+                            <div className="space-y-2 md:space-y-3 p-2.5 md:p-3 bg-blue-900/10 border border-blue-900/30 rounded-xl">
+                                <div className="flex justify-between items-center">
+                                    <label className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-blue-400">Depósito</label>
+                                    <input type="number" min="20" value={depositAmount} onChange={e => setDepositAmount(Number(e.target.value))} className="w-20 md:w-24 bg-zinc-900 border border-zinc-800 rounded p-1 text-right font-mono text-[10px] md:text-xs text-white outline-none focus:border-blue-500" placeholder="0.00" />
                                 </div>
-                            </motion.div>
-                        )}
+                                <div className="flex justify-between items-center text-white">
+                                    <label className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-blue-400">Devolución</label>
+                                    <input
+                                        type="datetime-local"
+                                        required={transactionType === 'RENTAL'}
+                                        value={returnDate}
+                                        onChange={e => setReturnDate(e.target.value)}
+                                        className="w-36 md:w-44 bg-zinc-900 border border-zinc-800 rounded p-1 text-[10px] md:text-xs text-zinc-300 outline-none focus:border-blue-500 cursor-pointer"
+                                    />
+                                </div>
+                            </div>
+                        </motion.div>
                     </AnimatePresence>
 
                     <div className="space-y-1.5 md:space-y-2 mb-6 md:mb-4">
