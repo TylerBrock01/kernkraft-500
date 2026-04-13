@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 // ⚠️ Asegúrate de importar tu instancia de axios autenticada (la que manda el Bearer token)
 import { api } from '@/app/lib/axios/axios';
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 export default function RadarPage() {
     // 🛡️ OBTENER LA FECHA LOCAL EXACTA (Sin importar la hora)
@@ -177,41 +178,6 @@ function MetricCard({ label, value, color = 'zinc', icon = '', alert = '' }: any
 
 function MissionCard({ transaction, theme,onResolveSuccess }: any) {
     const isReturn = theme === 'blue';
-    const [isProcessing, setIsProcessing] = useState(false);
-
-    const handleResolve = async () => {
-        setIsProcessing(true); // Bloqueamos el botón
-
-        // Opcional: Feedback visual inmediato
-        const loadingToast = toast.loading(isReturn ? 'Procesando retorno...' : 'Registrando entrega...');
-
-        try {
-            // Disparamos el misil al backend
-            if (transaction.type === 'RENTAL') {
-                // await api.patch(`/transactions/${transaction.id}/return`);
-            }
-            if (transaction.rentalStatus === 'UNFULFILLED') {
-                // await api.patch(`/transactions/${transaction.id}/resolve`);
-            }
-
-            // Éxito: Cambiamos el mensaje del Toast
-            toast.success(isReturn ? '¡Equipo devuelto a bodega!' : '¡Paquete entregado al cliente!', {
-                id: loadingToast
-            });
-
-            // 🔄 Recargamos el Radar (Esto hará que la tarjeta desaparezca sola)
-            if (onResolveSuccess) {
-                onResolveSuccess();
-            }
-
-        } catch (error) {
-            console.error('Error táctico:', error);
-            toast.error('Hubo un error en la base de datos. Intenta de nuevo.', {
-                id: loadingToast
-            });
-            setIsProcessing(false); // Desbloqueamos si hubo error
-        }
-    };
 
     // Validamos si returnDate existe, si no, mostramos '--:--'
     const hour = transaction.returnDate
@@ -275,16 +241,15 @@ function MissionCard({ transaction, theme,onResolveSuccess }: any) {
                 </div>
 
                 {/* Botones Tácticos */}
-                <button
-                    onClick={handleResolve}
-                    disabled={isProcessing}
-                    className={`mt-4 w-full py-2.5 rounded-lg text-[10px] font-black uppercase tracking-[0.2em] transition-colors border ${
+                <Link href={`/dashboard/transactions/${transaction.id}`}>
+                    <div className={`mt-4 w-full py-2.5 rounded-lg text-[10px] font-black uppercase tracking-[0.2em] text-center transition-colors border cursor-pointer ${
                         isReturn
                             ? 'bg-blue-500/10 text-blue-400 border-blue-500/20 hover:bg-blue-500 hover:text-white'
                             : 'bg-amber-500/10 text-amber-400 border-amber-500/20 hover:bg-amber-500 hover:text-white'
                     }`}>
-                    {isReturn ? 'Procesar Retorno' : 'Entregar y Cerrar'}
-                </button>
+                        {isReturn ? 'Ver Retorno' : 'Ver Pick-Up'}
+                    </div>
+                </Link>
             </div>
         </motion.div>
     );
