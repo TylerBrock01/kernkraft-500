@@ -148,7 +148,13 @@ export default function CartPanel(props: CartPanelProps) {
                                     </div>
                                     <div className="flex justify-between items-center text-white">
                                         <label className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-blue-400">Devolución</label>
-                                        <input type="date" required={transactionType === 'RENTAL'} value={returnDate} onChange={e => setReturnDate(e.target.value)} className="w-32 md:w-36 bg-zinc-900 border border-zinc-800 rounded p-1 text-[10px] md:text-xs text-zinc-300 outline-none focus:border-blue-500 cursor-pointer" />
+                                        <input
+                                            type="datetime-local"
+                                            required={transactionType === 'RENTAL'}
+                                            value={returnDate}
+                                            onChange={e => setReturnDate(e.target.value)}
+                                            className="w-36 md:w-44 bg-zinc-900 border border-zinc-800 rounded p-1 text-[10px] md:text-xs text-zinc-300 outline-none focus:border-blue-500 cursor-pointer"
+                                        />
                                     </div>
                                 </div>
                             </motion.div>
