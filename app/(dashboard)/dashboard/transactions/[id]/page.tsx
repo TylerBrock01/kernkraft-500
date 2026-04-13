@@ -6,7 +6,7 @@ import { api } from '@/app/lib/axios/axios';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 
-type ModalType = 'CANCEL' | 'REFUND' | 'RETURN' | null;
+type ModalType = 'CANCEL' | 'REFUND' | 'RETURN' | 'UNFULFILLED' | null;
 
 export default function TransactionAuditPage({ params }: { params: Promise<{ id: string }> }) {
     const router = useRouter();
@@ -26,6 +26,10 @@ export default function TransactionAuditPage({ params }: { params: Promise<{ id:
     // Para Reembolsos (Refund)
     const [refundReason, setRefundReason] = useState('');
     const [refundItems, setRefundItems] = useState<any[]>([]);
+
+    //Para pick up
+    const [pickUp, setPickUp] = useState('');
+
 
     // Para Retorno de Renta (ReturnRental)
     const [penaltyAmount, setPenaltyAmount] = useState<number>(0);
@@ -148,6 +152,26 @@ export default function TransactionAuditPage({ params }: { params: Promise<{ id:
             setIsProcessing(false);
         }
     };
+    const handleConfirmDelivery = async () => {
+        setIsProcessing(true);
+        const loadingToast = toast.loading('Registrando entrega en el sistema...');
+
+        try {
+            // Usamos el mismo endpoint "resolve" que ya creamos en el backend
+            await api.patch(`/transactions/${tx.id}/resolve`);
+
+            toast.success('¡Entregado! El paquete ya no aparecerá en el Radar.', { id: loadingToast });
+            setActiveModal(null); // Cerramos tu modal
+
+            // Aquí recargas los datos de la transacción para que la UI se actualice
+            fetchTransaction();
+
+        } catch (error) {
+            toast.error('Error al registrar entrega', { id: loadingToast });
+        } finally {
+            setIsProcessing(false);
+        }
+    };
 
     // ================= UI RENDER =================
 
@@ -155,6 +179,7 @@ export default function TransactionAuditPage({ params }: { params: Promise<{ id:
     if (!tx) return null;
 
     const isRental = tx.type === 'RENTAL';
+    const isPickUp = tx.type === 'SALE' && tx.rentalStatus ==='UNFULFILLED'
     const isCompleted = tx.status === 'COMPLETED';
     const isRentalOut = isRental && tx.rentalStatus === 'OUT';
 
@@ -181,6 +206,14 @@ export default function TransactionAuditPage({ params }: { params: Promise<{ id:
                     {isRentalOut && (
                         <button onClick={() => setActiveModal('RETURN')} className="px-4 py-2 bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-bold uppercase tracking-widest rounded-lg hover:bg-blue-600 hover:text-white transition-all">
                             Registrar Devolución (Renta)
+                        </button>
+                    )}
+                    {isPickUp && (
+                        <button
+                            onClick={() => setActiveModal('UNFULFILLED')}
+                            className="px-4 py-2 bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-bold uppercase tracking-widest rounded-lg hover:bg-blue-600 hover:text-white transition-all"
+                        >
+                            Registrar Entrega (Pick-Up)
                         </button>
                     )}
                 </div>
@@ -419,6 +452,33 @@ export default function TransactionAuditPage({ params }: { params: Promise<{ id:
                                         <button type="submit" disabled={isProcessing} className="flex-1 py-4 bg-blue-600 hover:bg-blue-500 text-white font-black uppercase tracking-widest text-xs rounded-xl disabled:opacity-50">Cerrar Alquiler</button>
                                     </div>
                                 </form>
+                            )}
+
+                            {/* 🛑 EL MODAL DE CONFIRMACIÓN */}
+                            {activeModal === 'UNFULFILLED' && (
+                                <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+                                    <div className="bg-zinc-900 border border-zinc-800 p-6 rounded-xl max-w-sm w-full text-center space-y-6">
+                                        <h3 className="text-xl font-bold text-white tracking-tight">Confirmar Entrega</h3>
+                                        <p className="text-zinc-400 text-sm">
+                                            ¿Confirmas que estás entregando este paquete al cliente físicamente? Esta acción lo removerá del Radar Logístico.
+                                        </p>
+                                        <div className="flex gap-3 justify-center">
+                                            <button
+                                                onClick={() => setActiveModal(null)}
+                                                className="px-4 py-2 text-zinc-400 text-xs font-bold uppercase tracking-widest hover:text-white"
+                                            >
+                                                Cancelar
+                                            </button>
+                                            <button
+                                                onClick={handleConfirmDelivery}
+                                                disabled={isProcessing}
+                                                className="px-4 py-2 bg-blue-600 text-white text-xs font-bold uppercase tracking-widest rounded-lg hover:bg-blue-500 disabled:opacity-50"
+                                            >
+                                                {isProcessing ? 'Procesando...' : 'Sí, Entregar'}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             )}
 
                         </motion.div>
