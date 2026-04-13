@@ -24,7 +24,7 @@ export default function ProductGrid({ isLoading, products, addToCart }: ProductG
     }
 
     return (
-        <div className="flex-1 overflow-y-auto p-4 md:p-6 bg-black">
+        <div className="flex-1 overflow-y-auto p-4 md:p-6 mb-20 md:mb-0 bg-black">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
                 {products.map(product => (
                     <button
