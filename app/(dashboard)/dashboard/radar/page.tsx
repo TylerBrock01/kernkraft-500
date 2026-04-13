@@ -6,9 +6,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { api } from '@/app/lib/axios/axios';
 
 export default function RadarPage() {
+    // 🛡️ OBTENER LA FECHA LOCAL EXACTA (Sin importar la hora)
+    const getLocalToday = () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`; // Siempre devuelve "YYYY-MM-DD" local
+    };
+
+    // 1. ESTADO DEL SISTEMA
+    const [targetDate, setTargetDate] = useState(getLocalToday());
     // 1. ESTADO DEL SISTEMA
     // Inicializamos la fecha en HOY (formato YYYY-MM-DD)
-    const [targetDate, setTargetDate] = useState(new Date().toISOString().split('T')[0]);
     const [radarData, setRadarData] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -45,7 +55,6 @@ export default function RadarPage() {
         pendingPickups: 0,
         depositRisk: 0
     };
-    // const totalOperations = radarData.length;
 
     return (
         <div className="p-6 md:p-10 max-w-7xl mx-auto font-sans text-zinc-100 selection:bg-blue-500/30 min-h-screen">

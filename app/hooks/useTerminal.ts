@@ -141,6 +141,22 @@ export function useTerminal() {
         setIsProcessing(true);
         const toastId = toast.loading('Procesando pago...');
 
+        const formatSafeIsoDate = (dateString: string) => {
+            if (!dateString) return null;
+
+            // Si el string ya trae hora (ej. '2026-04-12T14:30'), respetamos esa hora.
+            if (dateString.includes('T')) {
+                return new Date(dateString).toISOString();
+            }
+
+            // Si es solo la fecha ('2026-04-12'), la anclamos a las 12:00 PM local.
+            // Usamos split para evitar que JS intente adivinar la zona horaria.
+            const [year, month, day] = dateString.split('-').map(Number);
+
+            // new Date(año, mes - 1, día, hora, minuto, segundo)
+            return new Date(year, month - 1, day, 12, 0, 0).toISOString();
+        };
+
         try {
             const payload = {
                 customerId: selectedCustomer ? selectedCustomer.id : null,
@@ -148,7 +164,9 @@ export function useTerminal() {
                 paymentMethod,
                 total,
                 depositAmount: transactionType === 'RENTAL' ? Number(depositAmount) : 0,
-                returnDate: transactionType === 'RENTAL' ? new Date(returnDate).toISOString() : null,
+                returnDate: (transactionType === 'RENTAL' || transactionType === 'SALE') && returnDate
+                    ? new Date(returnDate).toISOString()
+                    : null,
                 contents: cart.map(item => ({
                     productId: item.product.id,
                     quantity: item.quantity,
