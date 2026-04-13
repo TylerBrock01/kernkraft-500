@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 // ⚠️ Asegúrate de importar tu instancia de axios autenticada (la que manda el Bearer token)
 import { api } from '@/app/lib/axios/axios';
+import toast from "react-hot-toast";
 
 export default function RadarPage() {
     // 🛡️ OBTENER LA FECHA LOCAL EXACTA (Sin importar la hora)
@@ -126,7 +127,7 @@ export default function RadarPage() {
                     </h2>
                     <div className="space-y-4">
                         {pickups.map((tx: any) => (
-                            <MissionCard key={tx.id} transaction={tx} theme="amber" />
+                            <MissionCard key={tx.id} transaction={tx} theme="amber" onResolveSuccess={fetchRadarData}/>
                         ))}
                         {!isLoading && pickups.length === 0 && <EmptyRadar message="No hay entregas programadas." />}
                     </div>
@@ -140,7 +141,7 @@ export default function RadarPage() {
                     </h2>
                     <div className="space-y-4">
                         {returns.map((tx :any) => (
-                            <MissionCard key={tx.id} transaction={tx} theme="blue" />
+                            <MissionCard key={tx.id} transaction={tx} theme="blue" onResolveSuccess={fetchRadarData} />
                         ))}
                         {!isLoading && returns.length === 0 && <EmptyRadar message="No hay retornos pendientes." />}
                     </div>
@@ -174,8 +175,43 @@ function MetricCard({ label, value, color = 'zinc', icon = '', alert = '' }: any
     );
 }
 
-function MissionCard({ transaction, theme }: any) {
+function MissionCard({ transaction, theme,onResolveSuccess }: any) {
     const isReturn = theme === 'blue';
+    const [isProcessing, setIsProcessing] = useState(false);
+
+    const handleResolve = async () => {
+        setIsProcessing(true); // Bloqueamos el botón
+
+        // Opcional: Feedback visual inmediato
+        const loadingToast = toast.loading(isReturn ? 'Procesando retorno...' : 'Registrando entrega...');
+
+        try {
+            // Disparamos el misil al backend
+            if (transaction.type === 'RENTAL') {
+                // await api.patch(`/transactions/${transaction.id}/return`);
+            }
+            if (transaction.rentalStatus === 'UNFULFILLED') {
+                // await api.patch(`/transactions/${transaction.id}/resolve`);
+            }
+
+            // Éxito: Cambiamos el mensaje del Toast
+            toast.success(isReturn ? '¡Equipo devuelto a bodega!' : '¡Paquete entregado al cliente!', {
+                id: loadingToast
+            });
+
+            // 🔄 Recargamos el Radar (Esto hará que la tarjeta desaparezca sola)
+            if (onResolveSuccess) {
+                onResolveSuccess();
+            }
+
+        } catch (error) {
+            console.error('Error táctico:', error);
+            toast.error('Hubo un error en la base de datos. Intenta de nuevo.', {
+                id: loadingToast
+            });
+            setIsProcessing(false); // Desbloqueamos si hubo error
+        }
+    };
 
     // Validamos si returnDate existe, si no, mostramos '--:--'
     const hour = transaction.returnDate
@@ -196,7 +232,7 @@ function MissionCard({ transaction, theme }: any) {
                     {transaction.rentalStatus === 'LATE' && (
                         <span className="bg-red-500/20 border border-red-500/50 text-red-400 text-[9px] px-2 py-0.5 rounded font-bold uppercase tracking-wider animate-pulse">Retrasado</span>
                     )}
-                    {transaction.status === 'COMPLETED' && !isReturn && (
+                    {transaction.status === 'PAID' && !isReturn && (
                         <span className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[9px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">Pagado</span>
                     )}
                 </div>
@@ -240,10 +276,8 @@ function MissionCard({ transaction, theme }: any) {
 
                 {/* Botones Tácticos */}
                 <button
-                    onClick={() => {
-                        // 🚀 Aquí puedes abrir un modal o mandar al endpoint de completar
-                        console.log('Procesar TX:', transaction.uuid);
-                    }}
+                    onClick={handleResolve}
+                    disabled={isProcessing}
                     className={`mt-4 w-full py-2.5 rounded-lg text-[10px] font-black uppercase tracking-[0.2em] transition-colors border ${
                         isReturn
                             ? 'bg-blue-500/10 text-blue-400 border-blue-500/20 hover:bg-blue-500 hover:text-white'
