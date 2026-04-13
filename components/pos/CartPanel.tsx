@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {PaymentMethod} from "@/app/types";
 
@@ -31,6 +31,9 @@ interface CartPanelProps {
 }
 
 export default function CartPanel(props: CartPanelProps) {
+    // 'NONE' (Venta directa), 'PICKUP' (Solo recoger), 'CREDIT' (Apartado/Crédito)
+    const [saleModifier, setSaleModifier] = useState('NONE');
+
     const {
         cart, removeFromCart, updateQuantity, selectedCustomer, setSelectedCustomer,
         customerSearch, setCustomerSearch, customerResults, setCustomerResults,
@@ -101,12 +104,117 @@ export default function CartPanel(props: CartPanelProps) {
                 </div>
 
                 {/* Tipo de Operación */}
+                {/* 🎛️ TIPO DE OPERACIÓN (Nivel 1) */}
+                {/* 🎛️ TIPO DE OPERACIÓN (Nivel 1) */}
                 <div className="p-3 md:p-4 border-b border-zinc-800 bg-zinc-950/50 shrink-0">
                     <div className="flex rounded-lg bg-zinc-900 p-1 border border-zinc-800">
-                        <button onClick={() => setTransactionType('SALE')} className={`flex-1 py-1.5 text-[9px] md:text-[10px] font-bold tracking-widest uppercase rounded-md transition-all ${transactionType === 'SALE' ? 'bg-zinc-100 text-zinc-950 shadow-sm' : 'text-zinc-500 hover:text-white'}`}>Venta</button>
-                        <button onClick={() => setTransactionType('RENTAL')} className={`flex-1 py-1.5 text-[9px] md:text-[10px] font-bold tracking-widest uppercase rounded-md transition-all ${transactionType === 'RENTAL' ? 'bg-blue-600 text-white shadow-sm' : 'text-zinc-500 hover:text-white'}`}>Alquiler</button>
+                        <button
+                            onClick={() => {
+                                setTransactionType('SALE');
+                                setSaleModifier('NONE'); // Reseteamos el modificador al cambiar
+                            }}
+                            className={`flex-1 py-1.5 text-[9px] md:text-[10px] font-bold tracking-widest uppercase rounded-md transition-all ${transactionType === 'SALE' ? 'bg-zinc-100 text-zinc-950 shadow-sm' : 'text-zinc-500 hover:text-white'}`}
+                        >
+                            Venta
+                        </button>
+                        <button
+                            onClick={() => setTransactionType('RENTAL')}
+                            className={`flex-1 py-1.5 text-[9px] md:text-[10px] font-bold tracking-widest uppercase rounded-md transition-all ${transactionType === 'RENTAL' ? 'bg-blue-600 text-white shadow-sm' : 'text-zinc-500 hover:text-white'}`}
+                        >
+                            Alquiler
+                        </button>
                     </div>
+
+                    {/* 🎛️ MODIFICADORES DE VENTA (Nivel 2 - Solo aparece si es VENTA) */}
+                    <AnimatePresence>
+                        {transactionType === 'SALE' && (
+                            <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: 'auto', opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                className="overflow-hidden mt-3"
+                            >
+                                <div className="flex gap-2">
+                                    <button
+                                        onClick={() => setSaleModifier(prev => prev === 'PICKUP' ? 'NONE' : 'PICKUP')}
+                                        className={`flex-1 py-1.5 border text-[9px] font-bold uppercase tracking-widest rounded-md transition-all ${saleModifier === 'PICKUP' ? 'bg-amber-500/20 border-amber-500/50 text-amber-400' : 'border-zinc-800 text-zinc-500 hover:border-zinc-600'}`}
+                                    >
+                                        📦 Pick-Up
+                                    </button>
+                                    <button
+                                        onClick={() => setSaleModifier(prev => prev === 'CREDIT' ? 'NONE' : 'CREDIT')}
+                                        className={`flex-1 py-1.5 border text-[9px] font-bold uppercase tracking-widest rounded-md transition-all ${saleModifier === 'CREDIT' ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400' : 'border-zinc-800 text-zinc-500 hover:border-zinc-600'}`}
+                                    >
+                                        💳 Crédito / Apartado
+                                    </button>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
+                {/* ⚙️ MOTOR DE PARÁMETROS DINÁMICOS */}
+                {/* Lógica de visibilidad */}
+                {(() => {
+                    const isRental = transactionType === 'RENTAL';
+                    const isPickUp = transactionType === 'SALE' && saleModifier === 'PICKUP';
+                    const isCredit = transactionType === 'SALE' && saleModifier === 'CREDIT';
+
+                    const showDate = isRental || isPickUp || isCredit;
+                    const showDeposit = isRental || isCredit;
+
+                    // Etiquetas que mutan según el contexto
+                    const dateLabel = isRental ? 'Devolución' : (isPickUp ? 'Fecha Recolección' : 'Fecha Liquidación');
+                    const depositLabel = isRental ? 'Depósito Seguro' : 'Anticipo (Abono)';
+                    const themeColor = isRental ? 'blue' : (isPickUp ? 'amber' : 'emerald');
+
+                    return (
+                        <AnimatePresence>
+                            {showDate && (
+                                <motion.div
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: 'auto', opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    className="overflow-hidden mb-3 md:mb-4 px-3 md:px-4 pt-3"
+                                >
+                                    <div className={`space-y-2 md:space-y-3 p-3 border rounded-xl bg-${themeColor}-900/10 border-${themeColor}-900/30`}>
+
+                                        {/* CAMPO DE DINERO (Solo Alquiler o Crédito) */}
+                                        {showDeposit && (
+                                            <div className="flex justify-between items-center">
+                                                <label className={`text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-${themeColor}-400`}>
+                                                    {depositLabel}
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    min="0"
+                                                    value={depositAmount}
+                                                    onChange={e => setDepositAmount(Number(e.target.value))}
+                                                    className="w-20 md:w-24 bg-zinc-900 border border-zinc-800 rounded p-1 text-right font-mono text-[10px] md:text-xs text-white outline-none focus:border-zinc-600"
+                                                    placeholder="0.00"
+                                                />
+                                            </div>
+                                        )}
+
+                                        {/* CAMPO DE FECHA (Todos los especiales) */}
+                                        <div className="flex justify-between items-center text-white">
+                                            <label className={`text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-${themeColor}-400`}>
+                                                {dateLabel}
+                                            </label>
+                                            <input
+                                                type="datetime-local"
+                                                required
+                                                value={returnDate}
+                                                onChange={e => setReturnDate(e.target.value)}
+                                                className="w-36 md:w-44 bg-zinc-900 border border-zinc-800 rounded p-1 text-[10px] md:text-xs text-zinc-300 outline-none focus:border-zinc-600 cursor-pointer"
+                                            />
+                                        </div>
+
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    );
+                })()}
 
                 {/* Lista de Items */}
                 <div className="flex-1 overflow-y-auto p-3 md:p-4 space-y-2 md:space-y-3">
@@ -136,28 +244,6 @@ export default function CartPanel(props: CartPanelProps) {
 
                 {/* Zona de Cobro */}
                 <div className="bg-zinc-950 border-t border-zinc-800 p-3  md:p-4  pb-8 md:pb-4">
-
-                    {/* 🚀 EL BLOQUE DE RENTAS RESTAURADO */}
-                    <AnimatePresence>
-                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden mb-3 md:mb-4">
-                            <div className="space-y-2 md:space-y-3 p-2.5 md:p-3 bg-blue-900/10 border border-blue-900/30 rounded-xl">
-                                <div className="flex justify-between items-center">
-                                    <label className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-blue-400">Depósito</label>
-                                    <input type="number" min="20" value={depositAmount} onChange={e => setDepositAmount(Number(e.target.value))} className="w-20 md:w-24 bg-zinc-900 border border-zinc-800 rounded p-1 text-right font-mono text-[10px] md:text-xs text-white outline-none focus:border-blue-500" placeholder="0.00" />
-                                </div>
-                                <div className="flex justify-between items-center text-white">
-                                    <label className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-blue-400">Devolución</label>
-                                    <input
-                                        type="datetime-local"
-                                        required={transactionType === 'RENTAL'}
-                                        value={returnDate}
-                                        onChange={e => setReturnDate(e.target.value)}
-                                        className="w-36 md:w-44 bg-zinc-900 border border-zinc-800 rounded p-1 text-[10px] md:text-xs text-zinc-300 outline-none focus:border-blue-500 cursor-pointer"
-                                    />
-                                </div>
-                            </div>
-                        </motion.div>
-                    </AnimatePresence>
 
                     <div className="space-y-1.5 md:space-y-2 mb-6 md:mb-4">
                         <div className="flex justify-between text-[10px] md:text-xs text-zinc-500 font-mono"><span>Subtotal Operación</span><span>${subtotal.toFixed(2)}</span></div>
