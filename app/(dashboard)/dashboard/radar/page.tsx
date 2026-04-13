@@ -215,10 +215,12 @@ function MissionCard({ transaction, theme }: any) {
                             <p className="text-xs text-zinc-500 font-mono">📞 {transaction.customer.phone}</p>
                         )}
                     </div>
-                    <div className="text-right">
-                        <p className="text-[9px] uppercase tracking-widest text-zinc-500 font-bold">Depósito Retenido</p>
-                        <p className="font-mono font-bold text-emerald-400">${Number(transaction.depositAmount).toFixed(2)}</p>
-                    </div>
+                    {isReturn && Number(transaction.depositAmount) > 0 && (
+                        <div className="text-right">
+                            <p className="text-[9px] uppercase tracking-widest text-zinc-500 font-bold">Depósito Retenido</p>
+                            <p className="font-mono font-bold text-emerald-400">${Number(transaction.depositAmount).toFixed(2)}</p>
+                        </div>
+                    )}
                 </div>
 
                 {/* Lista de Empaque mapeada desde relations: ['contents', 'contents.product'] */}
