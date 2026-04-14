@@ -259,7 +259,7 @@ export default function CartPanel(props: CartPanelProps) {
                         ))}
                     </div>
 
-                    <button onClick={handleCheckout} disabled={isProcessing || cart.length === 0} className="w-full py-3 mb-6 md:py-4 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-black text-xs md:text-sm uppercase tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(16,185,129,0.2)] disabled:opacity-50">
+                    <button onClick={handleCheckout} disabled={isProcessing || cart.length === 0} className="w-full py-3 md:py-4 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-black text-xs md:text-sm uppercase tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(16,185,129,0.2)] disabled:opacity-50">
                         {isProcessing ? 'Autorizando...' : 'Confirmar Cobro'}
                     </button>
                 </div>
