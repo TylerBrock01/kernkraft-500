@@ -64,7 +64,7 @@ export default function Sidebar({ isOpen, onClose, user, logout, menuItems }: Si
                 </nav>
 
                 {/* Info del Usuario */}
-                <div className="border-t border-zinc-900 pt-6 mb-2 lg:mb-0 shrink-0">
+                <div className="border-t border-zinc-900 shrink-0">
                     <p className="text-[10px] font-bold text-zinc-600 uppercase mb-1">{user?.role}</p>
                     <p className="text-xs font-medium truncate mb-4 text-zinc-300">{user?.name}</p>
                     <button

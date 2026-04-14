@@ -24,7 +24,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             />
 
             {/* 2. ÁREA DE CONTENIDO PRINCIPAL */}
-            <main className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden relative">
+            <main className="flex-1 flex flex-col min-w-0 h-[100dvh] overflow-hidden relative bg-zinc-950">
 
                 {/* 3. HEADER SUPERIOR */}
                 <DashboardHeader
@@ -33,17 +33,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 />
 
                 {/* 4. CONTENIDO DINÁMICO (Scrollable) */}
-                <section className="p-4 lg:p-8 flex-1 overflow-y-auto">
+                {/* 🛡️ FIX APPLE 1: overscroll-contain encierra el rebote elástico solo en esta sección, protegiendo el Header. */}
+                {/* 🛡️ FIX APPLE 2: pb-12 (o pb-[env(safe-area-inset-bottom)]) para que el último elemento no quede oculto tras el Home Indicator de iOS. */}
+                <section className="p-4 lg:p-8 flex-1 overflow-y-auto overscroll-contain pb-12 lg:pb-8 scrollbar-hide">
                     <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.4 }}
-                        className="h-full"
+                        // 🛡️ Mantenemos el min-h-full para asegurar que el área scrolleable ocupe todo el espacio incluso si hay poco contenido
+                        className="min-h-full"
                     >
                         {children}
                     </motion.div>
                 </section>
-            </main>
-        </div>
+
+            </main>        </div>
     );
 }
