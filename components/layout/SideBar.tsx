@@ -13,7 +13,7 @@ interface SidebarProps {
 export default function Sidebar({ isOpen, onClose, user, logout, menuItems }: SidebarProps) {
     return (
         <>
-            {/* 🌑 OVERLAY MÓVIL: Cristal oscuro (Oculto en PC 'lg:hidden') */}
+            {/* 🌑 OVERLAY MÓVIL: Cristal oscuro */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
@@ -21,18 +21,21 @@ export default function Sidebar({ isOpen, onClose, user, logout, menuItems }: Si
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="fixed inset-0 bg-zinc-950/80 backdrop-blur-sm z-40 lg:hidden"
+                        // 🛡️ FIX APPLE: overscroll-none evita que arrastrar el fondo mueva la página entera en iOS
+                        className="fixed inset-0 bg-zinc-950/80 backdrop-blur-sm z-40 lg:hidden overscroll-none"
                     />
                 )}
             </AnimatePresence>
 
             {/* 🌑 SIDEBAR COMPONENTE */}
             <aside
-                className={`fixed inset-y-0 left-0 z-50 w-64 bg-zinc-950/95 backdrop-blur-xl border-r border-zinc-900 flex flex-col p-6 h-screen
-                transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
-                lg:relative lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
+                // 🛡️ FIX APPLE 1: Cambiamos h-screen por h-[100dvh]. Esto respeta la barra de direcciones móvil de Safari.
+                // 🛡️ FIX APPLE 2: Agregamos pb-8 (o pb-safe si usas el plugin de tailwind) para respetar la barrita negra inferior de los iPhones.
+                className={`fixed inset-y-0 left-0 z-50 w-64 bg-zinc-950/95 backdrop-blur-xl border-r border-zinc-900 flex flex-col p-6 h-[100dvh] pb-10 lg:pb-6
+        transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
+        lg:relative lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
             >
-                <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center justify-between mb-8 shrink-0">
                     <div className="flex items-center gap-3">
                         <div className="w-8 h-8 bg-zinc-100 rounded-sm flex items-center justify-center shadow-[0_0_15px_rgba(255,255,255,0.1)]">
                             <span className="text-zinc-950 font-black text-xs">C</span>
@@ -45,7 +48,8 @@ export default function Sidebar({ isOpen, onClose, user, logout, menuItems }: Si
                     </button>
                 </div>
 
-                <nav className="flex-1 space-y-1 overflow-y-auto">
+                {/* 🛡️ FIX APPLE 3: overscroll-contain. Cuando llegas al final de este menú en iPhone, evita que la página de atrás empiece a estirarse. */}
+                <nav className="flex-1 space-y-1 overflow-y-auto overscroll-contain scrollbar-hide pb-4">
                     {menuItems.map((item) => {
                         const canSee = user && item.allowedRoles.includes(user.role);
                         if (!canSee) return null;
@@ -60,7 +64,7 @@ export default function Sidebar({ isOpen, onClose, user, logout, menuItems }: Si
                 </nav>
 
                 {/* Info del Usuario */}
-                <div className="border-t border-zinc-900 pt-6 mb-4 lg:mb-0 shrink-0">
+                <div className="border-t border-zinc-900 pt-6 mb-2 lg:mb-0 shrink-0">
                     <p className="text-[10px] font-bold text-zinc-600 uppercase mb-1">{user?.role}</p>
                     <p className="text-xs font-medium truncate mb-4 text-zinc-300">{user?.name}</p>
                     <button
@@ -71,6 +75,5 @@ export default function Sidebar({ isOpen, onClose, user, logout, menuItems }: Si
                     </button>
                 </div>
             </aside>
-        </>
-    );
+        </>    );
 }
