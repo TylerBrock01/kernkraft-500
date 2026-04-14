@@ -146,7 +146,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                             <p className="text-sm text-zinc-300 leading-relaxed max-w-lg">{product.description || 'Sin descripción disponible.'}</p>
                         </div>
 
-                        <div className="space-y-6 mb-10 md:mb-0">
+                        <div className="space-y-6">
                             <div>
                                 <h3 className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-3 border-b border-zinc-800/50 pb-2">Estado Operativo</h3>
                                 <div className={`flex items-center gap-3 p-3 rounded-lg border ${product.stock > 5 ? 'border-emerald-900/30 bg-emerald-950/20' : 'border-red-900/30 bg-red-950/20 animate-pulse'}`}>
