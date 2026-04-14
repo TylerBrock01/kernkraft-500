@@ -159,14 +159,14 @@ export default function ProductDrawer({ isOpen, onClose, onSuccess,productToEdit
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="fixed inset-0 bg-zinc-950/80 backdrop-blur-sm z-40" />
                     <motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ type: 'spring', damping: 25, stiffness: 200 }} className="fixed top-0 right-0 h-full w-full max-w-md bg-zinc-950 border-l border-zinc-800 z-50 p-6 flex flex-col shadow-2xl overflow-y-auto">
 
-                        <div className="flex justify-between items-center mb-8 shrink-0">
+                        <div className="flex justify-between items-center mb-10 shrink-0">
                             <h2 className="text-xl font-bold text-zinc-100">
                                 {productToEdit ? 'Editar Expediente' : 'Nueva Carga'} {/* 🧠 Título dinámico */}
                             </h2>
                             <button onClick={onClose} className="text-zinc-500 hover:text-white">✕</button>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="space-y-6 flex-1 flex flex-col">
+                        <form onSubmit={handleSubmit} className="mb-6 space-y-6 flex-1 flex flex-col">
 
                             {/* 📸 DROPZONE DE IMAGEN */}
 

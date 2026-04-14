@@ -64,7 +64,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     if (!product) return <div className="p-8 text-red-500 font-mono text-sm uppercase tracking-widest">Expediente no encontrado.</div>;
 
     return (
-        <div className="max-w-6xl w-full"> {/* Aumentamos un poco el ancho máximo */}
+        <div className=" md:h-auto max-w-6xl w-full grid gap-2"> {/* Aumentamos un poco el ancho máximo */}
             <button
                 onClick={() => router.back()}
                 className="text-zinc-500 text-xs font-bold uppercase tracking-widest hover:text-white mb-6 flex items-center gap-2 transition-colors"
@@ -72,7 +72,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 ← Volver al Inventario
             </button>
             {/* 🛠️ BOTONES DE CONTROL TÁCTICO */}
-            <div className="flex gap-3">
+            <div className="flex gap-3 justify-between md:justify-end lg:justify-start">
                 <button
                     onClick={handleToggleStatus}
                     className={`px-4 py-2 text-[10px] font-bold uppercase tracking-widest rounded-lg border transition-all ${
@@ -92,7 +92,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 </button>
             </div>
             {/* 🚀 TARJETA DEL PRODUCTO REESTRUCTURADA */}
-            <div className="bg-zinc-900/40 border border-zinc-800 rounded-2xl backdrop-blur-md overflow-hidden flex flex-col md:flex-row shadow-2xl">
+            <div className=" bg-zinc-900/40 border border-zinc-800 rounded-2xl backdrop-blur-md overflow-hidden flex flex-col md:flex-row shadow-2xl">
 
                 {/* 📸 COLUMNA IZQUIERDA: LA FOTOGRAFÍA */}
                 <div className="w-full md:w-2/5 h-80 md:h-auto border-b md:border-b-0 md:border-r border-zinc-800 bg-black/20 flex items-center justify-center overflow-hidden relative group">
@@ -140,13 +140,13 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <div>
                             <h3 className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-3 border-b border-zinc-800/50 pb-2">Descripción</h3>
                             <p className="text-sm text-zinc-300 leading-relaxed max-w-lg">{product.description || 'Sin descripción disponible.'}</p>
                         </div>
 
-                        <div className="space-y-6">
+                        <div className="space-y-6 mb-10 md:mb-0">
                             <div>
                                 <h3 className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-3 border-b border-zinc-800/50 pb-2">Estado Operativo</h3>
                                 <div className={`flex items-center gap-3 p-3 rounded-lg border ${product.stock > 5 ? 'border-emerald-900/30 bg-emerald-950/20' : 'border-red-900/30 bg-red-950/20 animate-pulse'}`}>
@@ -161,7 +161,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                                     <button
                                         onClick={() => setIsMermaModalOpen(true)}
                                         disabled={product.stock <= 0}
-                                        className="text-[10px] uppercase font-bold tracking-widest text-red-500 hover:text-white border border-red-900/50 hover:bg-red-600 px-3 py-1.5 rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                                        className="text-[10px] uppercase font-bold tracking-widest text-red-500 hover:text-white border border-red-900/50 hover:bg-red-600 px-2 py-4 rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                                     >
                                         ⚠ Registrar Merma / Pérdida
                                     </button>
