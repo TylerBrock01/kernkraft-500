@@ -70,6 +70,51 @@ export default function PublicTicketPage({ params }: { params: Promise<{ uuid: s
 
     const { header, customer, details, financials, footer } = ticket;
     const isRental = details.type === 'RENTAL';
+    const getStatusTheme = () => {
+        // Caso 1: Todo terminado, devuelto o completado (Verde)
+        if (
+            details.rentalStatus === 'RETURNED' ||
+            details.rentalStatus === 'FULFILLED' ||
+            details.status === 'COMPLETED'
+        ) {
+            return {
+                titleColor: 'text-emerald-500/70',
+                badgeBg: 'bg-emerald-500/10 border-emerald-500/20',
+                badgeText: 'text-emerald-400',
+                label: 'Completado'
+            };
+        }
+
+        // Caso 2: Rentas pendientes o no entregadas (Ámbar)
+        if (details.rentalStatus === 'UNFULFILLED') {
+            return {
+                titleColor: 'text-amber-500/70',
+                badgeBg: 'bg-amber-500/10 border-amber-500/20',
+                badgeText: 'text-amber-400',
+                label: 'Pendiente'
+            };
+        }
+
+        // Caso 3: Rentas activas/En uso (Azul)
+        if (details.type === 'RENTAL') {
+            return {
+                titleColor: 'text-blue-500/70',
+                badgeBg: 'bg-blue-500/10 border-blue-500/20',
+                badgeText: 'text-blue-400',
+                label: 'En Uso'
+            };
+        }
+
+        // Fallback por defecto
+        return {
+            titleColor: 'text-zinc-500/70',
+            badgeBg: 'bg-zinc-800/50 border-zinc-700/50',
+            badgeText: 'text-zinc-400',
+            label: details.status || 'Desconocido'
+        };
+    };
+
+    const theme = getStatusTheme(); // Ejecutamos la función
 
     return (
         <div className="min-h-screen bg-[#050505] flex items-center justify-center p-4 py-12 selection:bg-zinc-800 selection:text-white">
@@ -117,34 +162,42 @@ export default function PublicTicketPage({ params }: { params: Promise<{ uuid: s
                     <div className="w-full border-b border-dashed border-zinc-800 mb-6"></div>
 
                     {/* ================= DATOS DEL CLIENTE Y RENTA (Si aplica) ================= */}
-                    {(customer || isRental) && (
-                        <div className="mb-6 space-y-4">
-                            {customer && (
-                                <div className="bg-zinc-900/50 rounded-lg p-3 border border-zinc-800/50">
-                                    <p className="text-[9px] uppercase font-bold tracking-widest text-zinc-500 mb-1">Cliente</p>
-                                    <p className="text-xs font-bold text-zinc-200">{customer.name}</p>
-                                    {customer.phone && <p className="text-[10px] font-mono text-zinc-500 mt-0.5">{customer.phone}</p>}
-                                </div>
-                            )}
+                    <div className="mb-6 space-y-4">
+                        {customer ?
+                            <div className="bg-zinc-900/50 rounded-lg p-3 border border-zinc-800/50">
+                                <p className="text-[9px] uppercase font-bold tracking-widest text-zinc-500 mb-1">Cliente</p>
+                                <p className="text-xs font-bold text-zinc-200">{customer.name}</p>
+                                <p className="text-[10px] font-mono text-zinc-500 mt-0.5">#{customer.phone}</p>
+                            </div>
+                                : null
+                            }
 
-                            {isRental && (
-                                <div className="bg-blue-950/20 rounded-lg p-3 border border-blue-900/30">
-                                    <div className="flex justify-between items-center mb-2">
-                                        <span className="text-[9px] uppercase font-bold tracking-widest text-blue-500/70">Estado del Equipo</span>
-                                        <span className={`text-[9px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded ${details.rentalStatus === 'RETURNED' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-blue-500/20 text-blue-400'}`}>
-                      {details.rentalStatus === 'RETURNED' ? 'Devuelto' : 'En Uso'}
-                    </span>
-                                    </div>
-                                    {financials.returnDate && (
-                                        <div className="flex justify-between items-center text-[10px] font-mono">
-                                            <span className="text-zinc-400">Devolución esperada:</span>
-                                            <span className="text-zinc-200">{new Date(financials.returnDate).toLocaleDateString('es-MX')}</span>
-                                        </div>
-                                    )}
+                        <div className="bg-zinc-900/30 rounded-xl p-4 border border-zinc-800/80">
+                            <div className="flex justify-between items-center mb-3">
+            <span className={`text-[9px] uppercase font-bold tracking-[0.2em] ${theme.titleColor}`}>
+                Estado Operativo
+            </span>
+
+                                <span className={`text-[9px] font-bold uppercase tracking-widest px-2 py-1 rounded-md border ${theme.badgeBg} ${theme.badgeText}`}>
+                {theme.label}
+            </span>
+                            </div>
+
+                            {financials.returnDate && (
+                                <div className="flex justify-between items-center pt-3 mt-1 border-t border-zinc-800/50 text-[10px] font-mono">
+                                    <span className="text-zinc-500 uppercase tracking-wider text-[9px]">Retorno Programado:</span>
+                                    <span className="text-zinc-300">
+                    {new Date(financials.returnDate).toLocaleDateString('es-MX', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric'
+                    })}
+                </span>
                                 </div>
                             )}
                         </div>
-                    )}
+                    </div>
+
 
                     {/* ================= LISTA DE ARTÍCULOS ================= */}
                     <div className="mb-6">
