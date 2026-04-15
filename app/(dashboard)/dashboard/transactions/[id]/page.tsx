@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { api } from '@/app/lib/axios/axios';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from "next/link";
+import {Fingerprint} from "lucide-react";
 
 type ModalType = 'CANCEL' | 'REFUND' | 'RETURN' | 'UNFULFILLED' | null;
 
@@ -289,16 +291,26 @@ export default function TransactionAuditPage({ params }: { params: Promise<{ id:
                             )}
 
                             {/* 🛡️ BADGE DE OPERADOR (Mantenemos el estilo para que haga juego) */}
-                            <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-900/30 border border-zinc-800/80 rounded-lg">
-                                <div className="flex flex-col text-left">
-             <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-600">
-                Operador
-            </span>
-                                    <span className="text-xs font-mono text-zinc-400 leading-none mt-0.5">
-                {tx.userId || 'Desconocido'}
-            </span>
+                            <Link
+                                href={`/dashboard/team/${tx.userId}`}
+                                // 1. Agregamos 'group' y transiciones suaves para el contenedor
+                                className="group flex items-center gap-3 px-3 py-2 bg-zinc-900/40 border border-zinc-800/80 rounded-xl hover:bg-zinc-800/80 hover:border-zinc-600 transition-all duration-300 cursor-pointer"
+                            >
+                                {/* 2. Contenedor del ícono táctico (Reacciona al hover del padre) */}
+                                <div className="p-1.5 bg-zinc-950 border border-zinc-800/80 rounded-lg group-hover:border-emerald-500/30 group-hover:bg-emerald-500/10 transition-colors duration-300">
+                                    <Fingerprint size={14} className="text-zinc-600 group-hover:text-emerald-500 transition-colors duration-300" />
                                 </div>
-                            </div>
+
+                                {/* 3. Bloque de texto */}
+                                <div className="flex flex-col text-left">
+        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-600 group-hover:text-zinc-400 transition-colors duration-300">
+            Operador
+        </span>
+                                    <span className="text-xs font-mono text-zinc-400 group-hover:text-white leading-none mt-1 transition-colors duration-300">
+            {tx.userId ? tx.userId : 'DESCONOCIDO'}
+        </span>
+                                </div>
+                            </Link>
 
                         </div>
 
