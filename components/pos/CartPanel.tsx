@@ -105,7 +105,6 @@ export default function CartPanel(props: CartPanelProps) {
 
                 {/* Tipo de Operación */}
                 {/* 🎛️ TIPO DE OPERACIÓN (Nivel 1) */}
-                {/* 🎛️ TIPO DE OPERACIÓN (Nivel 1) */}
                 <div className="p-3 md:p-4 border-b border-zinc-800 bg-zinc-950/50 shrink-0">
                     <div className="flex rounded-lg bg-zinc-900 p-1 border border-zinc-800">
                         <button
@@ -229,10 +228,44 @@ export default function CartPanel(props: CartPanelProps) {
                                         <button onClick={() => removeFromCart(item.product.id)} className="text-zinc-600 hover:text-red-500 shrink-0">✕</button>
                                     </div>
                                     <div className="flex justify-between items-center">
-                                        <div className="flex items-center gap-2 md:gap-3 bg-zinc-900 rounded-lg p-1 border border-zinc-800">
-                                            <button onClick={() => updateQuantity(item.product.id, -1)} className="w-5 h-5 md:w-6 md:h-6 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded">-</button>
-                                            <span className="font-mono text-xs w-4 text-center">{item.quantity}</span>
-                                            <button onClick={() => updateQuantity(item.product.id, 1)} className="w-5 h-5 md:w-6 md:h-6 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded">+</button>
+                                        <div className="flex justify-between items-center">
+                                            <div className="flex items-center gap-1 md:gap-2 bg-zinc-900 rounded-lg p-1 border border-zinc-800">
+
+                                                <button onClick={() => updateQuantity(item.product.id, -1)} className="w-5 h-5 md:w-6 md:h-6 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-800 rounded transition-colors">
+                                                    -
+                                                </button>
+
+                                                {/* ✨ EL NUEVO INPUT TÁCTICO */}
+                                                <input
+                                                    type="number"
+                                                    min="1"
+                                                    value={item.quantity}
+                                                    onChange={(e) => {
+                                                        // 1. Obtenemos lo que el usuario escribió
+                                                        const newValue = parseInt(e.target.value);
+
+                                                        // 2. Validamos que no haya borrado todo y que sea un número positivo
+                                                        if (!isNaN(newValue) && newValue > 0) {
+                                                            // 3. Calculamos el "Delta" (La diferencia)
+                                                            // Ej: Si había 2, y el usuario escribe 10, el delta es +8.
+                                                            // Así tu función original sigue trabajando perfectamente sin modificar el Padre.
+                                                            const delta = newValue - item.quantity;
+                                                            updateQuantity(item.product.id, delta);
+                                                        }
+                                                    }}
+                                                    // Clases para la estética Gloom y ocultar los spinners por defecto del navegador
+                                                    className="font-mono text-xs w-8 md:w-10 text-center bg-zinc-950/50 border-b border-transparent focus:border-emerald-500/50 focus:bg-zinc-950 text-white outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded"
+                                                />
+
+                                                <button onClick={() => updateQuantity(item.product.id, 1)} className="w-5 h-5 md:w-6 md:h-6 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-800 rounded transition-colors">
+                                                    +
+                                                </button>
+
+                                            </div>
+
+                                            <span className="font-mono font-bold text-emerald-400 text-xs md:text-sm">
+        ${(item.product.price * item.quantity).toFixed(2)}
+    </span>
                                         </div>
                                         <span className="font-mono font-bold text-emerald-400 text-xs md:text-sm">${(item.product.price * item.quantity).toFixed(2)}</span>
                                     </div>
