@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '@/app/lib/axios/axios';
 import toast from 'react-hot-toast';
+import {Activity, TrendingUp} from "lucide-react";
 
 // Utilidad para formatear dinero
 const formatMoney = (amount: number) => {
@@ -11,6 +12,7 @@ const formatMoney = (amount: number) => {
 
 export default function AnalyticsDashboardPage() {
     const [weekly, setWeekly] = useState<any>(null);
+    const [revenue, setRevenue] = useState<number | null>(null);
     const [investor, setInvestor] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -35,7 +37,25 @@ export default function AnalyticsDashboardPage() {
 
         fetchAnalytics();
     }, []);
+    useEffect(() => {
+        const fetchDailyRevenue = async () => {
+            try {
+                const { data } = await api.get('/analytics/daily-revenue');
+                setRevenue(data.revenue);
+            } catch (error) {
+                console.error('Error cargando ingresos del día:', error);
+                setRevenue(0); // Fallback seguro
+            } finally {
+                setIsLoading(false);
+            }
+        };
 
+        fetchDailyRevenue();
+
+        // Opcional: Recargar cada 5 minutos automáticamente para que el dueño vea el dinero subir
+        const interval = setInterval(fetchDailyRevenue, 300000);
+        return () => clearInterval(interval);
+    }, []);
     if (isLoading) {
         return (
             <div className="w-full h-full flex flex-col items-center justify-center pt-20">
@@ -58,6 +78,42 @@ export default function AnalyticsDashboardPage() {
             <div className="mb-8">
                 <h1 className="text-3xl font-black text-white tracking-tight uppercase">Radar Financiero</h1>
                 <p className="text-zinc-500 font-mono text-xs mt-1 uppercase tracking-widest">Motor de Inteligencia CAZA // Datos en Tiempo Real</p>
+            </div>
+
+            <div className="relative overflow-hidden bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-6 group transition-all duration-300 hover:bg-zinc-900/60 hover:border-zinc-700/80">
+
+                {/* Brillo sutil de fondo (Estética Gloom) */}
+                <div className="absolute -top-10 -right-10 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl group-hover:bg-emerald-500/10 transition-colors duration-500"></div>
+
+                <div className="relative z-10 flex items-center justify-between mb-4">
+                    <h3 className="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.2em] flex items-center gap-2">
+                        <Activity size={14} className="text-emerald-500/70" />
+                        Ingresos de Hoy
+                    </h3>
+                    {/* Etiqueta de "En Vivo" */}
+                    <span className="flex items-center gap-1.5 text-[9px] uppercase font-bold tracking-widest text-emerald-500/80 bg-emerald-500/10 px-2 py-1 rounded-md border border-emerald-500/20">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          En Vivo
+        </span>
+                </div>
+
+                <div>
+                    {isLoading ? (
+                        // Skeleton Loader
+                        <div className="h-10 w-40 bg-zinc-800/50 rounded-lg animate-pulse mt-2"></div>
+                    ) : (
+                        <div className="flex items-end gap-3 mt-2">
+                            <h2 className="text-4xl font-black font-mono text-white tracking-tight">
+                                ${revenue?.toLocaleString('es-MX', { minimumFractionDigits: 2 })}
+                            </h2>
+                            <div className="flex items-center gap-1 text-[10px] font-bold text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded mb-1.5">
+                                <TrendingUp size={12} />
+                                <span>Corte Abierto</span>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
             </div>
 
             {/* ================= FILA 1: KPIs GLOBALES (INVESTOR METRICS) ================= */}
@@ -206,6 +262,7 @@ export default function AnalyticsDashboardPage() {
                     </table>
                 </div>
             </div>
+
 
         </div>
     );
