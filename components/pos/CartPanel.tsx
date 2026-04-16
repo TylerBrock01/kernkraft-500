@@ -238,8 +238,7 @@ export default function CartPanel(props: CartPanelProps) {
                                             <input
                                                 type="number"
                                                 step="any" // Fundamental: Le dice al navegador que acepte fracciones
-                                                value={item.quantity}
-                                                onChange={(e) => {
+                                                value={parseFloat(item.quantity.toFixed(3))}                                                onChange={(e) => {
                                                     const rawValue = e.target.value;
 
                                                     // Si el cajero borra todo para escribir un nuevo número, pausamos la función

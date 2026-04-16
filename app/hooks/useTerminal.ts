@@ -102,18 +102,26 @@ export function useTerminal() {
     const updateQuantity = (productId: number, delta: number) => {
         setCart(prev => prev.map(item => {
             if (item.product.id === productId) {
-                const newQuantity = item.quantity + delta;
+                // 1. Sumamos la cantidad
+                let newQuantity = item.quantity + delta;
+
+                // 2. 🛡️ EL ESCUDO: Redondeamos a máximo 3 decimales (ej. 0.800 kg)
+                // Esto destruye el "0.19999999999999996" antes de evaluarlo
+                newQuantity = Math.round(newQuantity * 1000) / 1000;
+
+                // 3. Tus validaciones originales (intactas y ahora precisas)
                 if (newQuantity <= 0) return item;
+
                 if (newQuantity > item.product.stock) {
                     toast.error('Stock máximo alcanzado');
                     return item;
                 }
+
                 return { ...item, quantity: newQuantity };
             }
             return item;
         }));
     };
-
     const removeFromCart = (productId: number) => {
         setCart(prev => prev.filter(item => item.product.id !== productId));
     };
