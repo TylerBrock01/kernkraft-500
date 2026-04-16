@@ -57,12 +57,12 @@ export const SIDEBAR_MENU: MenuItem[] = [
         name: 'Movimientos',
         path: '/dashboard/pos/movements',
         icon: '🔄',
-        allowedRoles: ['admin'] // Solo el dueño autoriza esto
+        allowedRoles: ['super_admin','admin'] // Solo el dueño autoriza esto
     },
     {
         name: 'Radar',
         path: '/dashboard/radar',
         icon: '📖',
-        allowedRoles: ['admin','vendedor'] // Solo el dueño autoriza esto
+        allowedRoles: ['super_admin','admin','vendedor'] // Solo el dueño autoriza esto
     },
 ];
