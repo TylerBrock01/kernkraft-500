@@ -227,47 +227,51 @@ export default function CartPanel(props: CartPanelProps) {
                                         <span className="font-bold text-xs md:text-sm truncate pr-2">{item.product.name}</span>
                                         <button onClick={() => removeFromCart(item.product.id)} className="text-zinc-600 hover:text-red-500 shrink-0">✕</button>
                                     </div>
-                                    <div className="flex justify-between items-center">
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex items-center gap-1 md:gap-2 bg-zinc-900 rounded-lg p-1 border border-zinc-800">
+                                    <div className="flex justify-between items-center w-full">
+                                        <div className="flex items-center gap-1 md:gap-2 bg-zinc-900 rounded-lg p-1 border border-zinc-800">
 
-                                                <button onClick={() => updateQuantity(item.product.id, -1)} className="w-5 h-5 md:w-6 md:h-6 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-800 rounded transition-colors">
-                                                    -
-                                                </button>
+                                            <button onClick={() => updateQuantity(item.product.id, -1)} className="w-5 h-5 md:w-6 md:h-6 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-800 rounded transition-colors">
+                                                -
+                                            </button>
 
-                                                {/* ✨ EL NUEVO INPUT TÁCTICO */}
-                                                <input
-                                                    type="number"
-                                                    min="1"
-                                                    value={item.quantity}
-                                                    onChange={(e) => {
-                                                        // 1. Obtenemos lo que el usuario escribió
-                                                        const newValue = parseInt(e.target.value);
+                                            {/* ✨ EL INPUT TÁCTICO PARA KILOS Y GRAMOS */}
+                                            <input
+                                                type="number"
+                                                step="any" // Fundamental: Le dice al navegador que acepte fracciones
+                                                value={item.quantity}
+                                                onChange={(e) => {
+                                                    const rawValue = e.target.value;
 
-                                                        // 2. Validamos que no haya borrado todo y que sea un número positivo
-                                                        if (!isNaN(newValue) && newValue > 0) {
-                                                            // 3. Calculamos el "Delta" (La diferencia)
-                                                            // Ej: Si había 2, y el usuario escribe 10, el delta es +8.
-                                                            // Así tu función original sigue trabajando perfectamente sin modificar el Padre.
-                                                            const delta = newValue - item.quantity;
-                                                            updateQuantity(item.product.id, delta);
-                                                        }
-                                                    }}
-                                                    // Clases para la estética Gloom y ocultar los spinners por defecto del navegador
-                                                    className="font-mono text-xs w-8 md:w-10 text-center bg-zinc-950/50 border-b border-transparent focus:border-emerald-500/50 focus:bg-zinc-950 text-white outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded"
-                                                />
+                                                    // Si el cajero borra todo para escribir un nuevo número, pausamos la función
+                                                    // para que no se borre el artículo por accidente.
+                                                    if (rawValue === '') return;
 
-                                                <button onClick={() => updateQuantity(item.product.id, 1)} className="w-5 h-5 md:w-6 md:h-6 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-800 rounded transition-colors">
-                                                    +
-                                                </button>
+                                                    // 1. Usamos parseFloat para preservar los decimales (0.800)
+                                                    const newValue = parseFloat(rawValue);
 
-                                            </div>
+                                                    // 2. Validamos que sea un número real
+                                                    if (!isNaN(newValue) && newValue > 0) {
+                                                        // 3. Calculamos la diferencia (Delta) y aplicamos Math.round
+                                                        // para blindarnos contra el bug de los decimales infinitos de JavaScript
+                                                        const delta = Math.round((newValue - item.quantity) * 1000) / 1000;
 
-                                            <span className="font-mono font-bold text-emerald-400 text-xs md:text-sm">
+                                                        updateQuantity(item.product.id, delta);
+                                                    }
+                                                }}
+                                                // Aumenté ligeramente el width (w-12 md:w-16) para que quepan números como "1.500"
+                                                className="font-mono text-xs w-12 md:w-16 text-center bg-zinc-950/50 border-b border-transparent focus:border-emerald-500/50 focus:bg-zinc-950 text-white outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded"
+                                            />
+
+                                            <button onClick={() => updateQuantity(item.product.id, 1)} className="w-5 h-5 md:w-6 md:h-6 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-800 rounded transition-colors">
+                                                +
+                                            </button>
+
+                                        </div>
+
+                                        {/* El Total Dinámico de la fila */}
+                                        <span className="font-mono font-bold text-emerald-400 text-xs md:text-sm">
         ${(item.product.price * item.quantity).toFixed(2)}
     </span>
-                                        </div>
-                                        <span className="font-mono font-bold text-emerald-400 text-xs md:text-sm">${(item.product.price * item.quantity).toFixed(2)}</span>
                                     </div>
                                 </motion.div>
                             ))
