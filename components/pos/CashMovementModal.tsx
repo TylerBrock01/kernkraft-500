@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { api } from '@/app/lib/axios/axios';
 import toast from 'react-hot-toast';
@@ -11,9 +11,20 @@ interface CashMovementModalProps {
 
 export default function CashMovementModal({ isOpen, onClose, onSuccess }: CashMovementModalProps) {
     const [type, setType] = useState<'IN' | 'OUT'>('OUT');
+    const [category, setCategory] = useState('OPERATING_EXPENSE');
     const [amount, setAmount] = useState('');
     const [reason, setReason] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        if (type === 'IN') {
+            setCategory('OTHER');
+        } else if (type === 'OUT' && category === 'OTHER') {
+            // Si regresa a SALIDA, le ponemos el gasto por defecto para agilizar
+            setCategory('OPERATING_EXPENSE');
+        }
+    }, [type]);
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -24,6 +35,7 @@ export default function CashMovementModal({ isOpen, onClose, onSuccess }: CashMo
             // ⚠️ Ajusta la ruta '/cash-movement' al prefijo real de tu controlador NestJS
             await api.post('/cash-movements', {
                 type,
+                category, // Ya va sincronizado y validado
                 amount: Number(amount),
                 reason
             });
