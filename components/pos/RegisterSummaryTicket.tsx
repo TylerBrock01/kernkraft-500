@@ -32,7 +32,7 @@ export default function RegisterSummaryTicket({ closeSummary, onClose }: Registe
                         <div className="text-right text-zinc-300">${closeSummary.summary.openingBalance.toFixed(2)}</div>
 
                         <div className="text-zinc-500">Ventas en Efectivo:</div>
-                        <div className={`text-right ${closeSummary.summary.salesRevenue > 0 ? 'text-emerald-400' : closeSummary.summary.salesRevenue < 0
+                        <div className={`text-right ${closeSummary.summary.salesRevenue > 0 ? 'text-zinc-50' : closeSummary.summary.salesRevenue < 0
                             ? 'text-red-500'
                             : 'text-gray-400'}` }>
                             {closeSummary.summary.salesRevenue > 0 ? '+' : ''}
@@ -40,14 +40,25 @@ export default function RegisterSummaryTicket({ closeSummary, onClose }: Registe
                         </div>
 
                         <div className="text-zinc-500">Dinero Esperado:</div>
-                        <div className="text-right font-bold text-yellow-500 border-t border-zinc-700 pt-2">${closeSummary.summary.expectedBalance.toFixed(2)}</div>
+                        <div className={`text-right font-bold  border-t border-zinc-700 pt-2 ${
+                            closeSummary.summary.expectedBalance > closeSummary.summary.actualBalance ? "text-amber-400"
+                                    :
+                                    'text-zinc-50'}`}>${closeSummary.summary.expectedBalance.toFixed(2)}</div>
 
                         <div className="text-zinc-500">Efectivo Físico Contado:</div>
-                        <div className="text-right font-bold text-white">${closeSummary.summary.actualBalance.toFixed(2)}</div>
+                        <div className={`text-right font-bold  ${
+                            closeSummary.summary.actualBalance> closeSummary.summary.expectedBalance ?'text-emerald-400 '
+                                :
+                                closeSummary.summary.actualBalance < closeSummary.summary.expectedBalance? 'text-red-600'
+                                    :
+                                    'text-white'}`}>${closeSummary.summary.actualBalance.toFixed(2)}</div>
 
                         <div className="text-zinc-500 mt-2">Diferencia:</div>
-                        <div className={`text-right font-black mt-2 ${closeSummary.summary.difference < 0 ? 'text-red-500' : 'text-zinc-300'}`}>
-                            {closeSummary.summary.difference > 0 ? '+' : ''}
+                        <div className={`text-right font-black mt-2 ${
+                            closeSummary.summary.difference < 0 ? 'text-red-600'
+                                : closeSummary.summary.difference> 0 ?'text-emerald-500'
+                                    : 'text-zinc-50'}`}>
+                            {closeSummary.summary.difference > 0 ? '+': ''}
                             ${closeSummary.summary.difference.toFixed(2)}
                         </div>
                     </div>
