@@ -90,7 +90,7 @@ export default function StockAdjustmentModal({ isOpen, onClose, onSuccess, produ
                                 <div className="grid grid-cols-2 gap-2">
                                     {/* ⚠️ REEMPLAZA ESTOS VALORES CON TU ENUM REAL DE NESTJS */}
                                     {[
-                                        { id: 'damage', label: 'Dañado / Roto' },
+                                        { id: 'DAMAGE', label: 'Dañado / Roto' },
                                         { id: 'THEFT', label: 'Robo' },
                                         { id: 'EXPIRATION', label: 'Caducado' },
                                         {id:'LOSS',label: 'Extraviado'},
