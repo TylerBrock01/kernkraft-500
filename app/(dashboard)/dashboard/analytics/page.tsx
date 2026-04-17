@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { api } from '@/app/lib/axios/axios';
 import toast from 'react-hot-toast';
 import {Activity, TrendingUp} from "lucide-react";
+import FinancialPulseCard from "@/components/dashboard/FinancialPulseCard";
+import HeaderDashboard from "@/app/(dashboard)/dashboard/analytics/HeaderDashboard";
 
 // Utilidad para formatear dinero
 const formatMoney = (amount: number) => {
@@ -73,13 +75,10 @@ export default function AnalyticsDashboardPage() {
 
     return (
         <div className="max-w-7xl mx-auto w-full pt-4 pb-20 space-y-6">
-
             {/* HEADER TÁCTICO */}
-            <div className="mb-8">
-                <h1 className="text-3xl font-black text-white tracking-tight uppercase">Radar Financiero</h1>
-                <p className="text-zinc-500 font-mono text-xs mt-1 uppercase tracking-widest">Motor de Inteligencia CAZA // Datos en Tiempo Real</p>
-            </div>
 
+            <HeaderDashboard/>
+            <FinancialPulseCard/>
             <div className="relative overflow-hidden bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-6 group transition-all duration-300 hover:bg-zinc-900/60 hover:border-zinc-700/80">
 
                 {/* Brillo sutil de fondo (Estética Gloom) */}
