@@ -78,7 +78,6 @@ export default function AnalyticsDashboardPage() {
             {/* HEADER TÁCTICO */}
 
             <HeaderDashboard/>
-            <FinancialPulseCard/>
             <div className="relative overflow-hidden bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-6 group transition-all duration-300 hover:bg-zinc-900/60 hover:border-zinc-700/80">
 
                 {/* Brillo sutil de fondo (Estética Gloom) */}
@@ -115,6 +114,7 @@ export default function AnalyticsDashboardPage() {
 
             </div>
 
+            <FinancialPulseCard/>
             {/* ================= FILA 1: KPIs GLOBALES (INVESTOR METRICS) ================= */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 
