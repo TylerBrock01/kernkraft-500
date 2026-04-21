@@ -170,7 +170,7 @@ export default function ProductDrawer({ isOpen, onClose, onSuccess,productToEdit
 
                             {/* 📸 DROPZONE DE IMAGEN */}
 
-                            <div>
+                            <div className={'hidden'}>
                                 <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 ml-1 mb-2 block">Fotografía del Producto</label>
 
                                 <div
