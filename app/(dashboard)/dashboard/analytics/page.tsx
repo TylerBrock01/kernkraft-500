@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import {Activity, TrendingUp} from "lucide-react";
 import FinancialPulseCard from "@/components/dashboard/FinancialPulseCard";
 import HeaderDashboard from "@/app/(dashboard)/dashboard/analytics/HeaderDashboard";
+import VolatilityChart from "@/components/dashboard/VolatilityChart";
 
 // Utilidad para formatear dinero
 const formatMoney = (amount: number) => {
@@ -113,8 +114,9 @@ export default function AnalyticsDashboardPage() {
                 </div>
 
             </div>
-
             <FinancialPulseCard/>
+            <VolatilityChart/>
+
             {/* ================= FILA 1: KPIs GLOBALES (INVESTOR METRICS) ================= */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 
