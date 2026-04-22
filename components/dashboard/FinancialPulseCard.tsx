@@ -17,14 +17,14 @@ interface FinancialPulseData {
     timestamp?: string;
 }
 
-export default function FinancialPulseCard() {
+export default function FinancialPulseCard({ timeframe }: { timeframe: string }) {
     const [data, setData] = useState<FinancialPulseData | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchPulse = async () => {
             try {
-                const response = await api.get('/analytics/financial-pulse');
+                const response = await api.get(`/analytics/financial-pulse?period=${timeframe}`);
                 setData(response.data.data);
             } catch (error) {
                 console.error('Error cargando pulso financiero:', error);
@@ -37,7 +37,7 @@ export default function FinancialPulseCard() {
         fetchPulse();
         const interval = setInterval(fetchPulse, 300000); // 5 min
         return () => clearInterval(interval);
-    }, []);
+    }, [timeframe]);
 
     if (isLoading || !data) {
         return (
@@ -67,7 +67,6 @@ export default function FinancialPulseCard() {
             background: 'transparent',
             animations: {
                 enabled: true,
-                easing: 'easeinout',
                 speed: 800,
             }
         },

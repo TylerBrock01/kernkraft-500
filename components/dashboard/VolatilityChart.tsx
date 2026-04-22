@@ -3,24 +3,24 @@
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Loader2, TrendingUp } from 'lucide-react';
-import { api } from '@/app/lib/axios/axios'; // Ajusta la ruta a tu Axios
+import { api } from '@/app/lib/axios/axios';
+import { ApexOptions } from 'apexcharts'; // Tipado estricto
 
-// 🛡️ IMPORTACIÓN DINÁMICA: Evita el crasheo de Next.js en el servidor
+// 🛡️ IMPORTACIÓN DINÁMICA
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-export default function VolatilityChart() {
-    const [series, setSeries] = useState<{ name: string; data: any[] }[]>([]);
+export default function VolatilityChart({ timeframe }: { timeframe: string }) {
+    const [series, setSeries] = useState<ApexAxisChartSeries>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchOHLC = async () => {
+            setIsLoading(true);
             try {
-                // Hacemos la petición a tu nuevo endpoint
-                const response = await api.get('/analytics/ohlc/daily');
+                // 🔗 Conectamos con el endpoint unificado de NestJS
+                const response = await api.get(`/analytics/ohlc?period=${timeframe}`);
                 const rawData = response.data.data;
 
-                // 🧠 MAPEO FINANCIERO: ApexCharts pide exactamente este formato:
-                // x: Fecha, y: [Open, High, Low, Close]
                 const formattedData = rawData.map((item: any) => ({
                     x: item.date,
                     y: [item.open, item.high, item.low, item.close]
@@ -38,34 +38,30 @@ export default function VolatilityChart() {
         };
 
         fetchOHLC();
-    }, []);
+    }, [timeframe]); // 👈 Re-ejecuta cuando el usuario cambia de pestaña
 
-    // 🎨 ESTÉTICA GLOOM: Configuramos el motor gráfico
-    const chartOptions: ApexCharts.ApexOptions = {
+    // 🎨 ESTÉTICA GLOOM
+    const chartOptions: ApexOptions = {
         chart: {
             type: 'candlestick',
-            height: 350,
             background: 'transparent',
-            toolbar: {
-                show: true,
-                tools: { download: false, pan: true, zoom: true }
-            },
+            toolbar: { show: false },
             animations: { enabled: true }
         },
         theme: { mode: 'dark' },
         plotOptions: {
             candlestick: {
                 colors: {
-                    upward: '#10B981',   // Emerald 500 (Cierre > Apertura)
-                    downward: '#F43F5E'  // Rose 500 (Cierre < Apertura)
+                    upward: '#10B981',   // Emerald 500
+                    downward: '#F43F5E'  // Rose 500
                 },
-                wick: { useFillColor: true } // El pabilo usa el mismo color que la vela
+                wick: { useFillColor: true }
             }
         },
         xaxis: {
             type: 'datetime',
-            labels: { style: { colors: '#71717A' } }, // Zinc 500
-            axisBorder: { color: '#27272A' },         // Zinc 800
+            labels: { style: { colors: '#71717A' } },
+            axisBorder: { color: '#27272A' },
             axisTicks: { color: '#27272A' }
         },
         yaxis: {
@@ -76,8 +72,8 @@ export default function VolatilityChart() {
             }
         },
         grid: {
-            borderColor: '#27272A', // Rejilla sutil Gloom
-            strokeDashArray: 4      // Líneas punteadas elegantes
+            borderColor: '#27272A',
+            strokeDashArray: 4
         },
         tooltip: {
             theme: 'dark',
@@ -86,36 +82,34 @@ export default function VolatilityChart() {
     };
 
     return (
-        <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-6 shadow-2xl">
-            {/* HEADER DEL WIDGET */}
+        <div className="bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-6 transition-all duration-300 hover:bg-zinc-900/60">
+
+            {/* HEADER */}
             <div className="flex items-center justify-between mb-6">
                 <div>
-                    <h3 className="text-zinc-100 font-bold text-lg flex items-center gap-2">
-                        <TrendingUp className="text-emerald-500" size={20} />
-                        Fluctuación Diaria de Tickets
+                    <h3 className="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.2em] flex items-center gap-2">
+                        <TrendingUp size={14} className="text-emerald-500" />
+                        Fluctuación de Tickets
                     </h3>
-                    <p className="text-zinc-500 text-xs mt-1">
-                        Análisis OHLC: Identifica los picos máximos y mínimos de gasto por cliente.
-                    </p>
                 </div>
             </div>
 
             {/* ZONA DE DIBUJO */}
-            <div className="min-h-[350px] relative">
+            <div className="min-h-[300px] relative flex items-center justify-center">
                 {isLoading ? (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                        <Loader2 className="animate-spin text-emerald-500" size={32} />
+                    <Loader2 className="animate-spin text-emerald-500" size={32} />
+                ) : series.length > 0 && series[0].data.length > 0 ? (
+                    <div className="w-full">
+                        <ReactApexChart
+                            options={chartOptions}
+                            series={series}
+                            type="candlestick"
+                            height={300}
+                        />
                     </div>
-                ) : series[0]?.data.length > 0 ? (
-                    <ReactApexChart
-                        options={chartOptions}
-                        series={series}
-                        type="candlestick"
-                        height={350}
-                    />
                 ) : (
-                    <div className="absolute inset-0 flex items-center justify-center text-zinc-500 text-sm">
-                        No hay transacciones registradas este mes.
+                    <div className="text-zinc-600 text-xs uppercase font-bold tracking-widest text-center">
+                        No hay datos suficientes para generar velas
                     </div>
                 )}
             </div>
