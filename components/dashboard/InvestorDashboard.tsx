@@ -168,21 +168,21 @@ export default function InvestorDashboard() {
                     </div>
                 </div>
                 {/* 3. SALUD DE FLUJO (Liquidity) */}
-                <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 flex flex-col">
-                    <h3 className="text-sm font-bold text-zinc-100 flex items-center gap-2 mb-6">
-                        <Wallet size={16} className="text-cyan-500" />
-                        Distribución de Liquidez
-                    </h3>
-                    <div className="flex-1 flex items-center justify-center">
-                        <ReactApexChart options={liquidityOptions} series={liquiditySeries} type="donut" width="100%" />
-                    </div>
-                    <div className="mt-4 p-3 bg-zinc-950/50 rounded-xl border border-zinc-800">
-                        <p className="text-[9px] text-zinc-500 uppercase font-black mb-1">Nota del Auditor</p>
-                        <p className="text-[10px] text-zinc-400 leading-relaxed">
-                            Tienes <span className="text-cyan-400 font-bold">${cashFlowHealth.retainedCapital.toLocaleString()}</span> en depósitos que no pertenecen a la utilidad neta.
-                        </p>
-                    </div>
-                </div>
+                {/*<div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 flex flex-col">*/}
+                {/*    <h3 className="text-sm font-bold text-zinc-100 flex items-center gap-2 mb-6">*/}
+                {/*        <Wallet size={16} className="text-cyan-500" />*/}
+                {/*        Distribución de Liquidez*/}
+                {/*    </h3>*/}
+                {/*    <div className="flex-1 flex items-center justify-center">*/}
+                {/*        <ReactApexChart options={liquidityOptions} series={liquiditySeries} type="donut" width="100%" />*/}
+                {/*    </div>*/}
+                {/*    <div className="mt-4 p-3 bg-zinc-950/50 rounded-xl border border-zinc-800">*/}
+                {/*        <p className="text-[9px] text-zinc-500 uppercase font-black mb-1">Nota del Auditor</p>*/}
+                {/*        <p className="text-[10px] text-zinc-400 leading-relaxed">*/}
+                {/*            Tienes <span className="text-cyan-400 font-bold">${cashFlowHealth.retainedCapital.toLocaleString()}</span> en depósitos que no pertenecen a la utilidad neta.*/}
+                {/*        </p>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
             </div>
         </div>
     );
