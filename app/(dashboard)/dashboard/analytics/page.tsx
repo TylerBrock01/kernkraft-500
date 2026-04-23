@@ -5,6 +5,7 @@ import HeaderDashboard from "@/app/(dashboard)/dashboard/analytics/HeaderDashboa
 import FinancialPulseCard from "@/components/dashboard/FinancialPulseCard";
 import VolatilityChart from "@/components/dashboard/VolatilityChart";
 import TimeframeSelector, { TimeframeType } from "@/components/dashboard/TimeframeSelector";
+import InvestorDashboard from "@/components/dashboard/InvestorDashboard";
 
 export default function AnalyticsDashboardPage() {
     // 🧠 El "Cerebro" del tiempo sigue aquí, gobernando a todos
@@ -26,8 +27,9 @@ export default function AnalyticsDashboardPage() {
             {/* 📊 LAS GRÁFICAS (Sincronizadas temporalmente) */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <FinancialPulseCard timeframe={timeframe} />
-                {/*<VolatilityChart timeframe={timeframe} />*/}
+                <VolatilityChart timeframe={timeframe} />
             </div>
+            <InvestorDashboard/>
 
         </div>
     )

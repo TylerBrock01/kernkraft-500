@@ -4,32 +4,48 @@ import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Loader2, TrendingUp } from 'lucide-react';
 import { api } from '@/app/lib/axios/axios';
-import { ApexOptions } from 'apexcharts'; // Tipado estricto
+import { ApexOptions } from 'apexcharts';
 
 // 🛡️ IMPORTACIÓN DINÁMICA
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 export default function VolatilityChart({ timeframe }: { timeframe: string }) {
-    const [series, setSeries] = useState<{ name: string; data: { x: string; y: number[] }[] }[]>([]);
+    // 🧠 TIPADO AJUSTADO: Usamos any[] porque ApexCharts usa un tipado complejo para gráficos mixtos
+    const [series, setSeries] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchOHLC = async () => {
             setIsLoading(true);
             try {
-                // 🔗 Conectamos con el endpoint unificado de NestJS
                 const response = await api.get(`/analytics/ohlc?period=${timeframe}`);
                 const rawData = response.data.data;
 
-                const formattedData = rawData.map((item: any) => ({
+                // 📊 1. DATA DE VELAS (El Dinero)
+                const candleData = rawData.map((item: any) => ({
                     x: item.date,
                     y: [item.open, item.high, item.low, item.close]
                 }));
 
-                setSeries([{
-                    name: 'Volatilidad del Ticket',
-                    data: formattedData
-                }]);
+                // 📊 2. DATA DE VOLUMEN (El Tráfico de Clientes)
+                const volumeData = rawData.map((item: any) => ({
+                    x: item.date,
+                    y: item.volume
+                }));
+
+                // 🚀 INYECTAMOS AMBAS SERIES
+                setSeries([
+                    {
+                        name: 'Volatilidad (Precio)',
+                        type: 'candlestick',
+                        data: candleData
+                    },
+                    {
+                        name: 'Volumen (Tickets)',
+                        type: 'bar', // Gráfico de barras superpuesto
+                        data: volumeData
+                    }
+                ]);
             } catch (error) {
                 console.error('Error cargando las velas:', error);
             } finally {
@@ -38,17 +54,22 @@ export default function VolatilityChart({ timeframe }: { timeframe: string }) {
         };
 
         fetchOHLC();
-    }, [timeframe]); // 👈 Re-ejecuta cuando el usuario cambia de pestaña
+    }, [timeframe]);
 
-    // 🎨 ESTÉTICA GLOOM
+    // 🎨 ESTÉTICA GLOOM Y CONFIGURACIÓN MIXTA
     const chartOptions: ApexOptions = {
         chart: {
-            type: 'candlestick',
+            // Para gráficos mixtos, la base debe ser 'line'
+            type: 'line',
             background: 'transparent',
             toolbar: { show: false },
             animations: { enabled: true }
         },
         theme: { mode: 'dark' },
+        stroke: {
+            // Ancho de línea: 1px para la vela (si aplica), 0px para la barra (para que se vea plana)
+            width: [1, 0]
+        },
         plotOptions: {
             candlestick: {
                 colors: {
@@ -56,28 +77,53 @@ export default function VolatilityChart({ timeframe }: { timeframe: string }) {
                     downward: '#F43F5E'  // Rose 500
                 },
                 wick: { useFillColor: true }
+            },
+            bar: {
+                columnWidth: '30%', // Barras de volumen delgadas y elegantes
             }
         },
+        // Sincronizamos los colores de las series: [Velas (se sobreescribe con plotOptions), Volumen (Zinc 800)]
+        colors: ['#10B981', '#27272A'],
         xaxis: {
             type: 'datetime',
             labels: { style: { colors: '#71717A' } },
             axisBorder: { color: '#27272A' },
             axisTicks: { color: '#27272A' }
         },
-        yaxis: {
-            tooltip: { enabled: true },
-            labels: {
-                style: { colors: '#71717A' },
-                formatter: (value) => `$${value.toFixed(2)}`
+        // ⚖️ EL SECRETO: DOBLE EJE Y
+        yaxis: [
+            {
+                // Eje Y Izquierdo (Para las Velas / Dinero)
+                seriesName: 'Volatilidad (Precio)',
+                labels: {
+                    style: { colors: '#71717A' },
+                    formatter: (value) => `$${value.toFixed(2)}`
+                },
+                tooltip: { enabled: true }
+            },
+            {
+                // Eje Y Derecho (Para el Volumen / Tráfico)
+                seriesName: 'Volumen (Tickets)',
+                opposite: true, // Lo manda al lado derecho
+                labels: {
+                    style: { colors: '#52525B' }, // Un gris más oscuro para que no robe atención
+                    formatter: (value) => `${value.toFixed(0)} tx`
+                }
             }
-        },
+        ],
         grid: {
             borderColor: '#27272A',
             strokeDashArray: 4
         },
         tooltip: {
             theme: 'dark',
-            y: { formatter: (value) => `$${value.toFixed(2)}` }
+            shared: true, // 👈 Importante: Muestra ambas métricas al pasar el mouse
+            custom: undefined // Dejamos que ApexCharts arme el tooltip compartido
+        },
+        legend: {
+            show: true,
+            position: 'top',
+            labels: { colors: '#A1A1AA' }
         }
     };
 
@@ -85,11 +131,11 @@ export default function VolatilityChart({ timeframe }: { timeframe: string }) {
         <div className="bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-6 transition-all duration-300 hover:bg-zinc-900/60">
 
             {/* HEADER */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-2">
                 <div>
                     <h3 className="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.2em] flex items-center gap-2">
                         <TrendingUp size={14} className="text-emerald-500" />
-                        Fluctuación de Tickets
+                        Acción de Precio y Volumen
                     </h3>
                 </div>
             </div>
@@ -99,12 +145,13 @@ export default function VolatilityChart({ timeframe }: { timeframe: string }) {
                 {isLoading ? (
                     <Loader2 className="animate-spin text-emerald-500" size={32} />
                 ) : series.length > 0 && series[0].data.length > 0 ? (
-                    <div className="w-full">
+                    <div className="w-full mt-4">
                         <ReactApexChart
                             options={chartOptions}
                             series={series}
-                            type="candlestick"
-                            height={300}
+                            // Aunque la base sea line, le decimos al componente react que maneje series mixtas
+                            type="line"
+                            height={320}
                         />
                     </div>
                 ) : (
