@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { api } from '@/app/lib/axios/axios';
-import { TrendingUp, TrendingDown, Activity, AlertTriangle, ArrowDownRight, ArrowUpRight } from 'lucide-react';
+import { TrendingUp, TrendingDown, Activity, AlertTriangle, ArrowDownRight, ArrowUpRight, Lock } from 'lucide-react';
 import { ApexOptions } from 'apexcharts';
 
 // 🛡️ Importación dinámica para evitar errores SSR en Next.js
@@ -15,6 +15,7 @@ interface FinancialPulseData {
     waste: number;
     netProfit: number;
     timestamp?: string;
+    heldDeposits: number; // 👈 Nuestra nueva variable de pasivo
 }
 
 export default function FinancialPulseCard({ timeframe }: { timeframe: string }) {
@@ -28,7 +29,8 @@ export default function FinancialPulseCard({ timeframe }: { timeframe: string })
                 setData(response.data.data);
             } catch (error) {
                 console.error('Error cargando pulso financiero:', error);
-                setData({ revenue: 0, operatingExpenses: 0, waste: 0, netProfit: 0 });
+                // 🛡️ Prevenimos errores añadiendo heldDeposits al fallback
+                setData({ revenue: 0, operatingExpenses: 0, waste: 0, netProfit: 0, heldDeposits: 0 });
             } finally {
                 setIsLoading(false);
             }
@@ -54,7 +56,7 @@ export default function FinancialPulseCard({ timeframe }: { timeframe: string })
     const isRisk = data.revenue > 0 && data.operatingExpenses > data.revenue * 0.7;
 
     // 🍩 CONFIGURACIÓN DE LA DONA (APEXCHARTS)
-    // Matemáticas: Si hay pérdida, la utilidad en gráfica es 0 para que no se rompa la dona.
+    // NOTA CONTABLE: Fíjate que NO metemos heldDeposits a la dona. La dona es puramente P&L (Estado de Resultados).
     const chartSeries = [
         Math.max(0, data.netProfit),
         data.operatingExpenses,
@@ -75,15 +77,11 @@ export default function FinancialPulseCard({ timeframe }: { timeframe: string })
         colors: ['#10B981', '#F43F5E', '#F59E0B'], // Esmeralda, Rojo, Ámbar
         stroke: {
             show: true,
-            colors: ['#18181B'], // Borde del color del fondo (Zinc 950)
+            colors: ['#18181B'],
             width: 2
         },
-        dataLabels: {
-            enabled: false // Apagamos las etiquetas encima para que se vea más limpio
-        },
-        legend: {
-            show: false // Apagamos la leyenda por defecto (usaremos nuestras tarjetas abajo)
-        },
+        dataLabels: { enabled: false },
+        legend: { show: false },
         tooltip: {
             theme: 'dark',
             y: {
@@ -93,16 +91,16 @@ export default function FinancialPulseCard({ timeframe }: { timeframe: string })
         plotOptions: {
             pie: {
                 donut: {
-                    size: '75%', // Grosor de la dona
+                    size: '75%',
                     labels: {
                         show: true,
                         name: {
-                            color: '#71717A', // Zinc 500
+                            color: '#71717A',
                             fontSize: '10px',
                             fontWeight: 700,
                         },
                         value: {
-                            color: '#F4F4F5', // Zinc 100
+                            color: '#F4F4F5',
                             fontSize: '18px',
                             fontWeight: 800,
                             fontFamily: 'monospace',
@@ -115,6 +113,7 @@ export default function FinancialPulseCard({ timeframe }: { timeframe: string })
                             color: '#71717A',
                             fontSize: '9px',
                             fontWeight: 800,
+                            // El centro de la dona sigue mostrando el Revenue real, sin inflarse por depósitos.
                             formatter: () => `$${data.revenue.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`
                         }
                     }
@@ -173,8 +172,10 @@ export default function FinancialPulseCard({ timeframe }: { timeframe: string })
                 )}
             </div>
 
-            {/* LEYENDAS INFERIORES */}
-            <div className="grid grid-cols-3 gap-2 relative z-10">
+            {/* 🧠 LEYENDAS INFERIORES CON GRID DINÁMICO */}
+            <div className={`grid gap-2 relative z-10 ${data.heldDeposits > 0 ? 'grid-cols-2 md:grid-cols-4' : 'grid-cols-3'}`}>
+
+                {/* 1. UTILIDAD */}
                 <div className="bg-zinc-950/50 rounded-lg p-2 border border-emerald-500/10">
                     <div className="flex items-center gap-1 text-[9px] text-emerald-500 uppercase font-bold tracking-wider mb-1">
                         <ArrowUpRight size={10} /> Utilidad
@@ -184,6 +185,7 @@ export default function FinancialPulseCard({ timeframe }: { timeframe: string })
                     </div>
                 </div>
 
+                {/* 2. GASTOS */}
                 <div className="bg-zinc-950/50 rounded-lg p-2 border border-red-500/10">
                     <div className="flex items-center gap-1 text-[9px] text-red-400 uppercase font-bold tracking-wider mb-1">
                         <ArrowDownRight size={10} /> Gastos
@@ -193,6 +195,7 @@ export default function FinancialPulseCard({ timeframe }: { timeframe: string })
                     </div>
                 </div>
 
+                {/* 3. MERMAS */}
                 <div className="bg-zinc-950/50 rounded-lg p-2 border border-amber-500/10">
                     <div className="flex items-center gap-1 text-[9px] text-amber-400 uppercase font-bold tracking-wider mb-1">
                         <ArrowDownRight size={10} /> Mermas
@@ -201,6 +204,19 @@ export default function FinancialPulseCard({ timeframe }: { timeframe: string })
                         ${data.waste.toLocaleString('es-MX', { minimumFractionDigits: 2 })}
                     </div>
                 </div>
+
+                {/* 🔒 4. DEPÓSITOS RETENIDOS (Aparece solo si hay dinero retenido) */}
+                {data.heldDeposits > 0 && (
+                    <div className="bg-zinc-950/50 rounded-lg p-2 border border-cyan-500/20 shadow-[inset_0_0_10px_rgba(6,182,212,0.05)]">
+                        <div className="flex items-center gap-1 text-[9px] text-cyan-400 uppercase font-bold tracking-wider mb-1">
+                            <Lock size={10} /> Pasivo (Depósito)
+                        </div>
+                        <div className="text-xs font-mono font-bold text-zinc-300">
+                            ${data.heldDeposits.toLocaleString('es-MX', { minimumFractionDigits: 2 })}
+                        </div>
+                    </div>
+                )}
+
             </div>
 
         </div>
