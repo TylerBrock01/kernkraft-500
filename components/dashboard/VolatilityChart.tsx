@@ -10,7 +10,7 @@ import { ApexOptions } from 'apexcharts'; // Tipado estricto
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 export default function VolatilityChart({ timeframe }: { timeframe: string }) {
-    const [series, setSeries] = useState<ApexAxisChartSeries>([]);
+    const [series, setSeries] = useState<{ name: string; data: { x: string; y: number[] }[] }[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
