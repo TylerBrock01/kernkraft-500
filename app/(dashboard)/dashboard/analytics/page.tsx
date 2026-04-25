@@ -27,9 +27,9 @@ export default function AnalyticsDashboardPage() {
             {/* 📊 LAS GRÁFICAS (Sincronizadas temporalmente) */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <FinancialPulseCard timeframe={timeframe} />
-                <VolatilityChart timeframe={timeframe} />
+                {/*<VolatilityChart timeframe={timeframe} />*/}
             </div>
-            <InvestorDashboard/>
+            {/*<InvestorDashboard/>*/}
 
         </div>
     )
