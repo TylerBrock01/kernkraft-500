@@ -1,11 +1,10 @@
 'use client';
 
-import { Calendar, CalendarDays, CalendarRange } from 'lucide-react';
+// 🛡️ FIX: Importamos el ícono Landmark para el año
+import { Calendar, CalendarDays, CalendarRange, Landmark } from 'lucide-react';
 
-// 🛡️ TIPADO ESTRICTO: Exportamos esto para que el Padre lo use
-export type TimeframeType = 'daily' | 'weekly' | 'monthly';
+export type TimeframeType = 'daily' | 'weekly' | 'monthly' | 'yearly';
 
-// Definimos el "Control Remoto" que el Padre nos va a pasar
 interface TimeframeSelectorProps {
     value: TimeframeType;
     onChange: (value: TimeframeType) => void;
@@ -13,7 +12,8 @@ interface TimeframeSelectorProps {
 
 export default function TimeframeSelector({ value, onChange }: TimeframeSelectorProps) {
     return (
-        <div className="flex bg-zinc-900/80 p-1 rounded-lg border border-zinc-800/50 shadow-inner">
+        // 🛡️ FIX: Agregamos overflow-x-auto para responsividad en móviles
+        <div className="flex bg-zinc-900/80 p-1 rounded-lg border border-zinc-800/50 shadow-inner overflow-x-auto">
 
             {/* BOTÓN: HOY */}
             <button
@@ -49,6 +49,18 @@ export default function TimeframeSelector({ value, onChange }: TimeframeSelector
                 }`}
             >
                 <CalendarRange size={14} /> Mes
+            </button>
+
+            {/* 🛡️ NUEVO BOTÓN: AÑO */}
+            <button
+                onClick={() => onChange('yearly')}
+                className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-xs font-bold tracking-widest uppercase transition-all duration-300 ${
+                    value === 'yearly'
+                        ? 'bg-zinc-800 text-emerald-400 shadow-[0_2px_10px_rgba(0,0,0,0.2)] border border-zinc-700/50'
+                        : 'text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/50'
+                }`}
+            >
+                <Landmark size={14} /> Año
             </button>
 
         </div>

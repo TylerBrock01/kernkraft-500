@@ -14,15 +14,23 @@ export const api = axios.create({
     },
 });
 
-// Interceptor: Antes de que cualquier petición salga, le pegamos el JWT
+// Interceptor: Antes de que cualquier petición salga, le pegamos el JWT y la Zona Horaria
 api.interceptors.request.use((config: any) => {
-    const token = Cookies.get('caza_token'); // Buscamos la cookie
+    // 1. Inyección de Seguridad (JWT)
+    const token = Cookies.get('caza_token');
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
+
+    // 2. 🌎 NUEVO: Inyección de Coordenadas de Tiempo (Timezone)
+    // Extrae automáticamente "America/Tijuana" (o donde esté el cliente)
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (userTimezone) {
+        config.headers['x-timezone'] = userTimezone;
+    }
+
     return config;
 });
-
 // 🚀 INSTANCIA PÚBLICA (Para clientes finales, sin tokens ni interceptores)
 export const publicApi = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://192.168.0.2:3000',
