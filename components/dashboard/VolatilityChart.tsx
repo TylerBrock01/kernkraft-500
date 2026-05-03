@@ -129,7 +129,6 @@ export default function VolatilityChart({ timeframe }: { timeframe: string }) {
             position: 'top',
             horizontalAlign: 'right',
             labels: { colors: '#A1A1AA' },
-            markers: { radius: 2 }
         }
     };
 
