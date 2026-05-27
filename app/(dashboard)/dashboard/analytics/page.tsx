@@ -12,11 +12,11 @@ export default function AnalyticsDashboardPage() {
     const [timeframe, setTimeframe] = useState<TimeframeType>('daily');
 
     return (
-        <div className="max-w-7xl mx-auto w-full pt-4 pb-20 space-y-6">
+        <div className="max-w-7xl mx-auto w-full  pb-20 space-y-6">
             <HeaderDashboard />
 
             {/* 🎛️ CONTROLES DE TIEMPO Y TÍTULO */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+            <div className="flex justify-center md:justify-start ">
                 {/* El Controlador */}
                 <TimeframeSelector
                     value={timeframe}
@@ -25,7 +25,7 @@ export default function AnalyticsDashboardPage() {
             </div>
 
             {/* 📊 LAS GRÁFICAS (Sincronizadas temporalmente) */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FinancialPulseCard timeframe={timeframe} />
                 <VolatilityChart timeframe={timeframe} />
             </div>
