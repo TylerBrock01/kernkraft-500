@@ -35,7 +35,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 {/* 4. CONTENIDO DINÁMICO (Scrollable) */}
                 {/* 🛡️ FIX APPLE 1: overscroll-contain encierra el rebote elástico solo en esta sección, protegiendo el Header. */}
                 {/* 🛡️ FIX APPLE 2: pb-12 (o pb-[env(safe-area-inset-bottom)]) para que el último elemento no quede oculto tras el Home Indicator de iOS. */}
-                <section className="p-4 lg:p-8 flex-1 overflow-y-auto overscroll-contain pb-12 lg:pb-8 scrollbar-hide">
+                <section className="px-4 lg:p-8 flex-1 overflow-y-auto overscroll-contain pb-12 lg:pb-8 scrollbar-hide">
                     <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
