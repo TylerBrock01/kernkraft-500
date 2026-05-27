@@ -7,7 +7,7 @@ interface DashboardHeaderProps {
 
 export default function DashboardHeader({ user, onOpenSidebar }: DashboardHeaderProps) {
     return (
-        <header className="h-16 md:h-20 border-b border-zinc-900 flex items-center justify-between px-4 md:px-8 bg-zinc-950/80 backdrop-blur-md z-30 shrink-0">
+        <header className=" border-b border-zinc-900 flex items-center justify-between px-4 md:px-8 bg-zinc-950/80 backdrop-blur-md z-30 shrink-0">
             <div className="flex items-center gap-4">
                 {/* 📱 Botón de Hamburguesa (Visible en Móvil y Tablet, oculto en PC 'lg:hidden') */}
                 <button
