@@ -133,7 +133,7 @@ export default function VolatilityChart({ timeframe }: { timeframe: string }) {
     };
 
     return (
-        <div className="bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-6 transition-all duration-300 hover:bg-zinc-900/60 flex flex-col h-full">
+        <div className="hidden md:flex bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-6 transition-all duration-300 hover:bg-zinc-900/60 flex-col h-full">
 
             {/* HEADER */}
             <div className="flex items-center justify-between mb-4">
