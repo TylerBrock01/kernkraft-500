@@ -10,6 +10,7 @@ import BurgerPicnicTheme from "@/components/themes/burger";
 import TortasFightTheme from "@/components/themes/Tortas";
 import PerfumeryChanelTheme from "@/components/themes/Parfum";
 import ChanelStylePerfumery from "@/components/themes/Parfum";
+import LasHamacasPOS from "@/components/themes/hamacas/Hamacas";
 
 export default function StorefrontPage({ params }: { params: Promise<{ tenant: string }> }) {    // 🔌 Conectamos el Cerebro (Hook) al Cuerpo (UI)
     const resolvedParams = use(params);
@@ -30,6 +31,9 @@ export default function StorefrontPage({ params }: { params: Promise<{ tenant: s
     }
     if (resolvedParams.tenant === 'perfum') {
         return <ChanelStylePerfumery/>
+    }
+    if (resolvedParams.tenant === 'hamacas') {
+        return <LasHamacasPOS/>
     }
     const {
         store,
