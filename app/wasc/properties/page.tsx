@@ -1,8 +1,8 @@
-import {propertiesData} from "@/app/wasc/data/propierties";
+import {propertiesData} from "@/app/wasc/data/properties";
 import Link from "next/link";
 import {PropertyCard} from "@/app/wasc/components/PropertyCard";
 
-export default function Propierties() {
+export default function Properties() {
     return(
         <div className="max-w-7xl mx-auto px-4 py-12">
             <div className="mb-8">

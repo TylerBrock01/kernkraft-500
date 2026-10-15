@@ -12,7 +12,7 @@ const navItems = [
     },
     {
         label: 'Catálogo',
-        href: '/wasc/propierties',
+        href: '/wasc/properties',
     },
     {
         label: 'Nosotros',

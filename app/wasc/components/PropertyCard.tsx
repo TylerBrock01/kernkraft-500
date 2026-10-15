@@ -64,7 +64,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
                 </div>
 
                 <Link
-                    href={`/wasc/propierties/${property.id}`}
+                    href={`/wasc/properties/${property.id}`}
                     className="mt-auto block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg transition-colors"
                 >
                     Ver Detalle
