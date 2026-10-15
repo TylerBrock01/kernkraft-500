@@ -11,6 +11,7 @@ import TortasFightTheme from "@/components/themes/Tortas";
 import PerfumeryChanelTheme from "@/components/themes/Parfum";
 import ChanelStylePerfumery from "@/components/themes/Parfum";
 import LasHamacasPOS from "@/components/themes/hamacas/Hamacas";
+import Wasc from "@/components/themes/wasc/wasc";
 
 export default function StorefrontPage({ params }: { params: Promise<{ tenant: string }> }) {    // 🔌 Conectamos el Cerebro (Hook) al Cuerpo (UI)
     const resolvedParams = use(params);
@@ -32,8 +33,12 @@ export default function StorefrontPage({ params }: { params: Promise<{ tenant: s
     if (resolvedParams.tenant === 'perfum') {
         return <ChanelStylePerfumery/>
     }
+    // produccion:
     if (resolvedParams.tenant === 'hamacas') {
         return <LasHamacasPOS/>
+    }
+    if (resolvedParams.tenant === 'wasc') {
+        return <Wasc/>
     }
     const {
         store,
