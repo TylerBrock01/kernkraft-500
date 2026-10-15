@@ -7,14 +7,11 @@ export default function WascLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="bg-red-500/70 flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen">
             <WascNavbar />
-            <p>Wascchildren</p>
             <div className="flex-grow">
                 {children}
             </div>
-            <p>Wascchildren</p>
-
             <WascFooter />
         </div>
     );
