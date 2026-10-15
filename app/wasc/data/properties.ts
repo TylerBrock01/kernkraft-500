@@ -1,4 +1,6 @@
 // data/properties.ts
+export const logoWasc='https://res.cloudinary.com/tyler-brock/image/upload/v1792034299/logo_wasc_3x_lx5snu.png'
+
 export interface Property {
     id: string;
     title: string;
