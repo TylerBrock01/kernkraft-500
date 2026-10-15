@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 
 const logoWasc = 'https://res.cloudinary.com/tyler-brock/image/upload/v1792034299/logo_wasc_3x_lx5snu.png';
+// const logoWasc = 'https://res.cloudinary.com/tyler-brock/image/upload/v1792074335/logo_yaibgo.png';
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
