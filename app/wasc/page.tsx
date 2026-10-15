@@ -3,7 +3,7 @@ import Image from "next/image";
 import { propertiesData } from "@/app/wasc/data/properties";
 
 export default function WascLandingPage() {
-    // Tomamos las primeras 3 propiedades para la sección de destacados
+
     const featuredProperties = propertiesData.slice(0, 3);
 
     return (
