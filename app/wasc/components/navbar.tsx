@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-
-const logoWasc = 'https://res.cloudinary.com/tyler-brock/image/upload/v1792034299/logo_wasc_3x_lx5snu.png';
+import {logoWasc} from "@/app/wasc/data/properties";
 
 const navItems = [
     {
