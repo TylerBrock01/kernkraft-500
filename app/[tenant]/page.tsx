@@ -8,10 +8,8 @@ import DemoPage from "@/components/themes/HotDogsDemo";
 import BurritoThemeMockup from "@/components/themes/Burritos";
 import BurgerPicnicTheme from "@/components/themes/burger";
 import TortasFightTheme from "@/components/themes/Tortas";
-import PerfumeryChanelTheme from "@/components/themes/Parfum";
 import ChanelStylePerfumery from "@/components/themes/Parfum";
 import LasHamacasPOS from "@/components/themes/hamacas/Hamacas";
-import Wasc from "@/components/themes/wasc/wasc";
 
 export default function StorefrontPage({ params }: { params: Promise<{ tenant: string }> }) {    // 🔌 Conectamos el Cerebro (Hook) al Cuerpo (UI)
     const resolvedParams = use(params);
@@ -37,9 +35,9 @@ export default function StorefrontPage({ params }: { params: Promise<{ tenant: s
     if (resolvedParams.tenant === 'hamacas') {
         return <LasHamacasPOS/>
     }
-    if (resolvedParams.tenant === 'wasc') {
-        return <Wasc/>
-    }
+    // if (resolvedParams.tenant === 'wasc') {
+    //     redirect('https://wasc.com.ar');
+    // }
     const {
         store,
         products,
