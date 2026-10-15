@@ -43,6 +43,5 @@ export default function Propierties() {
                 ))}
             </div>
         </div>
-
     )
 }

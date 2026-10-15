@@ -4,8 +4,6 @@ import Link from "next/link";
 export default function WascLandingPage() {
 
     return (
-        <Link href={'wasc/propierties'}>
-            cd
-        </Link>
+        <h1>WascLandingPage</h1>
     );
 }
