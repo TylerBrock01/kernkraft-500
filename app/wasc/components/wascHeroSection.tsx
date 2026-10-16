@@ -6,7 +6,7 @@ export default function WascHeroSection() {
         <section className="relative text-white py-20 lg:py-32 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gray-950">
             {/* 1. Imagen de Fondo Principal */}
             <Image
-                src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80" // Puedes sustituir esta URL por tu imagen de Cloudinary o asset local
+                src="https://cdn.pixabay.com/photo/2019/05/03/08/24/san-carlos-4175388_1280.jpg" // Puedes sustituir esta URL por tu imagen de Cloudinary o asset local
                 alt="Fondo de bienes raíces de lujo"
                 fill
                 priority
@@ -15,14 +15,14 @@ export default function WascHeroSection() {
             />
 
             {/* 2. Capa de Degradado Overlay (Garantiza contraste de lectura y aplica los tonos Rojos) */}
-            <div className="absolute inset-0 bg-gradient-to-b from-gray-950/80 via-red-950/85 to-black/95 backdrop-blur-[2px]" />
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]" />
 
             {/* 3. Patrón de Puntos Radiales en Tono Rojo (Alineado a la marca) */}
             <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#ef4444_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
 
             {/* 4. Contenido Principal */}
             <div className="relative max-w-5xl mx-auto text-center space-y-8 z-10">
-                <span className="inline-block bg-red-500/20 text-red-400 border border-red-500/30 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider backdrop-blur-md">
+                <span className="inline-block bg-red-500/50 text-gray-300 border border-red-500/30 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider backdrop-blur-md">
                     Infraestructura Digital Inmobiliaria
                 </span>
 
