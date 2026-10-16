@@ -79,11 +79,11 @@ export default function Navbar() {
                     </div>
 
                     {/* Botón de Menú Hamburguesa (Móvil) */}
-                    <div className="md:hidden flex items-center">
+                    <div className=" md:hidden flex items-center">
                         <button
                             onClick={toggleMenu}
                             type="button"
-                            className="text-gray-600 hover:text-gray-900 focus:outline-none p-2 rounded-md"
+                            className="text-red-500 hover:text-red-900 focus:outline-none p-2 rounded-md"
                             aria-label={isMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
                             aria-expanded={isMenuOpen}
                         >
