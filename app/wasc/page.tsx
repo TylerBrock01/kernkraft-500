@@ -13,12 +13,12 @@ export default function WascLandingPage() {
                 <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]" />
 
                 <div className="relative max-w-5xl mx-auto text-center space-y-8">
-                    <span className="inline-block bg-blue-600/30 text-blue-400 border border-blue-500/30 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider backdrop-blur-md">
+                    <span className="inline-block bg-red/30 text-red-400 border border-red-500/30 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider backdrop-blur-md">
                         Infraestructura Digital Inmobiliaria
                     </span>
 
                     <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-tight">
-                        Encuentra el espacio perfecto para tu <span className="text-blue-500">próximo capítulo</span>
+                        Encuentra el espacio perfecto para tu <span className="text-red-500">próximo capítulo</span>
                     </h1>
 
                     <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto font-normal leading-relaxed">
@@ -33,7 +33,7 @@ export default function WascLandingPage() {
                         </div>
                         <Link
                             href="/wasc/properties"
-                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3.5 rounded-xl transition-all shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2"
+                            className="bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-3.5 rounded-xl transition-all shadow-lg shadow-red-600/30 flex items-center justify-center gap-2"
                         >
                             <span>🔍</span> Ver Catálogo
                         </Link>
@@ -45,12 +45,12 @@ export default function WascLandingPage() {
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
                     <div>
-                        <span className="text-xs font-bold uppercase tracking-widest text-blue-600">Oportunidades Únicas</span>
+                        <span className="text-xs font-bold uppercase tracking-widest text-red-600">Oportunidades Únicas</span>
                         <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight mt-1">Propiedades Destacadas</h2>
                     </div>
                     <Link
                         href="/wasc/properties"
-                        className="text-sm font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1 group"
+                        className="text-sm font-bold text-red-600 hover:text-red-700 flex items-center gap-1 group"
                     >
                         Explorar todo el catálogo <span className="transition-transform group-hover:translate-x-1">→</span>
                     </Link>
@@ -75,7 +75,7 @@ export default function WascLandingPage() {
                             </div>
 
                             <div className="p-6 flex flex-col flex-grow">
-                                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-1">
+                                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors line-clamp-1">
                                     {property.title}
                                 </h3>
                                 <p className="text-2xl font-black text-gray-900 mb-4">{property.price}</p>
@@ -88,7 +88,7 @@ export default function WascLandingPage() {
 
                                 <Link
                                     href={`/wasc/catalog/${property.id}`}
-                                    className="mt-auto block w-full text-center bg-gray-900 hover:bg-blue-600 text-white font-bold py-3 rounded-xl transition-all shadow-sm"
+                                    className="mt-auto block w-full text-center bg-gray-900 hover:bg-red-600 text-white font-bold py-3 rounded-xl transition-all shadow-sm"
                                 >
                                     Ver Detalle
                                 </Link>
@@ -123,16 +123,16 @@ export default function WascLandingPage() {
 
             {/* 4. BANNER FINAL / CALL TO ACTION */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="bg-blue-600 rounded-3xl p-8 sm:p-12 text-white text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-8 shadow-xl shadow-blue-600/20">
+                <div className="bg-red-600 rounded-3xl p-8 sm:p-12 text-white text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-8 shadow-xl shadow-red-600/20">
                     <div className="space-y-2 max-w-xl">
                         <h2 className="text-2xl sm:text-3xl font-extrabold">¿Quieres promover tu propiedad con nosotros?</h2>
-                        <p className="text-blue-100 text-sm sm:text-base">Integramos tu inmueble a nuestro catálogo digital para conectar con compradores calificados.</p>
+                        <p className="text-red-100 text-sm sm:text-base">Integramos tu inmueble a nuestro catálogo digital para conectar con compradores calificados.</p>
                     </div>
                     <a
                         href="https://wa.me/521234567890?text=Hola,%20me%20gustaría%20publicar%20mi%20propiedad%20en%20su%20catálogo."
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-white text-blue-600 font-extrabold px-8 py-4 rounded-2xl hover:bg-blue-50 transition-all shrink-0 shadow-md"
+                        className="bg-white text-red-600 font-extrabold px-8 py-4 rounded-2xl hover:bg-red-50 transition-all shrink-0 shadow-md"
                     >
                         Contactar por WhatsApp
                     </a>
