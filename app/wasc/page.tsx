@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { propertiesData } from "@/app/wasc/data/properties";
+import {PropertyCard} from "@/app/wasc/components/PropertyCard";
 
 export default function WascLandingPage() {
 
@@ -58,42 +59,8 @@ export default function WascLandingPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {featuredProperties.map((property) => (
-                        <div key={property.id} className="bg-white rounded-3xl border border-gray-100 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group">
-                            <div className="relative h-64 w-full bg-gray-100 overflow-hidden">
-                                <Image
-                                    src={property.image}
-                                    alt={property.title}
-                                    fill
-                                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                />
-                                <div className="absolute top-4 left-4">
-                                    <span className="bg-gray-900/80 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-full">
-                                        {property.location}
-                                    </span>
-                                </div>
-                            </div>
+                        <PropertyCard key={property.id} property={property} />
 
-                            <div className="p-6 flex flex-col flex-grow">
-                                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors line-clamp-1">
-                                    {property.title}
-                                </h3>
-                                <p className="text-2xl font-black text-gray-900 mb-4">{property.price}</p>
-
-                                <div className="grid grid-cols-3 gap-2 py-3 border-t border-gray-100 text-xs text-gray-500 mb-6 font-medium">
-                                    <span>🛏️ {property.bedrooms} Rec.</span>
-                                    <span>🛁 {property.bathrooms} Baños</span>
-                                    <span>📐 {property.sqm} m²</span>
-                                </div>
-
-                                <Link
-                                    href={`/wasc/catalog/${property.id}`}
-                                    className="mt-auto block w-full text-center bg-gray-900 hover:bg-red-600 text-white font-bold py-3 rounded-xl transition-all shadow-sm"
-                                >
-                                    Ver Detalle
-                                </Link>
-                            </div>
-                        </div>
                     ))}
                 </div>
             </section>
