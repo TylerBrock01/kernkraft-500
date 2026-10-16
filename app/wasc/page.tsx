@@ -10,7 +10,7 @@ export default function WascLandingPage() {
     return (
         <div className="space-y-16 md:space-y-24 pb-16">
             {/* 1. HERO SECTION: Impacto Visual y Buscador Principal */}
-            <section className="border relative bg-linear-to-b from-red-900 via-red-800 to-white text-white py-20 lg:py-32 px-4 sm:px-6 lg:px-8 overflow-hidden">
+            <section className=" relative bg-linear-to-b from-red-900 via-red-800 to-white text-white py-20 lg:py-32 px-4 sm:px-6 lg:px-8 overflow-hidden">
                 <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]" />
 
                 <div className="relative max-w-5xl mx-auto text-center space-y-8">
@@ -66,7 +66,7 @@ export default function WascLandingPage() {
             </section>
 
             {/* 3. MÓDULO DE VALOR / CONFIANZA */}
-            <section className="bg-red-500 py-16 border-y border-gray-100">
+            <section className="bg-gray-300/50 py-16 border-y border-gray-100">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                         <div className="p-6 space-y-3">
