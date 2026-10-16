@@ -10,11 +10,11 @@ export default function WascLandingPage() {
     return (
         <div className="space-y-16 md:space-y-24 pb-16">
             {/* 1. HERO SECTION: Impacto Visual y Buscador Principal */}
-            <section className=" relative bg-linear-to-b from-red-900 via-red-800 to-white text-white py-20 lg:py-32 px-4 sm:px-6 lg:px-8 overflow-hidden">
+            <section className=" relative bg-linear-to-b from-red-800 via-red-900 to-black text-white py-20 lg:py-32 px-4 sm:px-6 lg:px-8 overflow-hidden">
                 <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]" />
 
                 <div className="relative max-w-5xl mx-auto text-center space-y-8">
-                    <span className="inline-block bg-red/30 text-red-400 border border-red-500/30 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider backdrop-blur-md">
+                    <span className="inline-block bg-red/30 text-red-500 border border-red-500/30 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider backdrop-blur-md">
                         Infraestructura Digital Inmobiliaria
                     </span>
 
@@ -22,7 +22,7 @@ export default function WascLandingPage() {
                         Encuentra el espacio perfecto para tu <span className="text-red-500">próximo capítulo</span>
                     </h1>
 
-                    <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto font-normal leading-relaxed">
+                    <p className="text-lg sm:text-xl  max-w-3xl mx-auto font-normal leading-relaxed">
                         Explora nuestro catálogo exclusivo de residencias, departamentos y desarrollos de alta plusvalía con navegación fluida y atención personalizada.
                     </p>
 
