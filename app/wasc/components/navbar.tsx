@@ -15,7 +15,7 @@ const navItems = [
     },
     {
         label: 'Nosotros',
-        href: '/wasc/2',
+        href: '/wasc/about',
     },
     {
         label: 'Contacto',
