@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { propertiesData } from "@/app/wasc/data/properties";
 import {PropertyCard} from "@/app/wasc/components/PropertyCard";
+import WascHeroSection from "@/app/wasc/components/wascHeroSection";
 
 export default function WascLandingPage() {
 
@@ -10,38 +11,7 @@ export default function WascLandingPage() {
     return (
         <div className="space-y-16 md:space-y-24 pb-16">
             {/* 1. HERO SECTION: Impacto Visual y Buscador Principal */}
-            <section className=" relative bg-linear-to-b from-red-800 via-red-900 to-black text-white py-20 lg:py-32 px-4 sm:px-6 lg:px-8 overflow-hidden">
-                <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]" />
-
-                <div className="relative max-w-5xl mx-auto text-center space-y-8">
-                    <span className="inline-block bg-red/30 text-red-500 border border-red-500/30 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider backdrop-blur-md">
-                        Infraestructura Digital Inmobiliaria
-                    </span>
-
-                    <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-tight">
-                        Encuentra el espacio perfecto para tu <span className="text-red-500">próximo capítulo</span>
-                    </h1>
-
-                    <p className="text-lg sm:text-xl  max-w-3xl mx-auto font-normal leading-relaxed">
-                        Explora nuestro catálogo exclusivo de residencias, departamentos y desarrollos de alta plusvalía con navegación fluida y atención personalizada.
-                    </p>
-
-                    {/* Barra de Búsqueda / Llamado a la Acción */}
-                    <div className="bg-white/10 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-white/10 max-w-2xl mx-auto flex flex-col sm:flex-row gap-3">
-                        <div className="flex-1 bg-white rounded-xl px-4 py-3 text-left">
-                            <span className="block text-xs font-bold text-gray-400 uppercase">Ubicación o Tipo</span>
-                            <span className="text-gray-800 font-medium text-sm">Residenciales, Zona Norte...</span>
-                        </div>
-                        <Link
-                            href="/wasc/properties"
-                            className="bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-3.5 rounded-xl transition-all shadow-lg shadow-red-600/30 flex items-center justify-center gap-2"
-                        >
-                            <span>🔍</span> Ver Catálogo
-                        </Link>
-                    </div>
-                </div>
-            </section>
-
+            <WascHeroSection/>
             {/* 2. PROPIEDADES DESTACADAS */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
