@@ -24,7 +24,7 @@ const navItems = [
 ];
 
 const desktopLinkClassName =
-    'text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors';
+    'text-sm font-medium text-gray-700 hover:text-red-600 transition-colors';
 
 const mobileLinkClassName =
     'block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50';
@@ -72,7 +72,7 @@ export default function Navbar() {
                     <div className="hidden md:flex items-center">
                         <Link
                             href={ctaHref}
-                            className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-sm hover:shadow-md"
+                            className="bg-red-500 hover:bg-red-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-sm hover:shadow-md"
                         >
                             Publicar Propiedad
                         </Link>
@@ -133,7 +133,7 @@ export default function Navbar() {
                         <Link
                             href={ctaHref}
                             onClick={closeMenu}
-                            className="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-all"
+                            className="block w-full text-center bg-red-500 hover:bg-red-700 text-white font-semibold py-3 rounded-xl transition-all"
                         >
                             Publicar Propiedad
                         </Link>
