@@ -7,10 +7,11 @@ export interface Property {
     title: string;
     price: string;
     location: string;
+    type: "Casa" | "Departamento" | "Terreno" | "Comercial"; // Tipos permitidos de bienes raíces
     bedrooms: number;
     bathrooms: number;
     sqm: number;
-    image: string; // Mantenemos la portada principal para vistas rápidas/tarjetas
+    image: string; // Portada principal para tarjetas
     images: string[]; // Arreglo de fotos para la galería detallada
     description: string;
 }
@@ -21,6 +22,7 @@ export const propertiesData: Property[] = [
         title: "Residencia Exclusiva en Zona Norte",
         price: "$4,500,000 MXN",
         location: "San Pedro, Zona Norte",
+        type: "Casa",
         bedrooms: 4,
         bathrooms: 4.5,
         sqm: 350,
@@ -38,6 +40,7 @@ export const propertiesData: Property[] = [
         title: "Departamento Moderno con Vista Panorámica",
         price: "$2,800,000 MXN",
         location: "Centro Financiero",
+        type: "Departamento",
         bedrooms: 2,
         bathrooms: 2,
         sqm: 120,
@@ -54,6 +57,7 @@ export const propertiesData: Property[] = [
         title: "Casa Campestre con Amplio Jardín",
         price: "$3,900,000 MXN",
         location: "Suburbio Residencial",
+        type: "Casa",
         bedrooms: 3,
         bathrooms: 3,
         sqm: 450,
