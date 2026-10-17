@@ -27,7 +27,7 @@ export default function WascHeroSection() {
                 </span>
 
                 <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-tight">
-                    Encuentra el espacio perfecto para tu <span className="text-red-500 drop-shadow-sm">próximo capítulo</span>
+                    Encuentra el espacio perfecto para tu <span className="text-red-600 drop-shadow-sm">próximo capítulo</span>
                 </h1>
 
                 <p className="text-lg sm:text-xl text-gray-200 max-w-3xl mx-auto font-normal leading-relaxed drop-shadow-sm">
