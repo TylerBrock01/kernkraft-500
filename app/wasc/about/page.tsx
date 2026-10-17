@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import {whatssapWasc} from "@/app/wasc/data/url";
 
 export default function AboutPage() {
     return (
@@ -103,7 +104,7 @@ export default function AboutPage() {
                             Ver Catálogo
                         </Link>
                         <a
-                            href="https://wa.me/521234567890?text=Hola,%20me%20gustaría%20recibir%20asesoría%20sobre%20sus%20propiedades."
+                            href={`https://wa.me/${whatssapWasc}?text=Hola,%20me%20gustaría%20recibir%20asesoría%20sobre%20sus%20propiedades.`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="bg-white text-red-600 hover:bg-red-50 text-center font-bold px-8 py-4 rounded-2xl transition-all shadow-md"

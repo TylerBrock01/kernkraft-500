@@ -3,6 +3,7 @@ import Image from "next/image";
 import { propertiesData } from "@/app/wasc/data/properties";
 import {PropertyCard} from "@/app/wasc/components/PropertyCard";
 import WascHeroSection from "@/app/wasc/components/wascHeroSection";
+import {whatssapWasc} from "@/app/wasc/data/url";
 
 export default function WascLandingPage() {
 
@@ -66,7 +67,7 @@ export default function WascLandingPage() {
                         <p className="text-red-100 text-sm sm:text-base">Integramos tu inmueble a nuestro catálogo digital para conectar con compradores calificados.</p>
                     </div>
                     <a
-                        href="https://wa.me/521234567890?text=Hola,%20me%20gustaría%20publicar%20mi%20propiedad%20en%20su%20catálogo."
+                        href={`https://wa.me/${whatssapWasc}?text=Hola,%20me%20gustaría%20publicar%20mi%20propiedad%20en%20su%20catálogo.`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="bg-white text-red-600 font-extrabold px-8 py-4 rounded-2xl hover:bg-red-50 transition-all shrink-0 shadow-md"
