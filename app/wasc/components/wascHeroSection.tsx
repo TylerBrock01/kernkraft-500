@@ -38,7 +38,7 @@ export default function WascHeroSection() {
                 <div className="bg-white/10 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-white/20 max-w-2xl mx-auto flex flex-col sm:flex-row gap-3 shadow-2xl">
                     <div className="flex-1 bg-white rounded-xl px-4 py-3 text-left">
                         <span className="block text-xs font-bold text-gray-400 uppercase">Ubicación o Tipo</span>
-                        <span className="text-gray-800 font-medium text-sm">Residenciales, Zona Norte...</span>
+                        <span className="text-gray-800 font-medium text-sm">Terrenos,Zona San carlos.</span>
                     </div>
                     <Link
                         href="/wasc/properties"
