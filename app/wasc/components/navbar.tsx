@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import {logoWasc} from "@/app/wasc/data/properties";
+import {locationWasc} from "@/app/wasc/data/url";
 
 const navItems = [
     {
@@ -28,8 +29,6 @@ const desktopLinkClassName =
 
 const mobileLinkClassName =
     'block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-red-600 hover:bg-gray-50';
-
-const ctaHref = '/login';
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -71,10 +70,10 @@ export default function Navbar() {
                     {/* Botón de Acción Principal (CTA) */}
                     <div className="hidden md:flex items-center">
                         <Link
-                            href={ctaHref}
+                            href={locationWasc}
                             className="bg-red-500 hover:bg-red-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-sm hover:shadow-md"
                         >
-                            Publicar Propiedad
+                            Visitanos
                         </Link>
                     </div>
 
@@ -131,11 +130,11 @@ export default function Navbar() {
 
                     <div className="pt-2">
                         <Link
-                            href={ctaHref}
+                            href={locationWasc}
                             onClick={closeMenu}
                             className="block w-full text-center bg-red-500 hover:bg-red-700 text-white font-semibold py-3 rounded-xl transition-all"
                         >
-                            Publicar Propiedad
+                            Visitanos
                         </Link>
                     </div>
                 </div>
