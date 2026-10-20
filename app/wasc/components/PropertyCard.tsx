@@ -1,17 +1,18 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-interface PropertyCardProps {
+interface PropertyCardProps<TAttributes = Record<string, any>> {
     property: {
         id: string;
-        image: string;
         title: string;
-        location: string;
         price: string;
-        type: "Casa" | "Departamento" | "Terreno" | "Comercial";
-        bedrooms: number;
-        bathrooms: number;
-        sqm: number;
+        image: string;      // Portada principal
+        images: string[];   // Galería de fotos
+        description: string;
+        category?: string;  // Opcional para clasificar
+
+        // Objeto flexible para atributos específicos del dominio (recámaras, color, etc.)
+        attributes: TAttributes;
     };
 }
 
@@ -50,10 +51,10 @@ export function PropertyCard({ property }: PropertyCardProps) {
                 {/* Badge Superior: Tipo de Inmueble y Ubicación */}
                 <div className="absolute top-4 left-4 right-4 flex items-center justify-between gap-2">
                     <span className="bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
-                        {property.type}
+                        {property.attributes.type}
                     </span>
                     <span className="bg-gray-900/80 backdrop-blur-md text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-md truncate max-w-[60%]">
-                        {property.location}
+                        {property.attributes.location}
                     </span>
                 </div>
             </div>
@@ -74,7 +75,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
                         <div key={feature.key} className="flex flex-col items-center justify-center">
                             <span className="text-gray-400 font-normal text-[10px] uppercase tracking-wider">{feature.label}</span>
                             <span className="text-gray-900 font-bold text-sm">
-                                {feature.icon} {property[feature.key]}
+                                {feature.icon} {property.attributes[feature.key]}
                             </span>
                         </div>
                     ))}

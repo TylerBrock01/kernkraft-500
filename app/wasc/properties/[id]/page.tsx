@@ -18,7 +18,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailProps
     }
 
     const whatsappMessage = encodeURIComponent(
-        `¡Hola! Me interesa obtener información de la propiedad tipo ${property.type}: "${property.title}" (Ref ID: ${property.id}).`
+        `¡Hola! Me interesa obtener información de la propiedad tipo ${property.attributes.type}: "${property.title}" (Ref ID: ${property.id}).`
     );
     const whatsappUrl = `https://wa.me/521234567890?text=${whatsappMessage}`;
 
@@ -44,10 +44,10 @@ export default async function PropertyDetailPage({ params }: PropertyDetailProps
                     <div className="space-y-2">
                         <div className="flex items-center gap-2">
                             <span className="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                                {property.type}
+                                {property.attributes.type}
                             </span>
                             <span className="text-xs font-bold uppercase tracking-widest text-gray-500">
-                                {property.location}
+                                {property.attributes.location}
                             </span>
                         </div>
                         <h1 className="text-2xl md:text-4xl font-extrabold text-gray-900 tracking-tight">
@@ -64,19 +64,19 @@ export default async function PropertyDetailPage({ params }: PropertyDetailProps
                     <div className="flex flex-col items-center justify-center text-center">
                         <span className="text-gray-400 text-xs font-medium uppercase tracking-wider mb-1">Recámaras</span>
                         <div className="flex items-center gap-1.5 text-gray-900 font-bold text-lg md:text-xl">
-                            <span>🛏️</span> {property.bedrooms}
+                            <span>🛏️</span> {property.attributes.bedrooms}
                         </div>
                     </div>
                     <div className="flex flex-col items-center justify-center text-center border-x border-gray-200">
                         <span className="text-gray-400 text-xs font-medium uppercase tracking-wider mb-1">Baños</span>
                         <div className="flex items-center gap-1.5 text-gray-900 font-bold text-lg md:text-xl">
-                            <span>🛁</span> {property.bathrooms}
+                            <span>🛁</span> {property.attributes.bathrooms}
                         </div>
                     </div>
                     <div className="flex flex-col items-center justify-center text-center">
                         <span className="text-gray-400 text-xs font-medium uppercase tracking-wider mb-1">Superficie</span>
                         <div className="flex items-center gap-1.5 text-gray-900 font-bold text-lg md:text-xl">
-                            <span>📐</span> {property.sqm} <span className="text-sm text-gray-500 font-normal">m²</span>
+                            <span>📐</span> {property.attributes.sqm} <span className="text-sm text-gray-500 font-normal">m²</span>
                         </div>
                     </div>
                 </div>

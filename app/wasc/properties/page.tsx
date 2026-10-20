@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import { propertiesData, Property } from "@/app/wasc/data/properties";
+import {CatalogItem, propertiesData, PropertyAttributes} from "@/app/wasc/data/properties";
 import { PropertyCard } from "@/app/wasc/components/PropertyCard";
 
 const propertyTypes = ["Todos", "Casa", "Departamento", "Terreno", "Comercial"] as const;
@@ -12,7 +12,7 @@ export default function Properties() {
     // Filtrar las propiedades según la selección activa
     const filteredProperties = selectedType === "Todos"
         ? propertiesData
-        : propertiesData.filter((property) => property.type === selectedType);
+        : propertiesData.filter((property) => property.attributes.type === selectedType);
 
     return (
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -53,8 +53,8 @@ export default function Properties() {
             {/* Cuadrícula de propiedades filtradas */}
             {filteredProperties.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {filteredProperties.map((property: Property) => (
-                        <PropertyCard key={property.id} property={property} />
+                    {filteredProperties.map((catalogItem: CatalogItem) => (
+                        <PropertyCard key={catalogItem.id} property={catalogItem} />
                     ))}
                 </div>
             ) : (
