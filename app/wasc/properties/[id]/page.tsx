@@ -19,7 +19,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailProps
     }
 
     const whatsappMessage = encodeURIComponent(
-        `¡Hola! Me interesa obtener información de la propiedad tipo ${property.attributes.type}: "${property.title}" (Ref ID: ${property.id}).`
+        `¡Hola! Me interesa obtener información de la propiedad tipo\n ${property.attributes.type}: "${property.title}"\n (Ref ID: https://cazastore.vercel.app/wasc/properties/${property.id}).`
     );
     const whatsappUrl = `https://wa.me/52${whatssapWasc}?text=${whatsappMessage}`;
 
