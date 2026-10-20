@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { propertiesData } from "@/app/wasc/data/properties";
 import PropertyGallery from "@/app/wasc/components/PropertyGallery";
+import {whatssapWasc} from "@/app/wasc/data/url";
 
 interface PropertyDetailProps {
     params: Promise<{
@@ -20,7 +21,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailProps
     const whatsappMessage = encodeURIComponent(
         `¡Hola! Me interesa obtener información de la propiedad tipo ${property.attributes.type}: "${property.title}" (Ref ID: ${property.id}).`
     );
-    const whatsappUrl = `https://wa.me/521234567890?text=${whatsappMessage}`;
+    const whatsappUrl = `https://wa.me/52${whatssapWasc}?text=${whatsappMessage}`;
 
     return (
         <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8 md:py-12">
