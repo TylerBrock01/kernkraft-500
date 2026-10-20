@@ -78,13 +78,13 @@ export default function ProductDrawer({ isOpen, onClose, onSuccess,productToEdit
             const uploadPayload = new FormData();
             uploadPayload.append('file', file);
 
-            // ⚠️ Ajusta esta ruta si tu endpoint está en otro lado (ej: /products/upload-image)
             const response = await api.post('/products/upload-image', uploadPayload, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
 
-            // Cloudinary suele devolver secure_url, o adaptamos a lo que devuelva tu servicio
-            const uploadedUrl = response.data.secure_url || response.data.url || response.data;
+            let uploadedUrl = response.data.secure_url || response.data.url || response.data;
+            // Convertir formatos incompatibles con navegadores a JPG
+            uploadedUrl = uploadedUrl.replace(/\.(heic|heif|heic)$/i, '.jpg');
             setImageUrl(uploadedUrl);
         } catch (error) {
             console.error('Error subiendo imagen:', error);
@@ -193,7 +193,7 @@ export default function ProductDrawer({ isOpen, onClose, onSuccess,productToEdit
                                         </div>
                                     ) : imageUrl ? (
                                         <>
-                                            <img src={imageUrl} alt="Preview" className="w-full h-full object-cover opacity-80" />
+                                            <img src={'https://res.cloudinary.com/tyler-brock/image/upload/v1792530036/nqxej18tl3zxfypnenqc.heic'} alt="Preview" className="w-full h-full object-cover opacity-80" />
                                             <button
                                                 type="button"
                                                 onClick={(e) => { e.stopPropagation(); setImageUrl(null); }}
