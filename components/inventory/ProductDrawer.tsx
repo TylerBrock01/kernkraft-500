@@ -19,8 +19,9 @@ export default function ProductDrawer({ isOpen, onClose, onSuccess,productToEdit
     // 📸 ESTADOS PARA LA IMAGEN
     const [isDragging, setIsDragging] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
-    const [imageUrl, setImageUrl] = useState<string | null>(null);
+    const [images, setImages] = useState<string[]>([]); // Lista de URLs de imágenes    const fileInputRef = useRef<HTMLInputElement>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+
     // 🔄 EFECTO DE AUTORELLENADO (Cuando se abre el Drawer para editar)
     useEffect(() => {
         if (productToEdit && isOpen) {
@@ -31,7 +32,12 @@ export default function ProductDrawer({ isOpen, onClose, onSuccess,productToEdit
                 stock: Number(productToEdit.stock),
                 type: productToEdit.type,
             });
-            setImageUrl(productToEdit.image || null);
+
+            // Cargar el arreglo de imágenes si existe, o usar la imagen única como fallback, o vacío
+            const loadedImages = productToEdit.images && productToEdit.images.length > 0
+                ? productToEdit.images
+                : (productToEdit.image ? [productToEdit.image] : []);
+            setImages(loadedImages);
 
             // Desempaquetar el JSONB de la base de datos a filas del formulario
             if (productToEdit.metadata && Object.keys(productToEdit.metadata).length > 0) {
@@ -47,9 +53,10 @@ export default function ProductDrawer({ isOpen, onClose, onSuccess,productToEdit
             // Limpiar cuando se cierra
             setFormData({ name: '', description: '', price: 0, stock: 0, type: 'retail' });
             setMetadataParams([]);
-            setImageUrl(null);
+            setImages([]);
         }
     }, [productToEdit, isOpen]);
+
     // --- LÓGICA DE DRAG & DROP ---
     const handleDragOver = (e: React.DragEvent) => {
         e.preventDefault();
@@ -62,37 +69,46 @@ export default function ProductDrawer({ isOpen, onClose, onSuccess,productToEdit
         e.preventDefault();
         setIsDragging(false);
         if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-            await handleImageUpload(e.dataTransfer.files[0]);
+            await handleImagesUpload(Array.from(e.dataTransfer.files));
         }
     };
-
     const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
-            await handleImageUpload(e.target.files[0]);
+            await handleImagesUpload(Array.from(e.target.files));
         }
     };
 
-    const handleImageUpload = async (file: File) => {
+    const handleImagesUpload = async (files: File[]) => {
         setIsUploading(true);
         try {
             const uploadPayload = new FormData();
-            uploadPayload.append('file', file);
+            // Adjuntamos cada archivo con la llave 'files' esperada por el backend
+            files.forEach(file => {
+                uploadPayload.append('files', file);
+            });
 
-            const response = await api.post('/products/upload-image', uploadPayload, {
+            // Endpoint genérico para subida múltiple o iterar (según prefieras)
+            // Aquí asumimos un endpoint que acepta 'files' en FormData
+            const response = await api.post('/products/upload-images', uploadPayload, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
 
-            let uploadedUrl = response.data.secure_url || response.data.url || response.data;
-            // Convertir formatos incompatibles con navegadores a JPG
-            uploadedUrl = uploadedUrl.replace(/\.(heic|heif|heic)$/i, '.jpg');
-            setImageUrl(uploadedUrl);
+            // Suponiendo que el backend regresa un arreglo de URLs o un objeto con las URLs
+            const newUrls = response.data.urls || (Array.isArray(response.data) ? response.data : [response.data.secure_url]);
+
+            const sanitizedUrls = newUrls.map((url: string) => url.replace(/\.(heic|heif)$/i, '.jpg'));
+
+            setImages(prev => [...prev, ...sanitizedUrls]);
         } catch (error) {
-            console.error('Error subiendo imagen:', error);
+            console.error('Error subiendo imágenes:', error);
         } finally {
             setIsUploading(false);
         }
     };
-    // ------------------------------
+
+    const removeImage = (indexToRemove: number) => {
+        setImages(images.filter((_, index) => index !== indexToRemove));
+    };
 
     // --- LÓGICA DE METADATA ---
     const addMetadataRow = () => setMetadataParams([...metadataParams, { key: '', value: '' }]);
@@ -113,9 +129,10 @@ export default function ProductDrawer({ isOpen, onClose, onSuccess,productToEdit
             formPayload.append('stock', String(formData.stock));
             formPayload.append('type', formData.type);
 
-            // 📸 Si tenemos imagen, la mandamos como texto
-            if (imageUrl) {
-                formPayload.append('image', imageUrl);
+            // 📸 Mandamos todas las imágenes (la primera como portada y el array completo)
+            if (images.length > 0) {
+                formPayload.append('image', images[0]); // Portada principal
+                images.forEach((img) => formPayload.append('images[]', img)); // O enviar como JSON stringify si prefieres
             }
 
             const metadataObject: Record<string, any> = {};
@@ -135,16 +152,16 @@ export default function ProductDrawer({ isOpen, onClose, onSuccess,productToEdit
                 formPayload.append('metadata', JSON.stringify(metadataObject));
             }
 
-            // 🎯 LA MAGIA HÍBRIDA: Decide dinámicamente si hacer POST o PATCH
             if (productToEdit) {
                 await api.patch(`/products/${productToEdit.id}`, formPayload, { headers: { 'Content-Type': 'multipart/form-data' } });
             } else {
                 await api.post('/products', formPayload, { headers: { 'Content-Type': 'multipart/form-data' } });
             }
+
             // Reset total
             setFormData({ name: '', description: '', price: 0, stock: 0, type: 'retail' });
             setMetadataParams([]);
-            setImageUrl(null);
+            setImages([]);
             onSuccess();
             onClose();
         } catch (error) {
@@ -161,52 +178,62 @@ export default function ProductDrawer({ isOpen, onClose, onSuccess,productToEdit
 
                         <div className="flex justify-between items-center shrink-0">
                             <h2 className="text-xl font-bold text-zinc-100">
-                                {productToEdit ? 'Editar Expediente' : 'Nueva Carga'} {/* 🧠 Título dinámico */}
+                                {productToEdit ? 'Editar Expediente' : 'Nueva Carga'}
                             </h2>
                             <button onClick={onClose} className="text-zinc-500 hover:text-white">✕</button>
                         </div>
 
                         <form onSubmit={handleSubmit} className="mb-6 space-y-6 flex-1 flex flex-col">
 
-                            {/* 📸 DROPZONE DE IMAGEN */}
+                            {/* 📸 GALERÍA Y DROPZONE DE MÚLTIPLES IMÁGENES */}
+                            <div>
+                                <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 ml-1 mb-2 block">Galería Fotográfica</label>
 
-                            <div className={''}>
-                                <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 ml-1 mb-2 block">Fotografía del Producto</label>
+                                {/* Grid de imágenes ya subidas */}
+                                {images.length > 0 && (
+                                    <div className="grid grid-cols-3 gap-2 mb-3">
+                                        {images.map((url, index) => (
+                                            <div key={index} className="relative h-24 rounded-lg overflow-hidden border border-zinc-800 group bg-zinc-900">
+                                                <img src={url} alt={`Preview ${index}`} className="w-full h-full object-cover" />
+                                                {index === 0 && (
+                                                    <span className="absolute bottom-1 left-1 bg-zinc-950/80 text-[8px] text-zinc-300 px-1.5 py-0.5 rounded font-mono">
+                                                        Portada
+                                                    </span>
+                                                )}
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeImage(index)}
+                                                    className="absolute top-1 right-1 w-6 h-6 bg-red-500/80 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                                                >
+                                                    ✕
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
 
                                 <div
                                     onDragOver={handleDragOver}
                                     onDragLeave={handleDragLeave}
                                     onDrop={handleDrop}
-                                    onClick={() => !imageUrl && !isUploading && fileInputRef.current?.click()}
-                                    className={`relative w-full h-40 rounded-xl border-2 border-dashed flex flex-col items-center justify-center transition-all overflow-hidden ${
-                                        imageUrl ? 'border-zinc-800 bg-zinc-900/50' :
-                                            isDragging ? 'border-blue-500 bg-blue-500/10' :
-                                                'border-zinc-800 bg-zinc-900/30 hover:border-zinc-600 hover:bg-zinc-900/50 cursor-pointer'
+                                    onClick={() => !isUploading && fileInputRef.current?.click()}
+                                    className={`relative w-full h-32 rounded-xl border-2 border-dashed flex flex-col items-center justify-center transition-all overflow-hidden cursor-pointer ${
+                                        isDragging ? 'border-blue-500 bg-blue-500/10' :
+                                            'border-zinc-800 bg-zinc-900/30 hover:border-zinc-600 hover:bg-zinc-900/50'
                                     }`}
                                 >
-                                    <input type="file" accept="image/*" className="hidden" ref={fileInputRef} onChange={handleFileSelect} />
+                                    <input type="file" accept="image/*" multiple className="hidden" ref={fileInputRef} onChange={handleFileSelect} />
 
                                     {isUploading ? (
                                         <div className="flex flex-col items-center">
                                             <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mb-2"></div>
                                             <span className="text-xs font-mono text-zinc-400">Subiendo a la nube...</span>
                                         </div>
-                                    ) : imageUrl ? (
-                                        <>
-                                            <img src={imageUrl} alt="Preview" className="w-full h-full object-cover opacity-80" />
-                                            <button
-                                                type="button"
-                                                onClick={(e) => { e.stopPropagation(); setImageUrl(null); }}
-                                                className="absolute top-2 right-2 w-8 h-8 bg-red-500/20 text-red-500 rounded-full flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors backdrop-blur-md"
-                                            >
-                                                ✕
-                                            </button>
-                                        </>
                                     ) : (
                                         <div className="text-center pointer-events-none">
-                                            <span className="text-2xl mb-2 block opacity-50">📸</span>
-                                            <p className="text-xs font-medium text-zinc-400">Arrastra una imagen aquí</p>
-                                            <p className="text-[10px] text-zinc-600 mt-1">o haz clic para explorar</p>
+                                            <span className="text-xl mb-1 block opacity-50">📸</span>
+                                            <p className="text-xs font-medium text-zinc-400">Arrastra imágenes o haz clic</p>
+                                            <p className="text-[10px] text-zinc-600 mt-0.5">Puedes seleccionar varias a la vez</p>
                                         </div>
                                     )}
                                 </div>
@@ -253,11 +280,10 @@ export default function ProductDrawer({ isOpen, onClose, onSuccess,productToEdit
                                 </div>
 
                                 <div className="space-y-2">
-                                    {/* Fila de encabezados sutiles */}
                                     {metadataParams.length > 0 && (
                                         <div className="flex gap-2 px-1">
-                                            <span className="flex-1 text-[9px] uppercase text-zinc-500 font-bold tracking-widest">Propiedad (Ej. material)</span>
-                                            <span className="flex-1 text-[9px] uppercase text-zinc-500 font-bold tracking-widest">Valor (Ej. PVC)</span>
+                                            <span className="flex-1 text-[9px] uppercase text-zinc-500 font-bold tracking-widest">Propiedad</span>
+                                            <span className="flex-1 text-[9px] uppercase text-zinc-500 font-bold tracking-widest">Valor</span>
                                             <span className="w-8"></span>
                                         </div>
                                     )}
