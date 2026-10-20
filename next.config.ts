@@ -29,8 +29,13 @@ const nextConfig: NextConfig = {
                 hostname: '*.giphy.com', // ✅ Corrección: Comodín absoluto para subdominios
                 pathname: '/media/**',
             },
+            {
+                protocol: "https",
+                hostname: "images.unsplash.com", //test property images
+            },
         ]
-    }
+    },
+
 };
 
 export default nextConfig;
