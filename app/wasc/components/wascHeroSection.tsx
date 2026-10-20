@@ -1,12 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+const hero = "https://images.unsplash.com/photo-1779778916453-93cc86a781a5?q=80&w=2338&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
 
 export default function WascHeroSection() {
     return (
         <section className="relative text-white py-20 lg:py-32 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gray-950">
             {/* 1. Imagen de Fondo Principal (San Carlos) */}
             <Image
-                src="https://cdn.pixabay.com/photo/2019/05/03/08/24/san-carlos-4175388_1280.jpg"
+                src={hero}
                 alt="Fondo de bienes raíces en San Carlos"
                 fill
                 priority
