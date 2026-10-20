@@ -193,7 +193,7 @@ export default function ProductDrawer({ isOpen, onClose, onSuccess,productToEdit
                                         </div>
                                     ) : imageUrl ? (
                                         <>
-                                            <img src={'https://res.cloudinary.com/tyler-brock/image/upload/v1792530036/nqxej18tl3zxfypnenqc.heic'} alt="Preview" className="w-full h-full object-cover opacity-80" />
+                                            <img src={imageUrl} alt="Preview" className="w-full h-full object-cover opacity-80" />
                                             <button
                                                 type="button"
                                                 onClick={(e) => { e.stopPropagation(); setImageUrl(null); }}
