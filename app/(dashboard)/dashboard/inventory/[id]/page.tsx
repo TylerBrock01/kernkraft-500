@@ -16,6 +16,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     const [isLoading, setIsLoading] = useState(true);
     const [isEditDrawerOpen, setIsEditDrawerOpen] = useState(false);
     const [isMermaModalOpen, setIsMermaModalOpen] = useState(false);
+    const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
     const fetchProduct = async () => {
         setIsLoading(true);
@@ -95,27 +96,67 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             <div className=" bg-zinc-900/40 border border-zinc-800 rounded-2xl backdrop-blur-md overflow-hidden flex flex-col md:flex-row shadow-2xl">
 
                 {/* 📸 COLUMNA IZQUIERDA: LA FOTOGRAFÍA */}
-                <div className="w-full md:w-2/5 h-80 md:h-auto border-b md:border-b-0 md:border-r border-zinc-800 bg-black/20 flex items-center justify-center overflow-hidden relative group">
-                    {product.image ? (
-                        <motion.img
-                            initial={{ scale: 1.1, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ duration: 0.5 }}
-                            src={product.image}
-                            alt={product.name}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
-                    ) : (
-                        <div className="text-center opacity-30 flex flex-col items-center">
-                            <span className="text-6xl mb-3">📸</span>
-                            <p className="text-[10px] text-zinc-600 uppercase font-black tracking-widest">Sin Imagen</p>
+                {/* 📸 COLUMNA IZQUIERDA: LA GALERÍA FOTOGRÁFICA */}
+                <div className="w-full md:w-2/5 border-b md:border-b-0 md:border-r border-zinc-800 bg-black/40 flex flex-col justify-between overflow-hidden relative group">
+
+                    {/* Imagen Principal */}
+                    <div className="w-full h-80 md:h-[420px] relative flex items-center justify-center overflow-hidden bg-zinc-950/60 p-4">
+
+                        {/* Fondo Blur sutil para evitar bordes vacíos secos */}
+                        {(product.images?.[selectedImageIndex] || product.image) && (
+                            <img
+                                src={product.images?.[selectedImageIndex] || product.image}
+                                alt="Background Blur"
+                                className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-20 scale-125 pointer-events-none"
+                            />
+                        )}
+
+                        {product.images && product.images.length > 0 ? (
+                            <motion.img
+                                key={product.images[selectedImageIndex] || product.image}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.3 }}
+                                src={product.images[selectedImageIndex] || product.image}
+                                alt={product.name}
+                                /* 🎯 CAMBIO CLAVE: object-contain para encajar la foto completa + drop-shadow */
+                                className="max-w-full max-h-full object-contain z-10 drop-shadow-2xl"
+                            />
+                        ) : product.image ? (
+                            <img
+                                src={product.image}
+                                alt={product.name}
+                                className="max-w-full max-h-full object-contain z-10 drop-shadow-2xl"
+                            />
+                        ) : (
+                            <div className="text-center opacity-30 flex flex-col items-center">
+                                <span className="text-6xl mb-3">📸</span>
+                                <p className="text-[10px] text-zinc-600 uppercase font-black tracking-widest">Sin Imagen</p>
+                            </div>
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none z-20"></div>
+                    </div>
+
+                    {/* Miniaturas (Thumbnails) */}
+                    {product.images && product.images.length > 1 && (
+                        <div className="p-3 bg-zinc-950/90 border-t border-zinc-800 flex gap-2 overflow-x-auto shrink-0 z-30">
+                            {product.images.map((imgUrl: string, idx: number) => (
+                                <button
+                                    key={idx}
+                                    type="button"
+                                    onClick={() => setSelectedImageIndex(idx)}
+                                    className={`relative w-14 h-14 rounded-lg overflow-hidden border-2 shrink-0 transition-all ${
+                                        selectedImageIndex === idx
+                                            ? 'border-blue-500 scale-95 shadow-[0_0_12px_rgba(59,130,246,0.5)]'
+                                            : 'border-zinc-800 opacity-60 hover:opacity-100'
+                                    }`}
+                                >
+                                    <img src={imgUrl} alt={`Thumb ${idx}`} className="w-full h-full object-cover" />
+                                </button>
+                            ))}
                         </div>
                     )}
-
-                    {/* Degradado sutil superpuesto en la imagen */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
                 </div>
-
                 {/* 📊 COLUMNA DERECHA: LOS DATOS */}
                 <div className="flex-1 p-8 md:p-10">
 
@@ -188,6 +229,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
 
             </div>
+
             <ProductDrawer
                 isOpen={isEditDrawerOpen}
                 onClose={() => setIsEditDrawerOpen(false)}
