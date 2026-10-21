@@ -1,18 +1,53 @@
 'use client';
 
-import { useState } from "react";
-import {CatalogItem, propertiesData, PropertyAttributes} from "@/app/wasc/data/properties";
+import { useState, useEffect, useCallback } from "react";
+import { api } from "@/app/lib/axios/axios"; // Usamos tu cliente configurado de Axios
 import { PropertyCard } from "@/app/wasc/components/PropertyCard";
+
+// Slug del negocio/tenant que quieres consultar
+const BUSINESS_SLUG = "wasc"; // Ajusta según el slug de tu negocio en BD
 
 const propertyTypes = ["Todos", "Casa", "Departamento", "Terreno", "Comercial"] as const;
 
 export default function Properties() {
     const [selectedType, setSelectedType] = useState<string>("Todos");
+    const [properties, setProperties] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+    const [storeInfo, setStoreInfo] = useState<any>(null);
 
-    // Filtrar las propiedades según la selección activa
+    // Fetch del catálogo desde el backend
+    const fetchCatalog = useCallback(async () => {
+        setIsLoading(true);
+        setError(null);
+        try {
+            const response = await api.get(`/catalog/${BUSINESS_SLUG}`);
+
+            // 🎯 Extraemos la tienda y el catálogo según la estructura real que mandó el backend
+            const storeData = response.data.store;
+            const productsData = response.data.catalog?.data || [];
+
+            setStoreInfo(storeData);
+            setProperties(productsData);
+        } catch (err) {
+            console.error("Error al obtener el catálogo:", err);
+            setError("No se pudieron cargar las propiedades en este momento.");
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+    useEffect(() => {
+        fetchCatalog();
+    }, [fetchCatalog]);
+
+    // Filtrado dinámico por el atributo "type" de la metadata o el campo directo de la entidad
     const filteredProperties = selectedType === "Todos"
-        ? propertiesData
-        : propertiesData.filter((property) => property.attributes.type === selectedType);
+        ? properties
+        : properties.filter((item) => {
+            // Revisa si el tipo viene en metadata.type o directamente en el campo product.type
+            const itemType = item.metadata?.propertyTypes || item.propertyTypes;
+            return itemType?.toLowerCase() === selectedType.toLowerCase();
+        });
 
     return (
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -50,15 +85,26 @@ export default function Properties() {
                 })}
             </div>
 
-            {/* Cuadrícula de propiedades filtradas */}
-            {filteredProperties.length > 0 ? (
+            {/* Estado de Carga */}
+            {isLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {filteredProperties.map((catalogItem: CatalogItem) => (
-                        <PropertyCard key={catalogItem.id} property={catalogItem} />
+                    {[1, 2, 3].map((n) => (
+                        <div key={n} className="h-96 rounded-3xl bg-gray-100 animate-pulse border border-gray-200" />
+                    ))}
+                </div>
+            ) : error ? (
+                <div className="text-center py-16 bg-red-50 rounded-3xl border border-red-100 text-red-600 font-medium">
+                    {error}
+                </div>
+            ) : filteredProperties.length > 0 ? (
+                /* Cuadrícula de propiedades reales */
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredProperties.map((property) => (
+                        <PropertyCard key={property.id} property={property} />
                     ))}
                 </div>
             ) : (
-                /* Estado vacío si no hay resultados para un filtro */
+                /* Estado vacío */
                 <div className="text-center py-16 bg-gray-50 rounded-3xl border border-dashed border-gray-200">
                     <span className="text-4xl block mb-2">🏠</span>
                     <h3 className="text-lg font-bold text-gray-900">No hay propiedades disponibles</h3>

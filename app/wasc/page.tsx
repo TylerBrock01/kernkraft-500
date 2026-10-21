@@ -1,40 +1,40 @@
 import Link from "next/link";
 import Image from "next/image";
-import { propertiesData } from "@/app/wasc/data/properties";
+// import { propertiesData } from "@/app/wasc/data/properties";
 import {PropertyCard} from "@/app/wasc/components/PropertyCard";
 import WascHeroSection from "@/app/wasc/components/wascHeroSection";
 import {whatssapWasc} from "@/app/wasc/data/url";
 
 export default function WascLandingPage() {
 
-    const featuredProperties = propertiesData.slice(0, 3);
+    // const featuredProperties = propertiesData.slice(0, 3);
 
     return (
         <div className="space-y-16 md:space-y-24 pb-16">
             {/* 1. HERO SECTION: Impacto Visual y Buscador Principal */}
             <WascHeroSection/>
             {/* 2. PROPIEDADES DESTACADAS */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
-                    <div>
-                        <span className="text-xs font-bold uppercase tracking-widest text-red-600">Oportunidades Únicas</span>
-                        <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight mt-1">Propiedades Destacadas</h2>
-                    </div>
-                    <Link
-                        href="/wasc/properties"
-                        className="text-sm font-bold text-red-600 hover:text-red-700 flex items-center gap-1 group"
-                    >
-                        Explorar todo el catálogo <span className="transition-transform group-hover:translate-x-1">→</span>
-                    </Link>
-                </div>
+            {/*<section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">*/}
+            {/*    <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">*/}
+            {/*        <div>*/}
+            {/*            <span className="text-xs font-bold uppercase tracking-widest text-red-600">Oportunidades Únicas</span>*/}
+            {/*            <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight mt-1">Propiedades Destacadas</h2>*/}
+            {/*        </div>*/}
+            {/*        <Link*/}
+            {/*            href="/wasc/properties"*/}
+            {/*            className="text-sm font-bold text-red-600 hover:text-red-700 flex items-center gap-1 group"*/}
+            {/*        >*/}
+            {/*            Explorar todo el catálogo <span className="transition-transform group-hover:translate-x-1">→</span>*/}
+            {/*        </Link>*/}
+            {/*    </div>*/}
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {featuredProperties.map((property) => (
-                        <PropertyCard key={property.id} property={property} />
+            {/*    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">*/}
+            {/*        {featuredProperties.map((property) => (*/}
+            {/*            <PropertyCard key={property.id} property={property} />*/}
 
-                    ))}
-                </div>
-            </section>
+            {/*        ))}*/}
+            {/*    </div>*/}
+            {/*</section>*/}
 
             {/* 3. MÓDULO DE VALOR / CONFIANZA */}
             <section className="bg-gray-300/50 py-16 border-y border-gray-100">
