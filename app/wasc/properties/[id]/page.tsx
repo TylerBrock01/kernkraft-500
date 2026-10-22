@@ -47,19 +47,19 @@ export default async function PropertyDetailPage({ params }: PropertyDetailProps
         : property.price;
 
     const whatsappMessage = encodeURIComponent(
-        `¡Hola! 👋
-
-Me interesa obtener más información sobre esta propiedad:
-
-🏠 *${property.name}*
-📍 ${meta.location || 'Ubicación exclusiva'}
-💰 ${formattedPrice}
-
-🔑 Tipo: ${meta.propertyType || property.type}
-
-🔗 Ver detalles: https://cazastore.vercel.app/wasc/properties/${property.id}
-
-¿Podemos agendar una visita?`
+            `¡Hola! 👋
+    
+    Me interesa obtener más información sobre esta propiedad:
+    
+    🏠 *${property.name}*
+    📍 ${meta.location || 'Ubicación exclusiva'}
+    💰 ${formattedPrice}
+    
+    🔑 Tipo: ${meta.propertyType || property.type}
+    
+    🔗 Ver detalles: https://cazastore.vercel.app/wasc/properties/${property.id}
+    
+    ¿Podemos agendar una visita?`
     );
     const whatsappUrl = `https://wa.me/52${whatssapWasc}?text=${whatsappMessage}`;
 
