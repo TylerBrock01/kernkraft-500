@@ -1,5 +1,5 @@
 import React from 'react';
-import { Coffee, Clock, Leaf, ArrowRight, ShoppingBag, Plus } from 'lucide-react';
+import { Coffee, Clock, Leaf, Plus } from 'lucide-react';
 import HmcsHeroSection from "@/app/hmcs/_components/hmcsHeroSection";
 
 export default function HmcsLandingPage() {
