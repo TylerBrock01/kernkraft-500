@@ -9,7 +9,6 @@ import BurritoThemeMockup from "@/components/themes/Burritos";
 import BurgerPicnicTheme from "@/components/themes/burger";
 import TortasFightTheme from "@/components/themes/Tortas";
 import ChanelStylePerfumery from "@/components/themes/Parfum";
-import LasHamacasPOS from "@/components/themes/hamacas/Hamacas";
 
 export default function StorefrontPage({ params }: { params: Promise<{ tenant: string }> }) {    // 🔌 Conectamos el Cerebro (Hook) al Cuerpo (UI)
     const resolvedParams = use(params);
@@ -31,13 +30,6 @@ export default function StorefrontPage({ params }: { params: Promise<{ tenant: s
     if (resolvedParams.tenant === 'perfum') {
         return <ChanelStylePerfumery/>
     }
-    // produccion:
-    if (resolvedParams.tenant === 'hamacas') {
-        return <LasHamacasPOS/>
-    }
-    // if (resolvedParams.tenant === 'wasc') {
-    //     redirect('https://wasc.com.ar');
-    // }
     const {
         store,
         products,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Coffee, Clock, Leaf, ArrowRight, ShoppingBag, Plus } from 'lucide-react';
 
-export default function LasHamacasLanding() {
+export default function HmcsLandingPage() {
     return (
         // Contenedor principal - Fondo Blanco Hueso y fuente general Inter (sans)
         <div className="min-h-screen bg-[#F8F9FA] text-[#1E1E1E] font-sans selection:bg-[#2C4A3E] selection:text-white">
