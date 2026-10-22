@@ -7,7 +7,7 @@ import { PropertyCard } from "@/app/wasc/components/PropertyCard";
 // Slug del negocio/tenant que quieres consultar
 const BUSINESS_SLUG = "wasc"; // Ajusta según el slug de tu negocio en BD
 
-const propertyTypes = ["Todos", "Casa", "Departamento", "Terreno", "Comercial"] as const;
+const propertyTypes = ["Todos", "Casa", "Departamento", "Terreno","Lote", "Comercial"] as const;
 
 export default function Properties() {
     const [selectedType, setSelectedType] = useState<string>("Todos");
