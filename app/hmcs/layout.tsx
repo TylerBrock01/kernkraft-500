@@ -1,3 +1,4 @@
+import HmcsNavBar from "@/app/hmcs/_components/hmcsNavBar";
 
 export default function HmcsLayout({
                                        children,
@@ -6,6 +7,7 @@ export default function HmcsLayout({
 }) {
     return (
         <div className="bg-white flex flex-col min-h-screen">
+            <HmcsNavBar/>
             <div className="flex-grow">
                 {children}
             </div>

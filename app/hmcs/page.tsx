@@ -6,22 +6,7 @@ export default function HmcsLandingPage() {
         // Contenedor principal - Fondo Blanco Hueso y fuente general Inter (sans)
         <div className="min-h-screen bg-[#F8F9FA] text-[#1E1E1E] font-sans selection:bg-[#2C4A3E] selection:text-white">
 
-            {/* Navegación */}
-            <nav className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto">
-                <div className="flex items-center gap-2">
-                    {/* Símbolo minimalista simulado */}
-                    <div className="w-8 h-8 rounded-full border-2 border-[#2C4A3E] flex items-center justify-center">
-                        <Leaf className="w-4 h-4 text-[#2C4A3E]" />
-                    </div>
-                    <span className="font-bold text-xl tracking-tight text-[#2C4A3E]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-            Las Hamacas
-          </span>
-                </div>
-                <button className="flex items-center gap-2 bg-[#F8F9FA] border-2 border-[#2C4A3E] text-[#2C4A3E] px-4 py-2 rounded-full font-medium hover:bg-[#2C4A3E] hover:text-white transition-colors duration-300">
-                    <ShoppingBag className="w-4 h-4" />
-                    <span className="hidden sm:inline">Mi Orden</span>
-                </button>
-            </nav>
+
 
             {/* Hero Section */}
             <header className="px-6 py-16 md:py-24 max-w-7xl mx-auto flex flex-col items-center text-center">
