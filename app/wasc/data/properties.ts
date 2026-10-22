@@ -1,6 +1,5 @@
 // data/properties.ts
-export const logoWasc='https://res.cloudinary.com/tyler-brock/image/upload/v1792034299/logo_wasc_3x_lx5snu.png'
-export const logoWasc0='https://res.cloudinary.com/tyler-brock/image/upload/v1792074335/logo_yaibgo.png'
+
 
 export interface CatalogItem<TAttributes = Record<string, any>> {
     id: string;

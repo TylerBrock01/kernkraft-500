@@ -1,6 +1,5 @@
 import Link from "next/link";
-import {logoWasc0} from "@/app/wasc/data/properties";
-import {emailWasc, facebookWasc, instagramWasc, locationWasc, whatssapWasc} from "@/app/wasc/data/url";
+import {emailWasc, facebookWasc, instagramWasc, locationWasc, logoWasc0, whatssapWasc} from "@/app/wasc/data/url";
 
 export default function WascFooter() {
     const currentYear = new Date().getFullYear();

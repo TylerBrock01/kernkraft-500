@@ -2,9 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import {logoWasc} from "@/app/wasc/data/properties";
-import {locationWasc} from "@/app/wasc/data/url";
-import WascFooter from "@/app/wasc/_components/footer";
+import {locationWasc, logoWasc} from "@/app/wasc/data/url";
 
 const navItems = [
     {
