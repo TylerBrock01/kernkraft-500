@@ -1,9 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 // import { propertiesData } from "@/app/wasc/data/properties";
-import {PropertyCard} from "@/app/wasc/components/PropertyCard";
-import WascHeroSection from "@/app/wasc/components/wascHeroSection";
 import {whatssapWasc} from "@/app/wasc/data/url";
+import WascHeroSection from "@/app/wasc/_components/wascHeroSection";
 
 export default function WascLandingPage() {
 

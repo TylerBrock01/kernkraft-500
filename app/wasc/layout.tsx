@@ -1,5 +1,5 @@
-import WascFooter from "@/app/wasc/components/footer";
-import WascNavbar from "@/app/wasc/components/navbar";
+import WascNavbar from "@/app/wasc/_components/wascNavbar";
+import WascFooter from "@/app/wasc/_components/footer";
 
 export default function WascLayout({
                                          children,

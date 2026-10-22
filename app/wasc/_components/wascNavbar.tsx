@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import {logoWasc} from "@/app/wasc/data/properties";
 import {locationWasc} from "@/app/wasc/data/url";
+import WascFooter from "@/app/wasc/_components/footer";
 
 const navItems = [
     {
@@ -30,7 +31,7 @@ const desktopLinkClassName =
 const mobileLinkClassName =
     'block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-red-600 hover:bg-gray-50';
 
-export default function Navbar() {
+export default function WascNavbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => {
