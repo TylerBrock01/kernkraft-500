@@ -84,9 +84,9 @@ export default async function PropertyDetailPage({ params }: PropertyDetailProps
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-gray-100 pb-8">
                     <div className="space-y-2">
                         <div className="flex items-center gap-2">
-                            {meta.propertyType && (
+                            {meta.propertyTypes && (
                                 <span className="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                                    {meta.propertyType}
+                                    {meta.propertyTypes}
                                 </span>
                             )}
                             {meta.location && (
