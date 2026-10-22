@@ -1,5 +1,5 @@
 export const whatssapWasc = "6221566441"
 export const facebookWasc = "https://www.facebook.com/wasc.official"
 export const instagramWasc = "https://www.instagram.com/wasc.official/"
-export const emailWasc = "mingopro"
-export const locationWasc = "https://goo.gl/maps/2242252222"
+export const emailWasc = "domingoernesto123@gmail.com"
+export const locationWasc = "https://maps.app.goo.gl/Q8BSgeiCuPtnX3fW6"

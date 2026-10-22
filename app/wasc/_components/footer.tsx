@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {logoWasc0} from "@/app/wasc/data/properties";
-import {emailWasc, facebookWasc, instagramWasc, whatssapWasc} from "@/app/wasc/data/url";
+import {emailWasc, facebookWasc, instagramWasc, locationWasc, whatssapWasc} from "@/app/wasc/data/url";
 
 export default function WascFooter() {
     const currentYear = new Date().getFullYear();
@@ -92,18 +92,18 @@ export default function WascFooter() {
                         <ul className="space-y-3 text-sm text-gray-400">
                             <li className="flex items-start gap-2">
                                 <span className="text-blue-400 font-bold">📍</span>
-                                <span>Oficinas Centrales, Zona Metropolitana</span>
+                                <a href={locationWasc}>Blvd. Tetakawi, Sector creation, 85506 San Carlos, Son.</a>
                             </li>
                             <li className="flex items-center gap-2">
                                 <span className="text-emerald-400 font-bold">💬</span>
                                 <a href={`https://wa.me/${whatssapWasc}`} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
-                                    +52 (123) 456-7890
+                                    {whatssapWasc}
                                 </a>
                             </li>
                             <li className="flex items-center gap-2">
                                 <span className="text-blue-400 font-bold">✉️</span>
                                 <a href={`mailto:${emailWasc}`} className="hover:text-white transition-colors">
-                                    contacto@wascinmobiliaria.com
+                                    {emailWasc}
                                 </a>
                             </li>
                         </ul>
