@@ -16,7 +16,7 @@ export default function WascFooter() {
                             <img
                                 src={logoWasc0}
                                 alt="WASC Inmobiliaria Logo"
-                                className="h-10 w-auto object-contain brightness-0 invert"
+                                className="h-10 w-auto object-contain"
                             />
                         </Link>
                         <p className="text-gray-400 text-sm leading-relaxed max-w-sm">
