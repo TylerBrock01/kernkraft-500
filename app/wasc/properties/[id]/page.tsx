@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { getProduct } from "@/app/wasc/_services/catalog.service";
 import { buildWhatsappUrl } from "@/app/wasc/_lib/whatsapp";
 import { routes } from "@/app/wasc/_lib/routes";
-import PropertyGallery from "@/app/wasc/_components/PropertyGallery";
+import PropertyGallery from "@/app/wasc/properties/_components/PropertyGallery";
 import { PropertyHeader } from "./_components/PropertyHeader";
 import { PropertyStats } from "./_components/PropertyStats";
 import { PropertyDescription } from "./_components/PropertyDescription";

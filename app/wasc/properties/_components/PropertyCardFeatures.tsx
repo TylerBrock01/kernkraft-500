@@ -1,4 +1,4 @@
-import type { PropertyMetadata } from "../_lib/property";
+import type { PropertyMetadata } from "../../_lib/property";
 import {PROPERTY_FEATURES} from "@/app/wasc/_lib/features";
 
 const FEATURES = PROPERTY_FEATURES

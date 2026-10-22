@@ -1,4 +1,4 @@
-import {PropertyCard} from "@/app/wasc/_components/PropertyCard";
+import {PropertyCard} from "@/app/wasc/properties/_components/PropertyCard";
 import {Property} from "@/app/wasc/_lib/property";
 
 export function PropertiesGrid({ properties }: { properties: Property[] }) {

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { Property } from "../_lib/property";
+import type { Property } from "../../_lib/property";
 import { PropertyCardFeatures } from "./PropertyCardFeatures";
 import {formatPrice, getMainImage, getPropertyMeta} from "@/app/wasc/properties/_utils/property";
 
