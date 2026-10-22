@@ -60,9 +60,9 @@ export function PropertyCard({ property }: PropertyCardProps) {
 
                 {/* Badge Superior: Tipo de Inmueble y Ubicación */}
                 <div className="absolute top-4 left-4 right-4 flex items-center justify-between gap-2">
-                    {meta.type && (
+                    {meta.propertyTypes && (
                         <span className="bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md capitalize">
-                            {meta.type}
+                            {meta.propertyTypes}
                         </span>
                     )}
                     {meta.location && (
