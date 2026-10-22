@@ -1,39 +1,14 @@
 import React from 'react';
 import { Coffee, Clock, Leaf, ArrowRight, ShoppingBag, Plus } from 'lucide-react';
+import HmcsHeroSection from "@/app/hmcs/_components/hmcsHeroSection";
 
 export default function HmcsLandingPage() {
     return (
         // Contenedor principal - Fondo Blanco Hueso y fuente general Inter (sans)
         <div className="min-h-screen bg-[#F8F9FA] text-[#1E1E1E] font-sans selection:bg-[#2C4A3E] selection:text-white">
 
-
-
             {/* Hero Section */}
-            <header className="px-6 py-16 md:py-24 max-w-7xl mx-auto flex flex-col items-center text-center">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D9C5B2]/30 text-[#2C4A3E] text-sm font-medium mb-6">
-                    <span className="w-2 h-2 rounded-full bg-[#2C4A3E] animate-pulse"></span>
-                    Abierto ahora - Campus
-                </div>
-                <h1
-                    className="text-5xl md:text-7xl font-extrabold text-[#1E1E1E] tracking-tight mb-6 max-w-3xl leading-tight"
-                    style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-                >
-                    Recarga tu día, <br className="hidden md:block"/> sin perder tu clase.
-                </h1>
-                <p className="text-lg md:text-xl text-[#1E1E1E]/70 max-w-2xl mb-10">
-                    Tu oasis de descanso entre clases. Pide desde tu dispositivo, salta la fila y disfruta bajo la sombra.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                    <button className="bg-[#2C4A3E] text-white px-8 py-4 rounded-xl font-semibold text-lg flex items-center justify-center gap-2 hover:bg-[#1f352c] transition-transform active:scale-95 shadow-lg shadow-[#2C4A3E]/20">
-                        Ordenar ahora
-                        <ArrowRight className="w-5 h-5" />
-                    </button>
-                    <button className="bg-transparent text-[#2C4A3E] border-2 border-[#2C4A3E]/20 px-8 py-4 rounded-xl font-semibold text-lg hover:border-[#2C4A3E] transition-colors">
-                        Ver menú completo
-                    </button>
-                </div>
-            </header>
-
+            <HmcsHeroSection />
             {/* Features - Propuesta de Valor */}
             <section className="bg-white py-16 px-6">
                 <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
