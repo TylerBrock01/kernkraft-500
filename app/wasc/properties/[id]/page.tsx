@@ -16,7 +16,7 @@ interface PropertyDetailProps {
 // 🌐 Función auxiliar adaptada a la nueva ruta del CatalogController
 async function getProduct(id: string) {
     try {
-        const response = await api.get(`/catalog/${BUSINESS_SLUG}/catalog/${id}`);
+        const response = await api.get(`/catalog/${BUSINESS_SLUG}/${id}`);
         // Extraemos la propiedad del objeto devuelto por el backend { store, product }
         return response.data.product;
     } catch (error) {
