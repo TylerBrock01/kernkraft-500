@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {CatalogResult, getCatalog} from "@/app/wasc/_services/catalog.service";
-
+// test
 export function useCatalog(slug: string) {
     const [data, setData] = useState<CatalogResult>({ store: null, properties: [] });
     const [isLoading, setIsLoading] = useState(true);
