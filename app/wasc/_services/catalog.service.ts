@@ -4,6 +4,11 @@ import { api } from "@/app/lib/axios/axios";
 import { BUSINESS_SLUG } from "../_lib/config";
 import {Property} from "@/app/wasc/_lib/property";
 
+export interface CatalogResult {
+    store: Record<string, unknown> | null;
+    properties: Property[];
+}
+
 export async function getCatalog(slug: string, signal?: AbortSignal) {
     const { data } = await api.get(`/catalog/${slug}`, { signal });
     return {
