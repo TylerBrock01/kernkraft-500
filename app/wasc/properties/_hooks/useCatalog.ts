@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { getCatalog } from "@/app/wasc/_services/catalog.service";
-import type { CatalogResult } from "../types";
+import {CatalogResult, getCatalog} from "@/app/wasc/_services/catalog.service";
 
 export function useCatalog(slug: string) {
     const [data, setData] = useState<CatalogResult>({ store: null, properties: [] });
