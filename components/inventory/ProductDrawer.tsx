@@ -191,19 +191,23 @@ export default function ProductDrawer({ isOpen, onClose, onSuccess,productToEdit
 
                                 {/* Grid de imágenes ya subidas */}
                                 {images.length > 0 && (
-                                    <div className="grid grid-cols-3 gap-2 mb-3">
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-3">
                                         {images.map((url, index) => (
                                             <div key={index} className="relative h-24 rounded-lg overflow-hidden border border-zinc-800 group bg-zinc-900">
                                                 <img src={url} alt={`Preview ${index}`} className="w-full h-full object-cover" />
+
                                                 {index === 0 && (
-                                                    <span className="absolute bottom-1 left-1 bg-zinc-950/80 text-[8px] text-zinc-300 px-1.5 py-0.5 rounded font-mono">
-                                                        Portada
-                                                    </span>
+                                                    <span className="absolute bottom-1 left-1 bg-zinc-950/80 text-[8px] text-zinc-300 px-1.5 py-0.5 rounded font-mono z-10">
+                            Portada
+                        </span>
                                                 )}
+
+                                                {/* Botón de eliminar: Visible por defecto en móvil (opacity-100 sm:opacity-0) y aparece en hover en desktop */}
                                                 <button
                                                     type="button"
                                                     onClick={() => removeImage(index)}
-                                                    className="absolute top-1 right-1 w-6 h-6 bg-red-500/80 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                                                    className="absolute top-1 right-1 w-7 h-7 bg-red-600/90 hover:bg-red-700 text-white rounded-full flex items-center justify-center shadow-md opacity-100 transition-all active:scale-95 z-10"
+                                                    aria-label="Eliminar imagen"
                                                 >
                                                     ✕
                                                 </button>
@@ -230,9 +234,9 @@ export default function ProductDrawer({ isOpen, onClose, onSuccess,productToEdit
                                             <span className="text-xs font-mono text-zinc-400">Subiendo a la nube...</span>
                                         </div>
                                     ) : (
-                                        <div className="text-center pointer-events-none">
+                                        <div className="text-center pointer-events-none px-4">
                                             <span className="text-xl mb-1 block opacity-50">📸</span>
-                                            <p className="text-xs font-medium text-zinc-400">Arrastra imágenes o haz clic</p>
+                                            <p className="text-xs font-medium text-zinc-400">Arrastra imágenes o toca aquí</p>
                                             <p className="text-[10px] text-zinc-600 mt-0.5">Puedes seleccionar varias a la vez</p>
                                         </div>
                                     )}
