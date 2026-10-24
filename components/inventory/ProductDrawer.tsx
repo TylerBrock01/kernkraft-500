@@ -206,7 +206,7 @@ export default function ProductDrawer({ isOpen, onClose, onSuccess,productToEdit
                                                 <button
                                                     type="button"
                                                     onClick={() => removeImage(index)}
-                                                    className="absolute top-1 right-1 w-7 h-7 bg-red-600/90 text-white rounded-full flex items-center justify-center shadow-md opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity active:scale-95 z-10"
+                                                    className="absolute top-1 right-1 w-7 h-7 bg-red-600/90 hover:bg-red-700 text-white rounded-full flex items-center justify-center shadow-md opacity-100 transition-all active:scale-95 z-10"
                                                     aria-label="Eliminar imagen"
                                                 >
                                                     ✕
