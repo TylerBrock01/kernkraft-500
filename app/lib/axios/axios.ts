@@ -1,40 +1,73 @@
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import axios, { isAxiosError, type InternalAxiosRequestConfig } from 'axios';
+import { clearSession, getToken } from '@/app/features/auth/utils/session';
 
-// 🚀 REGLA DE ORO: Las variables de frontend DEBEN empezar con NEXT_PUBLIC_
-// Le ponemos el fallback a localhost para que no tengas que cambiar el código al probar en tu PC
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+// ---------- Configuración ----------
+const API_URL =
+    process.env.NEXT_PUBLIC_API_URL ??
+    (process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:3000');
 
-export const api = axios.create({
+if (!API_URL) {
+    // Falla en el build en vez de apuntar a una URL equivocada en producción
+    throw new Error('Falta la variable NEXT_PUBLIC_API_URL');
+}
+
+const LOGIN_PATH = '/login';
+const LOGIN_ENDPOINT = '/auth/login';
+
+// El timezone no cambia durante la sesión: lo calculamos una sola vez
+let cachedTimezone: string | undefined;
+const getTimezone = () =>
+    (cachedTimezone ??= Intl.DateTimeFormat().resolvedOptions().timeZone);
+
+const baseConfig = {
     baseURL: API_URL,
-    // ⚠️ Agregamos 60 segundos de paciencia para darle tiempo a Render de despertar del modo gratuito
-    timeout: 60000,
-    headers: {
-        'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
+};
+
+// ---------- API autenticada ----------
+export const api = axios.create({
+    ...baseConfig,
+    // Paciencia para el cold start de Render (plan gratuito)
+    timeout: 60_000,
 });
 
-// Interceptor: Antes de que cualquier petición salga, le pegamos el JWT y la Zona Horaria
-api.interceptors.request.use((config: any) => {
-    // 1. Inyección de Seguridad (JWT)
-    const token = Cookies.get('caza_token');
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
+api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+    const token = getToken();
+    if (token) config.headers.Authorization = `Bearer ${token}`;
 
-    // 2. 🌎 NUEVO: Inyección de Coordenadas de Tiempo (Timezone)
-    // Extrae automáticamente "America/Tijuana" (o donde esté el cliente)
-    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    if (userTimezone) {
-        config.headers['x-timezone'] = userTimezone;
-    }
+    const timezone = getTimezone();
+    if (timezone) config.headers['x-timezone'] = timezone;
 
     return config;
 });
-// 🚀 INSTANCIA PÚBLICA (Para clientes finales, sin tokens ni interceptores)
-export const publicApi = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://192.168.0.2:3000',
-    headers: {
-        'Content-Type': 'application/json',
+
+let isRedirectingToLogin = false;
+
+api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        const isUnauthorized = isAxiosError(error) && error.response?.status === 401;
+        const isLoginCall = error.config?.url?.includes(LOGIN_ENDPOINT);
+
+        // Solo en el navegador, y nunca en el propio login (ahí un 401 es "credenciales incorrectas")
+        if (typeof window !== 'undefined' && isUnauthorized && !isLoginCall) {
+            const { pathname, search } = window.location;
+
+            if (pathname !== LOGIN_PATH && !isRedirectingToLogin) {
+                isRedirectingToLogin = true; // varias peticiones en vuelo darían varios 401
+                clearSession(); // 🔑 sin esto, el middleware nos regresa al dashboard: bucle
+                window.location.replace(
+                    `${LOGIN_PATH}?next=${encodeURIComponent(pathname + search)}`,
+                );
+            }
+        }
+
+        return Promise.reject(error);
     },
+);
+
+// ---------- API pública (clientes finales, sin token) ----------
+export const publicApi = axios.create({
+    ...baseConfig,
+    timeout: 60_000,
 });

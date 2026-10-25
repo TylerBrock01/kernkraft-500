@@ -1,78 +1,59 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import Cookies from 'js-cookie';
-
-// Definimos la estructura exacta que nos escupió tu Postman
-interface User {
-    email: string;
-    name: string;
-    role: string;
-    businessId: string;
-    plan: string;
-}
+import {
+    createContext,
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+    type ReactNode,
+} from 'react';
+import type { AuthUser } from '@/app/features/auth/types';
+import { clearSession, readSession, saveSession } from '@/app/features/auth/utils/session';
 
 interface AuthContextType {
-    user: User | null;
+    user: AuthUser | null;
     isAuthenticated: boolean;
-    login: (token: string, userData: User) => void;
+    isReady: boolean; // true cuando ya se intentó restaurar la sesión
+    login: (token: string, userData: AuthUser) => void;
     logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-    const [user, setUser] = useState<User | null>(null);
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+    const [user, setUser] = useState<AuthUser | null>(null);
+    const [isReady, setIsReady] = useState(false);
 
-    // 🛡️ 1. LECTURA DEFENSIVA
+    // Restaurar sesión (en useEffect para evitar hydration mismatch con SSR)
     useEffect(() => {
-        const token = Cookies.get('caza_token');
-        const savedUser = Cookies.get('caza_user');
-
-        // Verificamos que exista y que NO sea la palabra maldita
-        if (token && savedUser && savedUser !== 'undefined') {
-            try {
-                setUser(JSON.parse(savedUser));
-            } catch (error) {
-                console.error('Detectamos una cookie corrupta. Limpiando zona...');
-                Cookies.remove('caza_token');
-                Cookies.remove('caza_user');
-            }
-        } else if (savedUser === 'undefined') {
-            // Si estaba corrupto, lo borramos silenciosamente
-            Cookies.remove('caza_user');
-        }
+        setUser(readSession()?.user ?? null);
+        setIsReady(true);
     }, []);
 
-    // 🛡️ 2. ESCRITURA DEFENSIVA
-    const login = (token: string, userData: User) => {
-        // Evitamos que un error del backend nos envenene las cookies
-        if (!userData) {
-            console.error('Alerta: El backend no envió los datos del usuario.');
-            return;
+    const login = useCallback((token: string, userData: AuthUser) => {
+        if (!token || !userData) {
+            throw new Error('El servidor no devolvió credenciales válidas.');
         }
-
-        Cookies.set('caza_token', token, { expires: 1, secure: true, sameSite: 'strict' });
-        Cookies.set('caza_user', JSON.stringify(userData), { expires: 1, secure: true, sameSite: 'strict' });
-
+        saveSession({ token, user: userData });
         setUser(userData);
-    };
+    }, []);
 
-    const logout = () => {
-        Cookies.remove('caza_token');
-        Cookies.remove('caza_user');
+    const logout = useCallback(() => {
+        clearSession();
         setUser(null);
-        window.location.href = '/login';
-    };
+        window.location.href = '/login'; // recarga completa: resetea todo el estado en memoria
+    }, []);
 
-    return (
-        <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout }}>
-            {children}
-        </AuthContext.Provider>
+    const value = useMemo(
+        () => ({ user, isAuthenticated: !!user, isReady, login, logout }),
+        [user, isReady, login, logout],
     );
+
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-// Hook personalizado para usar la autenticación rápido en cualquier archivo
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (!context) throw new Error('useAuth debe usarse dentro de un AuthProvider');

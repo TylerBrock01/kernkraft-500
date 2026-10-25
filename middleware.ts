@@ -1,27 +1,43 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
+import { isTokenExpired } from '@/app/features/auth/utils/jwt';
+
+const TOKEN_COOKIE = 'caza_token';
+const USER_COOKIE = 'caza_user';
+const LOGIN_PATH = '/login';
+const HOME_PATH = '/dashboard';
+
+const PROTECTED_PREFIXES = ['/dashboard', '/pos'];
+
+const isProtected = (pathname: string) =>
+    PROTECTED_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 
 export function middleware(request: NextRequest) {
-    // 1. Buscamos la llave maestra de CAZA
-    const token = request.cookies.get('caza_token')?.value;
-    const { pathname } = request.nextUrl;
+    const { pathname, search } = request.nextUrl;
+    const token = request.cookies.get(TOKEN_COOKIE)?.value;
+    const hasValidToken = !!token && !isTokenExpired(token);
 
-    // 2. Si intenta entrar a operaciones (/dashboard o /pos) SIN token
-    if ((pathname.startsWith('/dashboard') || pathname.startsWith('/pos')) && !token) {
-        // Alerta roja: lo mandamos al login
-        return NextResponse.redirect(new URL('/login', request.url));
+    // Ruta protegida sin sesión válida → login (recordando a dónde iba)
+    if (isProtected(pathname) && !hasValidToken) {
+        const loginUrl = new URL(LOGIN_PATH, request.url);
+        loginUrl.searchParams.set('next', pathname + search);
+
+        const response = NextResponse.redirect(loginUrl);
+        // Si había cookies vencidas, las limpiamos para cortar el bucle
+        if (token) {
+            response.cookies.delete(TOKEN_COOKIE);
+            response.cookies.delete(USER_COOKIE);
+        }
+        return response;
     }
 
-    // 3. Opcional pero recomendado: Si YA tiene token e intenta ir al login,
-    // lo regresamos a su estación de trabajo para que no pierda el tiempo.
-    if (pathname === '/login' && token) {
-        return NextResponse.redirect(new URL('/dashboard', request.url));
+    // Ya autenticado intentando ver el login → a su estación
+    if (pathname === LOGIN_PATH && hasValidToken) {
+        return NextResponse.redirect(new URL(HOME_PATH, request.url));
     }
 
     return NextResponse.next();
 }
 
-// Protegemos el Cuartel General y la ruta de acceso
 export const config = {
     matcher: ['/dashboard/:path*', '/pos/:path*', '/login'],
 };
