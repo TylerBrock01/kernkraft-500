@@ -1,16 +1,6 @@
 import React from 'react';
-
+import type { Product } from '@/app/features/inventory/types';
 // Tipamos las propiedades (Props) que este componente necesita para funcionar
-export interface Product {
-    metadata: any;
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-    stock: number;
-    isActive: boolean;
-    type: string;
-}
 
 interface InventoryTableProps {
     products: Product[];

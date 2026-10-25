@@ -4,8 +4,8 @@ import React, { useEffect, useState, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import {api} from "@/app/lib/axios/axios";
-import ProductDrawer from "@/components/inventory/ProductDrawer";
-import StockAdjustmentModal from "@/components/inventory/StockAdjustmentModal";
+import ProductDrawer from "@/app/(dashboard)/dashboard/inventory/components/ProductDrawer";
+import StockAdjustmentModal from "@/app/(dashboard)/dashboard/inventory/components/StockAdjustmentModal";
 
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const router = useRouter();

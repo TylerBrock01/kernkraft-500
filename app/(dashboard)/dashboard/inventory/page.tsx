@@ -1,73 +1,64 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
-import InventoryTable, { Product } from '@/components/inventory/InventoryTable';
-import ProductDrawer from '@/components/inventory/ProductDrawer';
-import {api} from "@/app/lib/axios/axios";
-import SearchInput from "@/components/inventory/SearchInput";
-import {useRouter} from "next/navigation";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useInventory } from '@/app/features/inventory/hooks/useInventory';
+import SearchInput from './components/SearchInput';
+import InventoryTable from './components/InventoryTable';
+import ProductDrawer from './components/ProductDrawer';
 
 export default function InventoryPage() {
-    // Estados Globales de la Vista
-    const [products, setProducts] = useState<Product[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const router = useRouter();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-    // Estados de Paginación
-    const [skip, setSkip] = useState(0);
-    const take = 10;
-    const [hasMore, setHasMore] = useState(true);
-    const [searchTerm, setSearchTerm] = useState(''); // 🔍 Estado del buscador
-    const router = useRouter()
-    // Función Central de Red
-    const fetchProducts = useCallback(async (currentSkip = skip,search = searchTerm) => {
-        setIsLoading(true);
-        try {
-            const response = await api.get('/products', { params: { take, skip: currentSkip,search } });
-            setProducts(response.data.products);
-            setHasMore(currentSkip + take < response.data.total);
-        } catch (error) {
-            console.error('Error obteniendo inventario:', error);
-        } finally {
-            setIsLoading(false);
-        }
-    }, [skip, take, searchTerm]);
-    const handleSearch = (term: string) => {
-        setSearchTerm(term);
-        setSkip(0);
-    };
-
-    useEffect(() => {
-        fetchProducts();
-    }, [fetchProducts]);
+    const inventory = useInventory();
 
     return (
-        <div className="w-full h-full flex flex-col">
+        <div className="flex h-full w-full flex-col">
             {/* HEADER */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4 shrink-0">
+            <div className="mb-8 flex shrink-0 flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
                 <div>
-                    <h1 className="text-2xl font-bold text-zinc-100 tracking-tight">Inventario Global</h1>
-                    <p className="text-zinc-500 text-sm mt-1">Gestión de mercancía y existencias</p>
+                    <h1 className="text-2xl font-bold tracking-tight text-zinc-100">Inventario Global</h1>
+                    <p className="mt-1 text-sm text-zinc-500">Gestión de mercancía y existencias</p>
                 </div>
-                <SearchInput onSearch={handleSearch} /> {/* 🔍 EL RADAR AQUÍ */}
+
+                <SearchInput onSearch={inventory.handleSearch} />
+
                 <button
+                    type="button"
                     onClick={() => setIsDrawerOpen(true)}
-                    className="bg-zinc-100 text-zinc-950 px-5 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-white hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all flex items-center gap-2"
+                    className="flex items-center gap-2 rounded-lg bg-zinc-100 px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-zinc-950 transition-all hover:bg-white hover:shadow-[0_0_20px_rgba(255,255,255,0.2)]"
                 >
-                    <span>+</span> Recepción de Carga
+                    <span aria-hidden>+</span> Recepción de Carga
                 </button>
             </div>
 
-            {/* COMPONENTES HIJOS */}
-            <div className="flex-1 min-h-0">
+            {/* ERROR */}
+            {inventory.error && (
+                <div
+                    role="alert"
+                    className="mb-4 flex shrink-0 items-center justify-between gap-4 rounded-lg border border-red-900/50 bg-red-950/50 p-3"
+                >
+                    <p className="font-mono text-xs text-red-400">{inventory.error}</p>
+                    <button
+                        type="button"
+                        onClick={inventory.retry}
+                        className="text-xs font-bold uppercase tracking-widest text-red-300 hover:text-red-100"
+                    >
+                        Reintentar
+                    </button>
+                </div>
+            )}
+
+            {/* TABLA */}
+            <div className="min-h-0 flex-1">
                 <InventoryTable
-                    products={products}
-                    isLoading={isLoading}
-                    skip={skip}
-                    take={take}
-                    hasMore={hasMore}
-                    onNextPage={() => setSkip(skip + take)}
-                    onPrevPage={() => setSkip(Math.max(0, skip - take))}
+                    products={inventory.products}
+                    isLoading={inventory.isLoading}
+                    skip={inventory.skip}
+                    take={inventory.take}
+                    hasMore={inventory.hasMore}
+                    onNextPage={inventory.nextPage}
+                    onPrevPage={inventory.prevPage}
                     onRowClick={(id) => router.push(`/dashboard/inventory/${id}`)}
                 />
             </div>
@@ -75,7 +66,7 @@ export default function InventoryPage() {
             <ProductDrawer
                 isOpen={isDrawerOpen}
                 onClose={() => setIsDrawerOpen(false)}
-                onSuccess={() => fetchProducts(0)} // Reseteamos a la página 1 al crear un producto
+                onSuccess={inventory.reloadFromStart}
             />
         </div>
     );
