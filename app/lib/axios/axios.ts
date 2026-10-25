@@ -2,13 +2,13 @@ import axios, { isAxiosError, type InternalAxiosRequestConfig } from 'axios';
 import { clearSession, getToken } from '@/app/features/auth/utils/session';
 
 // ---------- Configuración ----------
+// ---------- Configuración ----------
 const API_URL =
-    process.env.NEXT_PUBLIC_API_URL ??
-    (process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:3000');
+    process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
 
-if (!API_URL) {
-    // Falla en el build en vez de apuntar a una URL equivocada en producción
-    throw new Error('Falta la variable NEXT_PUBLIC_API_URL');
+if (process.env.NODE_ENV === 'production' && !process.env.NEXT_PUBLIC_API_URL) {
+    // Aviso visible en logs, pero sin tumbar el build
+    console.error('⚠️ Falta NEXT_PUBLIC_API_URL: la app apuntará a localhost');
 }
 
 const LOGIN_PATH = '/login';
