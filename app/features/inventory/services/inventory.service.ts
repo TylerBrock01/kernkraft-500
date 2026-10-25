@@ -1,5 +1,5 @@
 import { api } from '@/app/lib/axios/axios';
-import type {ProductDetail, ProductFormValues, ProductsPage} from '../types';
+import type {ProductDetail, ProductFormValues, ProductsPage, StockAdjustmentReason} from '../types';
 import {buildProductFormData} from "@/app/(dashboard)/dashboard/inventory/utils/product-form";
 
 export interface ListProductsParams {
@@ -40,8 +40,18 @@ export async function uploadProductImages(files: File[]): Promise<string[]> {
 }
 
 /** Crea el producto, o lo edita si se pasa `productId`. */
-export async function saveProduct(values: ProductFormValues, productId?: string): Promise<void> {
+export async function saveProduct(values: ProductFormValues, productId?: ProductDetail['id']): Promise<void> {
     const body = buildProductFormData(values);
     if (productId) await api.patch(`/products/${productId}`, body, MULTIPART);
     else await api.post('/products', body, MULTIPART);
+}
+export interface StockAdjustmentInput {
+    productId: ProductDetail['id'];
+    quantity: number;
+    reason: StockAdjustmentReason;
+    notes: string;
+}
+
+export async function createStockAdjustment(input: StockAdjustmentInput): Promise<void> {
+    await api.post('/stock-adjustments', input);
 }

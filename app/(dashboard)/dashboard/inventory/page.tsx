@@ -1,14 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { useInventory } from '@/app/features/inventory/hooks/useInventory';
 import SearchInput from './components/SearchInput';
 import InventoryTable from './components/InventoryTable';
 import ProductDrawer from './components/ProductDrawer';
 
 export default function InventoryPage() {
-    const router = useRouter();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const inventory = useInventory();
 
@@ -55,11 +53,10 @@ export default function InventoryPage() {
                     products={inventory.products}
                     isLoading={inventory.isLoading}
                     skip={inventory.skip}
-                    take={inventory.take}
+                    total={inventory.total}
                     hasMore={inventory.hasMore}
                     onNextPage={inventory.nextPage}
                     onPrevPage={inventory.prevPage}
-                    onRowClick={(id) => router.push(`/dashboard/inventory/${id}`)}
                 />
             </div>
 

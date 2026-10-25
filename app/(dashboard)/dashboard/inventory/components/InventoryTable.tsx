@@ -1,113 +1,152 @@
-import React from 'react';
+'use client';
+
+import type { ReactNode } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import type { Product } from '@/app/features/inventory/types';
-// Tipamos las propiedades (Props) que este componente necesita para funcionar
+import { Pagination } from '@/components/ui/Pagination';
+import { MetadataChips } from './MetadataChips';
+import {getStockLevel, StockLevel} from "@/app/(dashboard)/dashboard/inventory/utils/product";
 
 interface InventoryTableProps {
     products: Product[];
     isLoading: boolean;
     skip: number;
-    take: number;
+    total: number;
     hasMore: boolean;
     onNextPage: () => void;
     onPrevPage: () => void;
-    onRowClick: (id: number) => void; // <--- ESTO ES NUEVO
+}
+
+const COLUMNS = [
+    { label: 'ID' },
+    { label: 'Producto' },
+    { label: 'Precio' },
+    { label: 'Atributos' },
+    { label: 'Stock', right: true },
+    { label: 'Estado', right: true },
+];
+
+const STOCK_TEXT: Record<StockLevel, string> = {
+    ok: 'text-emerald-500',
+    low: 'text-yellow-500',
+    out: 'text-red-600',
+};
+
+const detailHref = (id: Product['id']) => `/dashboard/inventory/${id}`;
+
+function StatusRow({ children }: { children: ReactNode }) {
+    return (
+        <tr>
+            <td colSpan={COLUMNS.length} className="py-8 text-center text-sm text-zinc-500">
+                {children}
+            </td>
+        </tr>
+    );
 }
 
 export default function InventoryTable({
-                                           products, isLoading, skip, take, hasMore, onNextPage, onPrevPage,onRowClick
+                                           products,
+                                           isLoading,
+                                           skip,
+                                           total,
+                                           hasMore,
+                                           onNextPage,
+                                           onPrevPage,
                                        }: InventoryTableProps) {
+    const router = useRouter();
+    const hasRows = products.length > 0;
+
     return (
-        <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 backdrop-blur-md overflow-hidden flex flex-col h-full">
-            <div className="overflow-x-auto flex-1">
-                <table className="w-full text-left border-collapse">
+        <div className="flex h-full flex-col overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/40 backdrop-blur-md">
+            <div className="flex-1 overflow-x-auto" aria-busy={isLoading}>
+                <table className="w-full border-collapse text-left">
+                    <caption className="sr-only">Inventario de productos</caption>
                     <thead>
-                    <tr  className="border-b border-zinc-800 bg-zinc-900/50">
-                        <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">ID</th>
-                        <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Producto</th>
-                        <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Precio</th>
-                        <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Descripcion</th>
-                        <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Stock</th>
-                        <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500 text-right">Estado</th>
+                    <tr className="border-b border-zinc-800 bg-zinc-900/50">
+                        {COLUMNS.map((col) => (
+                            <th
+                                key={col.label}
+                                scope="col"
+                                className={`px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500 ${
+                                    col.right ? 'text-right' : ''
+                                }`}
+                            >
+                                {col.label}
+                            </th>
+                        ))}
                     </tr>
                     </thead>
-                    <tbody className="divide-y divide-zinc-800/50">
-                    {isLoading ? (
-                        <tr><td colSpan={5} className="text-center py-8 text-zinc-500 text-sm">Escaneando base de datos...</td></tr>
-                    ) : products.length === 0 ? (
-                        <tr><td colSpan={5} className="text-center py-8 text-zinc-500 text-sm">Bóveda vacía. Registre mercancía.</td></tr>
+
+                    {/* Al paginar se conservan las filas anteriores (atenuadas) en vez de vaciar la tabla */}
+                    <tbody
+                        className={`divide-y divide-zinc-800/50 transition-opacity ${
+                            isLoading && hasRows ? 'opacity-50' : ''
+                        }`}
+                    >
+                    {isLoading && !hasRows ? (
+                        <StatusRow>Escaneando base de datos...</StatusRow>
+                    ) : !hasRows ? (
+                        <StatusRow>Bóveda vacía. Registre mercancía.</StatusRow>
                     ) : (
-                        products.map((product) => (
-                            <tr  key={product.id} onClick={() => onRowClick(product.id)} className="hover:bg-zinc-800/20 transition-colors group">
-                                <td className="px-6 py-4 text-xs font-mono text-zinc-500">#{product.id}</td>
-                                <td className="px-6 py-4">
-                                    <p className="text-sm font-medium text-zinc-100">{product.name}</p>
-                                    <p className="text-xs text-zinc-500 truncate max-w-[200px]">{product.description}</p>
-                                </td>
-                                <td className="px-6 py-4 text-sm text-zinc-300">${Number(product.price).toFixed(2)}</td>
-                                {/*metadata*/}
-                                <td className="px-6 py-4">
-                                    <p className="text-sm font-medium text-zinc-100 mb-0.5">{product.name}</p>
-                                    <p className="text-xs text-zinc-500 truncate max-w-[200px]">{product.description}</p>
-                                    {/* 📦 RENDERIZADOR UNIVERSAL DE METADATA */}
-                                    {product.metadata && Object.keys(product.metadata).length > 0 && (
-                                        <div className="mt-2 flex flex-wrap gap-1">
-                                            {Object.entries(product.metadata)
-                                                .slice(0, 3) // Mostramos máximo 3 para no saturar la tabla
-                                                .map(([key, value]) => (
-                                                    <span key={key} className="inline-flex items-center gap-1 bg-zinc-800/50 border border-zinc-700/50 text-[9px] text-zinc-400 px-1.5 py-0.5 rounded-md font-mono">
-                                                    <span className="text-zinc-500">{key}:</span>
-                                                    <span className="text-zinc-300 truncate max-w-[80px]">
-                                                    {String(value)}
-                                                    </span>
-                                                </span>
-                                                ))}
-                                            {Object.keys(product.metadata).length > 3 && (
-                                                <span className="inline-flex items-center bg-zinc-800/50 border border-zinc-700/50 text-[9px] text-zinc-500 px-1.5 py-0.5 rounded-md font-mono">
-                                                    +{Object.keys(product.metadata).length - 3} más
-                                                </span>
-                                            )}
-                                        </div>
-                                    )}
-                                </td>
-                                <td className="px-6 py-4 text-right">
-                                    <span className={`text-sm uppercase tracking-widest font-bold ${product.stock > 10 ? 'text-emerald-500' : product.stock === 0 ? 'text-red-600':'text-yellow-500'}`}>
-                                      {/*{product.stock ? 'Activo' : 'Inactivo'}*/}
-                                        {product.stock >= 1? product.stock : 'Agotado'}
-                                    </span>
-                                </td>
-                                {/*fin metada data*/}
-                                <td className="px-6 py-4 text-right">
-                                    <span className={`text-[10px] uppercase tracking-widest font-bold ${product.isActive ? 'text-emerald-500' : 'text-red-600'}`}>
-                                      {product.isActive ? '' : 'Inactivo'}
-                                    </span>
-                                </td>
-                            </tr>
-                        ))
+                        products.map((product) => {
+                            const href = detailHref(product.id);
+                            const level = getStockLevel(product.stock);
+
+                            return (
+                                // El clic en la fila es comodidad para el ratón; el <Link> cubre teclado y prefetch
+                                <tr
+                                    key={product.id}
+                                    onClick={() => router.push(href)}
+                                    className="cursor-pointer transition-colors hover:bg-zinc-800/20"
+                                >
+                                    <td className="px-6 py-4 font-mono text-xs text-zinc-500">#{product.id}</td>
+
+                                    <td className="px-6 py-4">
+                                        <Link
+                                            href={href}
+                                            onClick={(e) => e.stopPropagation()} // evita navegar dos veces (link + fila)
+                                            className="text-sm font-medium text-zinc-100 hover:underline focus-visible:underline"
+                                        >
+                                            {product.name}
+                                        </Link>
+                                        {product.description && (
+                                            <p className="max-w-[200px] truncate text-xs text-zinc-500">{product.description}</p>
+                                        )}
+                                    </td>
+
+                                    <td className="px-6 py-4 text-sm text-zinc-300">${Number(product.price).toFixed(2)}</td>
+
+                                    <td className="px-6 py-4">
+                                        <MetadataChips metadata={product.metadata} />
+                                    </td>
+
+                                    <td
+                                        className={`px-6 py-4 text-right text-sm font-bold uppercase tracking-widest ${STOCK_TEXT[level]}`}
+                                    >
+                                        {level === 'out' ? 'Agotado' : product.stock}
+                                    </td>
+
+                                    <td className="px-6 py-4 text-right text-[10px] font-bold uppercase tracking-widest text-red-600">
+                                        {product.isActive ? '' : 'Inactivo'}
+                                    </td>
+                                </tr>
+                            );
+                        })
                     )}
                     </tbody>
                 </table>
             </div>
 
-            {/* CONTROLES DE PAGINACIÓN INTEGRADADOS */}
-            <div className="flex items-center justify-between px-6 py-4 border-t border-zinc-800 bg-zinc-900/20">
-                <p className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">
-                    Mostrando {products.length} registros
-                </p>
-                <div className="flex gap-2">
-                    <button
-                        onClick={onPrevPage} disabled={skip === 0}
-                        className="px-4 py-2 text-[10px] uppercase tracking-widest font-bold text-zinc-300 bg-zinc-800/50 rounded-md hover:bg-zinc-700 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                    >
-                        Anterior
-                    </button>
-                    <button
-                        onClick={onNextPage} disabled={!hasMore}
-                        className="px-4 py-2 text-[10px] uppercase tracking-widest font-bold text-zinc-300 bg-zinc-800/50 rounded-md hover:bg-zinc-700 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                    >
-                        Siguiente
-                    </button>
-                </div>
-            </div>
+            <Pagination
+                skip={skip}
+                shown={products.length}
+                total={total}
+                hasMore={hasMore}
+                isLoading={isLoading}
+                onPrev={onPrevPage}
+                onNext={onNextPage}
+            />
         </div>
     );
 }

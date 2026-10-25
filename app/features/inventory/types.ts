@@ -15,7 +15,7 @@ export interface ProductsPage {
 }
 
 export interface ProductDetail {
-    id: string;
+    id: number; // antes: string
     name: string;
     slug: string;
     type?: string | null;
@@ -47,3 +47,17 @@ export interface ProductFormValues {
     images: string[];
     metadata: MetadataRow[];
 }
+/** Lo mínimo que necesita el modal de merma */
+export type AdjustableProduct = Pick<ProductDetail, 'id' | 'name' | 'stock'>;
+
+// ⚠️ Verifica que los `id` coincidan con el enum de tu backend
+export const STOCK_ADJUSTMENT_REASONS = [
+    { id: 'DAMAGE', label: 'Dañado / Roto' },
+    { id: 'THEFT', label: 'Robo' },
+    { id: 'EXPIRATION', label: 'Caducado' },
+    { id: 'LOSS', label: 'Extraviado' },
+    { id: 'INTERNAL_USE', label: 'Uso interno' },
+    { id: 'OTHER', label: 'Otro' },
+] as const;
+
+export type StockAdjustmentReason = (typeof STOCK_ADJUSTMENT_REASONS)[number]['id'];

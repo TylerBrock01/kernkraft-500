@@ -58,6 +58,7 @@ export function useInventory() {
 
     return {
         products,
+        total,
         skip,
         take: PAGE_SIZE,
         hasMore: skip + PAGE_SIZE < total,

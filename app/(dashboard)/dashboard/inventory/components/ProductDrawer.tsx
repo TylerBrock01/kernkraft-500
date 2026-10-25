@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useId } from 'react';
+import {useId } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import type { ProductDetail } from '@/app/features/inventory/types';
 import { ProductForm } from './product-form/ProductForm';
+import {useEscapeKey} from "@/app/lib/hooks/useEscapeKey";
 
 interface ProductDrawerProps {
     isOpen: boolean;
@@ -16,14 +17,7 @@ export default function ProductDrawer({ isOpen, onClose, onSuccess, productToEdi
     const titleId = useId();
 
     // Escape cierra el drawer
-    useEffect(() => {
-        if (!isOpen) return;
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') onClose();
-        };
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [isOpen, onClose]);
+    useEscapeKey(isOpen, onClose);
 
     return (
         <AnimatePresence>
