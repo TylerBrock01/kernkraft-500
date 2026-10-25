@@ -3,8 +3,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { api } from '@/app/lib/axios/axios';
 import TeamDrawer from '@/components/team/TeamDrawer';
-import SearchInput from '@/app/(dashboard)/dashboard/inventory/inventory/SearchInput';
-import {useRouter} from "next/navigation"; // 🔍 Reutilizamos nuestra arma secreta
+import {useRouter} from "next/navigation";
+import SearchInput from "@/app/(dashboard)/dashboard/inventory/components/SearchInput"; // 🔍 Reutilizamos nuestra arma secreta
 
 export default function TeamPage() {
     const [users, setUsers] = useState<any[]>([]);
