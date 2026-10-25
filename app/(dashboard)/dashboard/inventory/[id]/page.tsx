@@ -1,245 +1,160 @@
 'use client';
 
-import React, { useEffect, useState, use } from 'react';
-import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
-import {api} from "@/app/lib/axios/axios";
-import ProductDrawer from "@/app/(dashboard)/dashboard/inventory/components/ProductDrawer";
-import StockAdjustmentModal from "@/app/(dashboard)/dashboard/inventory/components/StockAdjustmentModal";
+import { use, useState } from 'react';
+import Link from 'next/link';
+import { useProduct } from '@/app/features/inventory/hooks/useProduct';
+import ProductDrawer from '../components/ProductDrawer';
+import StockAdjustmentModal from '../components/StockAdjustmentModal';
+import { ProductGallery } from './_components/ProductGallery';
+import { StockPanel } from './_components/StockPanel';
+import { MetadataList } from './_components/MetadataList';
+import {getProductImages} from "@/app/(dashboard)/dashboard/inventory/utils/product";
+
+const BackLink = () => (
+    <Link
+        href="/dashboard/inventory"
+        className="mb-6 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-zinc-500 transition-colors hover:text-white"
+    >
+        ← Volver al Inventario
+    </Link>
+);
 
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
-    const router = useRouter();
-    const resolvedParams = use(params);
-    const productId = resolvedParams.id;
+    const { id } = use(params);
+    const { product, isLoading, notFound, error, actionError, isToggling, toggleActive, refresh, retry } =
+        useProduct(id);
 
-    const [product, setProduct] = useState<any>(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isEditDrawerOpen, setIsEditDrawerOpen] = useState(false);
-    const [isMermaModalOpen, setIsMermaModalOpen] = useState(false);
-    const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+    const [isEditOpen, setIsEditOpen] = useState(false);
+    const [isLossOpen, setIsLossOpen] = useState(false);
 
-    const fetchProduct = async () => {
-        setIsLoading(true);
-        try {
-            const response = await api.get(`/products/${productId}`);
-            setProduct(response.data);
-        } catch (error) {
-            console.error('Error fetching product:', error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    if (isLoading) {
+        return (
+            <p role="status" className="animate-pulse p-8 font-mono text-sm uppercase tracking-widest text-zinc-500">
+                Recopilando expediente...
+            </p>
+        );
+    }
 
-    useEffect(() => {
-        const fetchProduct = async () => {
-            try {
-                const response = await api.get(`/products/${productId}`);
-                setProduct(response.data);
-            } catch (error) {
-                console.error('Error fetching product:', error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
+    if (notFound) {
+        return (
+            <div className="p-8">
+                <BackLink />
+                <p className="font-mono text-sm uppercase tracking-widest text-red-500">Expediente no encontrado.</p>
+            </div>
+        );
+    }
 
-        if (productId) {
-            fetchProduct();
-        }
-    }, [productId]);
-
-    const handleToggleStatus = async () => {
-        try {
-            // Mandamos un JSON sencillo porque el backend NestJS (ValidationPipe) lo detecta
-            // y procesa sin problemas aunque tenga el FileInterceptor, gracias a que no mandamos FormData.
-            await api.patch(`/products/${productId}`, {
-                isActive: !product.isActive
-            });
-            // Recargamos el producto para ver el cambio instantáneo
-            fetchProduct();
-        } catch (error) {
-            console.error('Error cambiando el estado:', error);
-        }
-    };
-
-    if (isLoading) return <div className="p-8 text-zinc-500 font-mono text-sm uppercase tracking-widest animate-pulse">Recopilando expediente...</div>;
-    if (!product) return <div className="p-8 text-red-500 font-mono text-sm uppercase tracking-widest">Expediente no encontrado.</div>;
+    if (error || !product) {
+        return (
+            <div className="p-8">
+                <BackLink />
+                <div role="alert" className="flex max-w-md items-center justify-between gap-4 rounded-lg border border-red-900/50 bg-red-950/50 p-3">
+                    <p className="font-mono text-xs text-red-400">{error ?? 'No se pudo cargar el producto.'}</p>
+                    <button
+                        type="button"
+                        onClick={retry}
+                        className="text-xs font-bold uppercase tracking-widest text-red-300 hover:text-red-100"
+                    >
+                        Reintentar
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
-        <div className=" md:h-auto max-w-6xl w-full grid gap-2"> {/* Aumentamos un poco el ancho máximo */}
-            <button
-                onClick={() => router.back()}
-                className="text-zinc-500 text-xs font-bold uppercase tracking-widest hover:text-white mb-6 flex items-center gap-2 transition-colors"
-            >
-                ← Volver al Inventario
-            </button>
-            {/* 🛠️ BOTONES DE CONTROL TÁCTICO */}
-            <div className="flex gap-3 justify-between md:justify-end lg:justify-start">
+        <div className="grid w-full max-w-6xl gap-2">
+            <BackLink />
+
+            {/* CONTROLES */}
+            <div className="flex justify-between gap-3 md:justify-end lg:justify-start">
                 <button
-                    onClick={handleToggleStatus}
-                    className={`px-4 py-2 text-[10px] font-bold uppercase tracking-widest rounded-lg border transition-all ${
+                    type="button"
+                    onClick={toggleActive}
+                    disabled={isToggling}
+                    className={`rounded-lg border px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all disabled:cursor-not-allowed disabled:opacity-50 ${
                         product.isActive
-                            ? 'bg-red-500/10 text-red-500 border-red-500/20 hover:bg-red-500 hover:text-white'
-                            : 'bg-blue-500/10 text-blue-400 border-blue-500/20 hover:bg-blue-500 hover:text-white'
+                            ? 'border-red-500/20 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white'
+                            : 'border-blue-500/20 bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white'
                     }`}
                 >
-                    {product.isActive ? 'Desactivar Mercancía' : 'Reactivar Mercancía'}
+                    {isToggling ? 'Procesando...' : product.isActive ? 'Desactivar Mercancía' : 'Reactivar Mercancía'}
                 </button>
 
                 <button
-                    onClick={() => setIsEditDrawerOpen(true)}
-                    className="px-4 py-2 bg-zinc-100 text-zinc-950 text-[10px] font-bold uppercase tracking-widest rounded-lg hover:bg-white transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+                    type="button"
+                    onClick={() => setIsEditOpen(true)}
+                    className="rounded-lg bg-zinc-100 px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-zinc-950 shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all hover:bg-white"
                 >
                     Editar Expediente
                 </button>
             </div>
-            {/* 🚀 TARJETA DEL PRODUCTO REESTRUCTURADA */}
-            <div className=" bg-zinc-900/40 border border-zinc-800 rounded-2xl backdrop-blur-md overflow-hidden flex flex-col md:flex-row shadow-2xl">
 
-                {/* 📸 COLUMNA IZQUIERDA: LA FOTOGRAFÍA */}
-                {/* 📸 COLUMNA IZQUIERDA: LA GALERÍA FOTOGRÁFICA */}
-                <div className="w-full md:w-2/5 border-b md:border-b-0 md:border-r border-zinc-800 bg-black/40 flex flex-col justify-between overflow-hidden relative group">
+            {actionError && (
+                <p role="alert" className="font-mono text-xs text-red-400">
+                    {actionError}
+                </p>
+            )}
 
-                    {/* Imagen Principal */}
-                    <div className="w-full h-80 md:h-[420px] relative flex items-center justify-center overflow-hidden bg-zinc-950/60 p-4">
+            {/* FICHA */}
+            <div className="flex flex-col overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/40 shadow-2xl backdrop-blur-md md:flex-row">
+                <ProductGallery images={getProductImages(product)} alt={product.name} />
 
-                        {/* Fondo Blur sutil para evitar bordes vacíos secos */}
-                        {(product.images?.[selectedImageIndex] || product.image) && (
-                            <img
-                                src={product.images?.[selectedImageIndex] || product.image}
-                                alt="Background Blur"
-                                className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-20 scale-125 pointer-events-none"
-                            />
-                        )}
-
-                        {product.images && product.images.length > 0 ? (
-                            <motion.img
-                                key={product.images[selectedImageIndex] || product.image}
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.3 }}
-                                src={product.images[selectedImageIndex] || product.image}
-                                alt={product.name}
-                                /* 🎯 CAMBIO CLAVE: object-contain para encajar la foto completa + drop-shadow */
-                                className="max-w-full max-h-full object-contain z-10 drop-shadow-2xl"
-                            />
-                        ) : product.image ? (
-                            <img
-                                src={product.image}
-                                alt={product.name}
-                                className="max-w-full max-h-full object-contain z-10 drop-shadow-2xl"
-                            />
-                        ) : (
-                            <div className="text-center opacity-30 flex flex-col items-center">
-                                <span className="text-6xl mb-3">📸</span>
-                                <p className="text-[10px] text-zinc-600 uppercase font-black tracking-widest">Sin Imagen</p>
-                            </div>
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none z-20"></div>
-                    </div>
-
-                    {/* Miniaturas (Thumbnails) */}
-                    {product.images && product.images.length > 1 && (
-                        <div className="p-3 bg-zinc-950/90 border-t border-zinc-800 flex gap-2 overflow-x-auto shrink-0 z-30">
-                            {product.images.map((imgUrl: string, idx: number) => (
-                                <button
-                                    key={idx}
-                                    type="button"
-                                    onClick={() => setSelectedImageIndex(idx)}
-                                    className={`relative w-14 h-14 rounded-lg overflow-hidden border-2 shrink-0 transition-all ${
-                                        selectedImageIndex === idx
-                                            ? 'border-blue-500 scale-95 shadow-[0_0_12px_rgba(59,130,246,0.5)]'
-                                            : 'border-zinc-800 opacity-60 hover:opacity-100'
-                                    }`}
-                                >
-                                    <img src={imgUrl} alt={`Thumb ${idx}`} className="w-full h-full object-cover" />
-                                </button>
-                            ))}
-                        </div>
-                    )}
-                </div>
-                {/* 📊 COLUMNA DERECHA: LOS DATOS */}
                 <div className="flex-1 p-8 md:p-10">
-
-                    <div className="flex justify-between items-start border-b border-zinc-800 pb-6 mb-6 gap-4">
+                    <div className="mb-6 flex items-start justify-between gap-4 border-b border-zinc-800 pb-6">
                         <div>
                             <div className="flex items-center gap-3">
-                                <h1 className="text-3xl font-bold text-zinc-100 tracking-tight">{product.name}</h1>
-                                {/* Estado Activo/Inactivo Táctico */}
-                                <div className={`w-2.5 h-2.5 rounded-full ${product.isActive ? 'bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]' : 'bg-zinc-700'}`}></div>
+                                <h1 className="text-3xl font-bold tracking-tight text-zinc-100">{product.name}</h1>
+                                <span
+                                    role="img"
+                                    aria-label={product.isActive ? 'Activo' : 'Inactivo'}
+                                    className={`h-2.5 w-2.5 rounded-full ${
+                                        product.isActive ? 'bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]' : 'bg-zinc-700'
+                                    }`}
+                                />
                             </div>
-                            <p className="text-zinc-500 font-mono text-sm mt-2">
-                                ID: {product.id} <span className="text-zinc-700">//</span>
-                                SLUG: {product.slug} <span className="text-zinc-700">//</span>
-                                TIPO: {product.type.toUpperCase()}
+                            <p className="mt-2 font-mono text-sm text-zinc-500">
+                                ID: {product.id} <span className="text-zinc-700">//</span> SLUG: {product.slug}{' '}
+                                <span className="text-zinc-700">//</span> TIPO: {product.type?.toUpperCase() ?? '—'}
                             </p>
                         </div>
-                        <div className="text-right shrink-0">
-                            <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-1">Precio Unitario</p>
-                            <p className="text-3xl font-mono text-emerald-400 font-black tracking-tight">
+
+                        <div className="shrink-0 text-right">
+                            <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-zinc-500">Precio Unitario</p>
+                            <p className="font-mono text-3xl font-black tracking-tight text-emerald-400">
                                 ${Number(product.price).toFixed(2)}
                             </p>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                         <div>
-                            <h3 className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-3 border-b border-zinc-800/50 pb-2">Descripción</h3>
-                            <p className="text-sm text-zinc-300 leading-relaxed max-w-lg">{product.description || 'Sin descripción disponible.'}</p>
+                            <h3 className="mb-3 border-b border-zinc-800/50 pb-2 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                                Descripción
+                            </h3>
+                            <p className="max-w-lg text-sm leading-relaxed text-zinc-300">
+                                {product.description || 'Sin descripción disponible.'}
+                            </p>
                         </div>
 
                         <div className="space-y-6">
-                            <div>
-                                <h3 className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-3 border-b border-zinc-800/50 pb-2">Estado Operativo</h3>
-                                <div className={`flex items-center gap-3 p-3 rounded-lg border ${product.stock > 5 ? 'border-emerald-900/30 bg-emerald-950/20' : 'border-red-900/30 bg-red-950/20 animate-pulse'}`}>
-                                    <div className={`w-2 h-2 rounded-full ${product.stock > 5 ? 'bg-emerald-500' : 'bg-red-500'}`}></div>
-                                    <p className="text-sm text-zinc-300 font-mono flex-1">
-                                        Stock actual: <span className="text-zinc-100 font-bold">{product.stock}</span> unidades
-                                    </p>
-                                    <span className="text-[10px] uppercase font-bold text-emerald-400">Saludable</span>
-                                </div>
-                                {/* 🚀 BOTÓN DE MERMA AQUÍ *!/*/}
-                                <div className="mt-3 text-right">
-                                    <button
-                                        onClick={() => setIsMermaModalOpen(true)}
-                                        disabled={product.stock <= 0}
-                                        className="text-[10px] uppercase font-bold tracking-widest text-red-500 hover:text-white border border-red-900/50 hover:bg-red-600 px-2 py-4 rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                                    >
-                                        ⚠ Registrar Merma / Pérdida
-                                    </button>
-                                </div>
-                            </div>
-
-                            {/* RENDERIZADO UNIVERSAL DE METADATA (Itera sobre cualquier campo JSONB) */}
-                            {product.metadata && Object.keys(product.metadata).length > 0 && (
-                                <div>
-                                    <h3 className="text-[10px] uppercase tracking-widest text-blue-400 font-bold mb-3 border-b border-blue-900/30 pb-2">Atributos Extendidos (Universal JSONB)</h3>
-                                    <div className="bg-zinc-900 rounded-lg p-3 space-y-2 border border-zinc-800">
-                                        {Object.entries(product.metadata).map(([key, value]) => (
-                                            <div key={key} className="flex justify-between text-xs border-b border-zinc-800/50 pb-2 last:border-b-0 last:pb-0 gap-4">
-                                                <span className="text-zinc-500 font-mono lowercase tracking-wide">{key}:</span>
-                                                <span className="text-zinc-300 font-medium truncate max-w-[200px]">{String(value)}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
+                            <StockPanel stock={product.stock} onRegisterLoss={() => setIsLossOpen(true)} />
+                            <MetadataList metadata={product.metadata} />
                         </div>
                     </div>
                 </div>
-
-
             </div>
 
             <ProductDrawer
-                isOpen={isEditDrawerOpen}
-                onClose={() => setIsEditDrawerOpen(false)}
-                onSuccess={fetchProduct} // Si edita con éxito, recarga la ficha técnica al instante
-                productToEdit={product}  // Le pasamos el cerebro completo
+                isOpen={isEditOpen}
+                onClose={() => setIsEditOpen(false)}
+                onSuccess={refresh}
+                productToEdit={product}
             />
             <StockAdjustmentModal
-                isOpen={isMermaModalOpen}
-                onClose={() => setIsMermaModalOpen(false)}
-                onSuccess={fetchProduct} // 🔄 Recarga el producto para ver el nuevo stock mágicamente
+                isOpen={isLossOpen}
+                onClose={() => setIsLossOpen(false)}
+                onSuccess={refresh}
                 product={product}
             />
         </div>
