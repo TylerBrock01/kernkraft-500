@@ -22,19 +22,19 @@ export function PropertyCard({ property }: { property: Property }) {
                 <div className="absolute top-4 left-4 right-4 flex items-center justify-between gap-2">
                     {meta.propertyTypes && (
                         <span className="bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md capitalize">
-              {meta.propertyTypes}
-            </span>
+                            {meta.propertyTypes}
+                        </span>
                     )}
                     {meta.location && (
-                        <span className="bg-gray-900/80 backdrop-blur-md text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-md truncate max-w-[60%] ml-auto">
-              {meta.location}
-            </span>
+                        <span className="capitalize bg-gray-900/80 backdrop-blur-md text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-md truncate max-w-[60%] ml-auto">
+                            {meta.location}
+                        </span>
                     )}
                 </div>
             </div>
 
             <div className="p-6 flex flex-col flex-grow">
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors line-clamp-1">
+                <h3 className="capitalize text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors line-clamp-1">
                     {property.name}
                 </h3>
 
