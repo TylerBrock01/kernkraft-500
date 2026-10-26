@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-const hero = "https://images.unsplash.com/photo-1779778916453-93cc86a781a5?q=80&w=2338&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
+import {hero} from "@/app/wasc/data/url";
 
 export default function WascHeroSection() {
     return (
@@ -15,11 +15,14 @@ export default function WascHeroSection() {
                 sizes="100vw"
             />
 
-            {/* 2. Capa de Degradado Overlay (Equilibrio de contraste visual) */}
-            <div className="absolute inset-0 bg-gradient-to-b from-gray-950/70 via-black/60 to-gray-950/90 backdrop-blur-[2px]" />
+            {/* 2. Capa de Degradado Overlay General */}
+            <div className="absolute inset-0 bg-gradient-to-b from-gray-950/70 via-black/60 to-gray-950/90 pointer-events-none" />
 
-            {/* 3. Patrón de Puntos Radiales en Tono Rojo 500 */}
-            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#ef4444_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
+            {/* 3. Patrón de Puntos Radiales en Tono Rojo 500 (Optimizado y Nítido) */}
+            <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#ef4444_1.5px,transparent_1.5px)] [background-size:24px_24px] pointer-events-none" />
+
+            {/* 4. Viñeta sutil opcional (elimina la distorsión del backdrop-blur y da profundidad) */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_50%,transparent_40%,rgba(0,0,0,0.6)_100%)] pointer-events-none" />
 
             {/* 4. Contenido Principal */}
             <div className="relative max-w-5xl mx-auto text-center space-y-8 z-10">
