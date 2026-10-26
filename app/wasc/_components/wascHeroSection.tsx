@@ -44,8 +44,8 @@ export default function WascHeroSection() {
                 {/* Barra de Búsqueda / Llamado a la Acción */}
                 <div className="bg-white/10 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-white/20 max-w-2xl mx-auto flex flex-col sm:flex-row gap-3 shadow-2xl">
                     <div className="flex-1 bg-white rounded-xl px-4 py-3 text-left shadow-inner">
-                        <span className="block text-xs font-bold text-gray-400 uppercase tracking-wide">Ubicación o Tipo</span>
-                        <span className="text-gray-800 font-medium text-sm">Terrenos, Zona San Carlos...</span>
+                        <span className="block text-xs font-bold text-gray-400 uppercase tracking-wide">Ubicación</span>
+                        <span className="text-gray-800 font-medium text-sm">Zona San Carlos</span>
                     </div>
                     <Link
                         href="/wasc/properties"
