@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { ArrowRight, Utensils, Coffee, Sandwich, ArrowLeft, Plus, Check } from 'lucide-react';
+import {useCart} from "@/app/hmcs/_context/CartContext";
 
 // 1. Definición de Categorías
 const CATEGORIES = [
@@ -45,7 +46,11 @@ export default function QuickCategorySection() {
     // Estado para saber qué categoría seleccionó el usuario (null = Paso 1: Categorías)
     const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
     const [cartCount, setCartCount] = useState(0);
+    const { addToCart } = useCart(); // <-- Esto debe estar aquí adentro
 
+    const parsePrice = (priceStr: string) => {
+        return parseFloat(priceStr.replace(/[^0-9.]/g, '')) || 0;
+    };
     // Categoría actual seleccionada
     const activeCategory = CATEGORIES.find(cat => cat.id === selectedCategoryId);
 
@@ -180,8 +185,15 @@ export default function QuickCategorySection() {
                                 <div className="flex items-center justify-between pt-3 border-t border-gray-50">
                                     <span className="font-bold text-[#2C4A3E] text-base">{product.price}</span>
                                     <button
-                                        onClick={() => setCartCount(prev => prev + 1)}
-                                        className="w-9 h-9 rounded-full bg-[#F8F9FA] group-hover:bg-[#2C4A3E] group-hover:text-white flex items-center justify-center text-[#2C4A3E] transition-colors duration-200 active:scale-95"
+                                        onClick={() => {
+                                            addToCart({
+                                                id: product.id,
+                                                name: product.name,
+                                                price: product.price,
+                                                numericPrice: parsePrice(product.price)
+                                            });
+                                        }}
+                                        className="w-9 h-9 rounded-full bg-[#F8F9FA] group-hover:bg-[#2C4A3E] group-hover:text-white flex items-center justify-center text-[#2C4A3E] transition-colors duration-200 active:scale-95 cursor-pointer"
                                         aria-label={`Agregar ${product.name}`}
                                     >
                                         <Plus className="w-4 h-4" />
