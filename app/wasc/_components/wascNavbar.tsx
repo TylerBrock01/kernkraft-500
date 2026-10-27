@@ -17,10 +17,10 @@ const navItems = [
         label: 'Nosotros',
         href: '/wasc/about',
     },
-    {
-        label: 'Contacto',
-        href: '/wasc/3',
-    },
+    // {
+    //     label: 'Contacto',
+    //     href: '/wasc/3',
+    // },
 ];
 
 const desktopLinkClassName =
