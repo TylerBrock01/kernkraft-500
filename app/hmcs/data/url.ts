@@ -1,0 +1,1 @@
+export const herohcms = "https://images.unsplash.com/photo-1772289935157-f64bc178b47d?q=80&w=2831&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
