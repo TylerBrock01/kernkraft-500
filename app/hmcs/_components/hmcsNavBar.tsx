@@ -23,7 +23,7 @@ export default function HmcsNavBar({
             >
                 {/* Logo */}
                 <Link
-                    href="/"
+                    href="/hmcs"
                     className="flex items-center gap-2 rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2C4A3E]"
                 >
           <span className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#2C4A3E]">
