@@ -76,17 +76,18 @@ export default function HmcsHero({
 
                 {/* Acciones */}
                 <div className="flex w-full flex-col gap-4 sm:w-auto sm:flex-row">
-                    <button
+                    <a
+                        href="/hmcs/quickcategory"
                         type="button"
                         onClick={onOrderClick}
                         className="flex items-center justify-center gap-2 rounded-xl bg-[#D9C5B2] px-8 py-4 text-lg font-semibold text-[#1E1E1E] shadow-lg transition hover:bg-[#c8b29d] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D9C5B2] active:scale-95"
                     >
                         Ordenar ahora
                         <ArrowRight className="h-5 w-5" aria-hidden="true" />
-                    </button>
+                    </a>
 
                     <Link
-                        href={menuHref}
+                        href='/hmcs/menu'
                         className="flex items-center justify-center rounded-xl border-2 border-white/30 bg-white/10 px-8 py-4 text-lg font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 hover:border-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                     >
                         Ver menú completo
