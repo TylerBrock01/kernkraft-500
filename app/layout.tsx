@@ -5,12 +5,18 @@ import Providers from "@/app/providers";
 import { cookies } from "next/headers";
 import { AuthProvider } from "./context/AuthContext";
 import {Toaster} from "react-hot-toast";
+import {cazaicon} from "@/app/types";
 
 const outfit = Outfit({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
     title: "CAZA | Universal Commerce Engine",
     description: "Plataforma premium de gestión financiera y punto de venta.",
+    icons: {
+        icon: `${cazaicon}`,
+        // También puedes agregar atajos para apple si lo deseas:
+        apple: `${cazaicon}`,
+    },
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
