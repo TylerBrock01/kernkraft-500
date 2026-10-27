@@ -1,24 +1,39 @@
 import Link from "next/link";
 import Image from "next/image";
-import {whatssapWasc} from "@/app/wasc/data/url";
+import {uswasc, whatssapWasc} from "@/app/wasc/data/url";
 
 export default function AboutPage() {
     return (
         <div className="space-y-16 md:space-y-24 pb-16">
             {/* 1. HERO SECTION INSTITUCIONAL */}
-            <section className="relative bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white py-20 lg:py-28 px-4 sm:px-6 lg:px-8 overflow-hidden">
-                <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#ef4444_1px,transparent_1px)] [background-size:16px_16px]" />
+            <section className="relative text-white py-24 lg:py-36 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gray-950">
+                {/* 1. Imagen de Fondo Principal */}
+                <Image
+                    src={`${uswasc}`} // Puedes cambiarla por tu URL o asset local
+                    alt="Fondo institucional WASC"
+                    fill
+                    priority
+                    className="object-cover object-center"
+                    sizes="100vw"
+                />
 
-                <div className="relative max-w-4xl mx-auto text-center space-y-6">
-                    <span className="inline-block bg-red-500/20 text-red-400 border border-red-500/30 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider backdrop-blur-md">
-                        Nuestra Historia y Visión
-                    </span>
+                {/* 2. Capa de Degradado Overlay (Garantiza contraste y legibilidad) */}
+                <div className="absolute inset-0 bg-gradient-to-b from-gray-950/80 via-gray-950/70 to-gray-950/90 pointer-events-none" />
 
-                    <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-tight">
-                        Redefiniendo el futuro de la <span className="text-red-500">gestión inmobiliaria</span>
+                {/* 3. Patrón de Puntos Radiales en Tono Rojo 500 (Optimizado y Nítido) */}
+                <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#ef4444_1.5px,transparent_1.5px)] [background-size:24px_24px] pointer-events-none" />
+
+                {/* 4. Contenido Principal */}
+                <div className="relative max-w-4xl mx-auto text-center space-y-6 z-10">
+                <span className="inline-block bg-red-500/20 text-red-400 border border-red-500/30 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider backdrop-blur-md shadow-sm">
+                    Nuestra Historia y Visión
+                </span>
+
+                    <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-tight drop-shadow-md">
+                        Redefiniendo el futuro de la <span className="text-red-500 drop-shadow-sm">gestión inmobiliaria</span>
                     </h1>
 
-                    <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto font-normal leading-relaxed">
+                    <p className="text-lg sm:text-xl text-gray-200 max-w-2xl mx-auto font-normal leading-relaxed drop-shadow-sm">
                         Combinamos infraestructura digital de alto rendimiento con asesoría inmobiliaria de primer nivel para conectar a personas e inversionistas con espacios excepcionales.
                     </p>
                 </div>

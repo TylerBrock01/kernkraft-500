@@ -8,3 +8,5 @@ export const logoWasc='https://res.cloudinary.com/tyler-brock/image/upload/v1792
 export const logoWasc0='https://res.cloudinary.com/tyler-brock/image/upload/v1792074335/logo_yaibgo.png'
 
 export const hero = 'https://cdn.pixabay.com/photo/2026/10/26/21/05/21-05-34-865_1280.jpg'
+
+export const uswasc ='https://res.cloudinary.com/tyler-brock/image/upload/v1793063190/IMG_8052_olwlfr.jpg'
