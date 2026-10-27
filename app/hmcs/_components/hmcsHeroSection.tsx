@@ -23,7 +23,7 @@ export default function HmcsHero({
     return (
         <section
             aria-labelledby="hero-title"
-            className="relative mx-auto flex min-h-[550px] max-w-7xl flex-col items-center justify-center overflow-hidden rounded-3xl px-6 py-16 text-center md:py-24"
+            className="relative mx-auto flex min-h-[550px] max-w-7xl flex-col items-center justify-center overflow-hidden  px-6 py-16 text-center md:py-24"
         >
             {/* Imagen de fondo y Capa de Superposición (Overlay) */}
             <div className="absolute inset-0 z-0">
