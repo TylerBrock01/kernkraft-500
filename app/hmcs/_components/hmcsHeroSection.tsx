@@ -34,7 +34,7 @@ export default function HmcsHero({
                     className="h-full object-cover w-full"
                 />
                 {/* Overlay oscuro para garantizar la lectura del texto (Tonos de Verde Agave profundo) */}
-                <div className="absolute inset-0 bg-black/45 backdrop-blur-[1px]"></div>
+                <div className="absolute inset-0 bg-black/50"></div>
             </div>
 
             {/* Contenido del Hero (Aseguramos que esté sobre la capa z-10) */}
