@@ -1,4 +1,16 @@
 import HmcsNavBar from "@/app/hmcs/_components/hmcsNavBar";
+import type {Metadata} from "next";
+import {cazaicon} from "@/app/types";
+
+export const metadata: Metadata = {
+    title: "LAS HAMACAS",
+    description: "Restaurante",
+    icons: {
+        // icon: `${cazaicon}`,
+        // También puedes agregar atajos para apple si lo deseas:
+        // apple: `${cazaicon}`,
+    },
+};
 
 export default function HmcsLayout({
                                        children,
