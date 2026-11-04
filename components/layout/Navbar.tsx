@@ -20,7 +20,7 @@ export default function Navbar() {
         <motion.header
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, ease: "circOut" }}
+            transition={{ duration: 0.1, ease: "circOut" }}
             className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
                 isScrolled
                     ? 'py-4 bg-zinc-950/70 backdrop-blur-md border-b border-zinc-800/50'
@@ -40,15 +40,15 @@ export default function Navbar() {
 
                 {/* NAVEGACIÓN: Estilo MCU / HUD */}
                 <nav className="hidden md:flex items-center gap-8">
-                    {['Motor', 'Arquitectura', 'Agencia', 'Contacto'].map((item) => (
-                        <a
-                            key={item}
-                            href={`#${item.toLowerCase()}`}
-                            className="text-xs uppercase tracking-[0.2em] text-zinc-500 hover:text-zinc-100 transition-colors font-medium"
-                        >
-                            {item}
-                        </a>
-                    ))}
+                    {/*{['Motor', 'Arquitectura', 'Agencia', 'Contacto'].map((item) => (*/}
+                    {/*    <a*/}
+                    {/*        key={item}*/}
+                    {/*        href={`#${item.toLowerCase()}`}*/}
+                    {/*        className="text-xs uppercase tracking-[0.2em] text-zinc-500 hover:text-zinc-100 transition-colors font-medium"*/}
+                    {/*    >*/}
+                    {/*        {item}*/}
+                    {/*    </a>*/}
+                    {/*))}*/}
                 </nav>
 
                 {/* BOTÓN DE ACCESO: El portal al backend */}
@@ -56,9 +56,9 @@ export default function Navbar() {
                     <Link href={'/login'} className="text-xs uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">
                         Login
                     </Link>
-                    <button className="px-5 py-2 bg-zinc-100 text-zinc-950 text-[10px] font-bold uppercase tracking-widest hover:bg-white transition-all rounded-sm">
-                        Launch Engine
-                    </button>
+                    {/*<button className="px-5 py-2 bg-zinc-100 text-zinc-950 text-[10px] font-bold uppercase tracking-widest hover:bg-white transition-all rounded-sm">*/}
+                    {/*    Launch Engine*/}
+                    {/*</button>*/}
                 </div>
 
             </div>
