@@ -3,6 +3,7 @@
 
 import Link from "next/link";
 import { Leaf, ShoppingBag } from "lucide-react";
+import {selectCount, useOrderStore} from "@/app/hmcs/_store/orderStore";
 
 interface HmcsNavBarProps {
     /** Cantidad de productos en la orden */
@@ -12,9 +13,10 @@ interface HmcsNavBarProps {
 }
 
 export default function HmcsNavBar({
-                                       itemCount = 0,
                                        onOrderClick,
                                    }: HmcsNavBarProps) {
+    const itemCount = useOrderStore(selectCount);
+
     return (
         <header className="sticky top-0 z-50 border-b border-[#2C4A3E]/10 bg-white/80 backdrop-blur">
             <nav
