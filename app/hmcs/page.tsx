@@ -1,14 +1,19 @@
 import React from 'react';
 import { Coffee, Clock, Leaf, Plus } from 'lucide-react';
 import HmcsHeroSection from "@/app/hmcs/_components/hmcsHeroSection";
+import {isRestaurantOpen} from "@/app/hmcs/_lib/schedule";
+
+export const revalidate = 60; // recalcula como máximo cada minuto
 
 export default function HmcsLandingPage() {
+    const isOpen = isRestaurantOpen();
+
     return (
         // Contenedor principal - Fondo Blanco Hueso y fuente general Inter (sans)
         <div className="min-h-screen bg-[#F8F9FA] text-[#1E1E1E] font-sans selection:bg-[#2C4A3E] selection:text-white">
 
             {/* Hero Section */}
-            <HmcsHeroSection />
+            <HmcsHeroSection isOpen={isOpen} location="Campus" />
             {/* Features - Propuesta de Valor */}
             <section className="bg-white py-16 px-6">
                 <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
