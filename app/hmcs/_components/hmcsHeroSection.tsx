@@ -83,13 +83,6 @@ export default function HmcsHero({
                         Ordenar ahora
                         <ArrowRight className="h-5 w-5" aria-hidden="true" />
                     </Link>
-
-                    <Link
-                        href="/hmcs/menu"
-                        className="flex items-center justify-center rounded-xl border-2 border-white/30 bg-white/10 px-8 py-4 text-lg font-semibold text-white backdrop-blur-sm transition-colors hover:border-white hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                    >
-                        Ver menú completo
-                    </Link>
                 </div>
             </div>
         </section>
