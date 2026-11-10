@@ -91,7 +91,7 @@ export default function QuickOrder({ products }: { products: Product[] }) {
                             role="tab"
                             aria-selected={activeCategory === cat}
                             onClick={() => setActiveCategory(cat)}
-                            className={`whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2C4A3E] ${
+                            className={` capitalize whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2C4A3E] ${
                                 activeCategory === cat
                                     ? "bg-[#2C4A3E] text-white shadow-md shadow-[#2C4A3E]/20"
                                     : "border border-gray-200 bg-white text-[#1E1E1E]/70 hover:border-[#2C4A3E]/50"
