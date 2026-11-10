@@ -1,36 +1,28 @@
-import HmcsNavBar from "@/app/hmcs/_components/hmcsNavBar";
-import type {Metadata} from "next";
-import {cazaicon} from "@/app/types";
-import {CartProvider} from "@/app/hmcs/_context/CartContext";
+// /app/hmcs/layout.tsx
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
+
+import { CartProvider } from "@/app/hmcs/_context/CartContext";
 import CartDrawer from "@/app/hmcs/_components/CartDrawer";
-import FloatingCartButton from "@/app/hmcs/_components/FloatingCartButton";
+import HmcsNavBar from "@/app/hmcs/_components/hmcsNavBar";
 
 export const metadata: Metadata = {
-    title: "LAS HAMACAS",
-    description: "Restaurante",
-    icons: {
-        // icon: `${cazaicon}`,
-        // También puedes agregar atajos para apple si lo deseas:
-        // apple: `${cazaicon}`,
+    title: {
+        default: "Las Hamacas",
+        template: "%s | Las Hamacas",
     },
+    description: "Restaurante",
 };
 
-export default function HmcsLayout({
-                                       children,
-                                   }: {
-    children: React.ReactNode;
-}) {
+export default function HmcsLayout({ children }: { children: ReactNode }) {
     return (
         <CartProvider>
-            <div className="bg-white flex flex-col min-h-screen relative">
+            <div className="flex min-h-dvh flex-col bg-white">
                 <HmcsNavBar />
-                <div className="flex-grow z-10">{children}</div>
 
-                {/* Componente lateral del Carrito */}
+                <main className="grow">{children}</main>
+
                 <CartDrawer />
-
-                {/* Botón flotante para móvil/escritorio */}
-                <FloatingCartButton />
             </div>
         </CartProvider>
     );

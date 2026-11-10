@@ -4,7 +4,6 @@
 import { useMemo, useState } from "react";
 import { Search, ShoppingBag } from "lucide-react";
 import type { Product } from "@/app/hmcs/_types/catalog";
-import { useOrderStore, selectCount } from "@/app/hmcs/_store/orderStore";
 import { PRODUCT_FILTERS, matchesFilter } from "@/app/hmcs/_lib/filters";
 import ProductCard from "./ProductCard";
 import {getCategory} from "@/app/hmcs/_lib/product";
@@ -19,8 +18,6 @@ export default function QuickOrder({ products }: { products: Product[] }) {
     const [searchQuery, setSearchQuery] = useState("");
     const [activeCategory, setActiveCategory] = useState(ALL);
     const [activeFilters, setActiveFilters] = useState<string[]>([]);
-
-    const cartCount = useOrderStore(selectCount);
 
     const toggleFilter = (id: string) =>
         setActiveFilters((prev) =>
@@ -62,16 +59,6 @@ export default function QuickOrder({ products }: { products: Product[] }) {
                         <p className="text-sm text-[#1E1E1E]/60">
                             Selecciona tu categoría, pide y pasa a recoger.
                         </p>
-                    </div>
-
-                    <div
-                        role="status"
-                        className="flex items-center gap-3 rounded-2xl border border-gray-100 bg-white px-4 py-2 shadow-sm"
-                    >
-                        <ShoppingBag className="h-5 w-5 text-[#2C4A3E]" aria-hidden="true" />
-                        <span className="text-sm font-semibold">
-              {cartCount} {cartCount === 1 ? "producto" : "productos"}
-            </span>
                     </div>
                 </div>
 

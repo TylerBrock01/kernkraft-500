@@ -1,80 +1,91 @@
+// /app/hmcs/_context/CartContext.tsx
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import {
+    createContext,
+    useCallback,
+    useContext,
+    useMemo,
+    useState,
+    type ReactNode,
+} from "react";
+import type { Product } from "@/app/hmcs/_types/catalog";
 
-export interface CartItem {
-    id: number;
-    name: string;
-    price: string;
-    numericPrice: number;
+export type CartProduct = Pick<Product, "id" | "name" | "price">;
+
+export interface CartItem extends CartProduct {
     quantity: number;
 }
 
 interface CartContextType {
     cart: CartItem[];
-    addToCart: (item: Omit<CartItem, "quantity">) => void;
-    removeFromCart: (id: number) => void;
+    addToCart: (product: CartProduct) => void;
+    increase: (id: CartItem["id"]) => void;
+    decrease: (id: CartItem["id"]) => void; // resta 1 y elimina si llega a 0
     clearCart: () => void;
     totalItems: number;
     totalPrice: number;
     isCartOpen: boolean;
-    setIsCartOpen: (open: boolean) => void;
+    openCart: () => void;
+    closeCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-export function CartProvider({ children }: { children: React.ReactNode }) {
+export function CartProvider({ children }: { children: ReactNode }) {
     const [cart, setCart] = useState<CartItem[]>([]);
     const [isCartOpen, setIsCartOpen] = useState(false);
 
-    const addToCart = (product: Omit<CartItem, "quantity">) => {
-        setCart((prevCart) => {
-            const existingItem = prevCart.find((item) => item.id === product.id);
-            if (existingItem) {
-                return prevCart.map((item) =>
-                    item.id === product.id
-                        ? { ...item, quantity: item.quantity + 1 }
-                        : item
+    const addToCart = useCallback((product: CartProduct) => {
+        setCart((prev) => {
+            const exists = prev.some((i) => i.id === product.id);
+            if (exists) {
+                return prev.map((i) =>
+                    i.id === product.id ? { ...i, quantity: i.quantity + 1 } : i
                 );
             }
-            return [...prevCart, { ...product, quantity: 1 }];
+            const { id, name, price } = product; // solo lo necesario
+            return [...prev, { id, name, price, quantity: 1 }];
         });
-    };
+    }, []);
 
-    const removeFromCart = (id: number) => {
-        setCart((prevCart) =>
-            prevCart
-                .map((item) =>
-                    item.id === id ? { ...item, quantity: item.quantity - 1 } : item
-                )
-                .filter((item) => item.quantity > 0)
+    const increase = useCallback((id: CartItem["id"]) => {
+        setCart((prev) =>
+            prev.map((i) => (i.id === id ? { ...i, quantity: i.quantity + 1 } : i))
         );
-    };
+    }, []);
 
-    const clearCart = () => setCart([]);
+    const decrease = useCallback((id: CartItem["id"]) => {
+        setCart((prev) =>
+            prev
+                .map((i) => (i.id === id ? { ...i, quantity: i.quantity - 1 } : i))
+                .filter((i) => i.quantity > 0)
+        );
+    }, []);
 
-    const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
-    const totalPrice = cart.reduce(
-        (acc, item) => acc + item.numericPrice * item.quantity,
-        0
-    );
+    const clearCart = useCallback(() => setCart([]), []);
+    const openCart = useCallback(() => setIsCartOpen(true), []);
+    const closeCart = useCallback(() => setIsCartOpen(false), []);
 
-    return (
-        <CartContext.Provider
-            value={{
-                cart,
-                addToCart,
-                removeFromCart,
-                clearCart,
-                totalItems,
-                totalPrice,
-                isCartOpen,
-                setIsCartOpen,
-            }}
-        >
-            {children}
-        </CartContext.Provider>
-    );
+    const value = useMemo<CartContextType>(() => {
+        const totalItems = cart.reduce((sum, i) => sum + i.quantity, 0);
+        const totalPrice = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+
+        return {
+            cart,
+            addToCart,
+            increase,
+            decrease,
+            clearCart,
+            totalItems,
+            totalPrice,
+            isCartOpen,
+            openCart,
+            closeCart,
+        };
+    }, [cart, isCartOpen, addToCart, increase, decrease, clearCart, openCart, closeCart]);
+
+    return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
 
 export function useCart() {
