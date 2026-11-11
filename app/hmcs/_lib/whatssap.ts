@@ -1,5 +1,6 @@
 // /app/hmcs/_lib/whatsapp.ts
 import { formatPrice } from "@/app/hmcs/_lib/format";
+import {contact} from "@/app/hmcs/data/contact";
 
 interface OrderLine {
     name: string;
