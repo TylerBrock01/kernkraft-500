@@ -1,11 +1,19 @@
 // /app/hmcs/_types/catalog.ts
+export interface ProductMetadata {
+    category?: string;
+    vegetarian?: boolean;
+    spicy?: boolean;
+    tags?: string[];
+    [key: string]: unknown; // permite claves extra sin romper el tipo
+}
+
 export interface Product {
     id: string;
     name: string;
     description: string | null;
     price: number;
     image: string | null;
-    metadata: Record<string, unknown> | null;
+    metadata: ProductMetadata | null;
 }
 
 export interface StoreInfo {

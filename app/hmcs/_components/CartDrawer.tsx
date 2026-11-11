@@ -86,7 +86,7 @@ export default function CartDrawer() {
                                     >
                                         <div className="min-w-0">
                                             <h3 className="truncate text-sm font-semibold text-[#1E1E1E]">
-                                                {item.name}
+                                                {`${item.name}`}
                                             </h3>
                                             <span className="text-xs font-bold text-[#2C4A3E]">
                         {formatPrice(item.price * item.quantity)}

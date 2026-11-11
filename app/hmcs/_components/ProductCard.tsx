@@ -24,7 +24,7 @@ export default function ProductCard({ product }: { product: Product }) {
                     />
                 )}
 
-                <h3 className="mb-1 text-lg font-bold text-[#1E1E1E]">{product.name}</h3>
+                <h3 className="capitalize mb-1 text-lg font-bold text-[#1E1E1E]">{`${product.name}`}</h3>
 
                 {product.description && (
                     <p className="mb-4 line-clamp-2 text-xs text-[#1E1E1E]/60">
