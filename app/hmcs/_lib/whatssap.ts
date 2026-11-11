@@ -6,14 +6,23 @@ interface OrderLine {
     name: string;
     price: number;
     quantity: number;
+    category: string;
 }
 
 export function buildWhatsAppUrl(lines: OrderLine[], total: number): string {
-    const items = lines
-        .map((l) => `• ${l.quantity} x ${l.name} - ${formatPrice(l.price * l.quantity)}`)
-        .join("\n");
+    const byCategory = new Map<string, OrderLine[]>();
+    for (const line of lines) {
+        byCategory.set(line.category, [...(byCategory.get(line.category) ?? []), line]);
+    }
 
-    const message = `Hola, quiero hacer este pedido en Las Hamacas:\n\n${items}\n\nTotal: ${formatPrice(total)}`;
+    const sections = Array.from(byCategory, ([category, items]) => {
+        const rows = items
+            .map((l) => `• ${l.quantity} x ${l.name} - ${formatPrice(l.price * l.quantity)}`)
+            .join("\n");
+        return `*${category}*\n${rows}`;
+    }).join("\n\n");
+
+    const message = `Hola, quiero hacer este pedido en Las Hamacas:\n\n${sections}\n\nTotal: ${formatPrice(total)}`;
 
     return `https://wa.me/52${contact.phone}?text=${encodeURIComponent(message)}`;
 }

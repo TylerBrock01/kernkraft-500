@@ -10,10 +10,15 @@ import {
     type ReactNode,
 } from "react";
 import type { Product } from "@/app/hmcs/_types/catalog";
+import {getCategory} from "@/app/hmcs/_lib/product";
 
-export type CartProduct = Pick<Product, "id" | "name" | "price">;
+export type CartProduct = Pick<Product, "id" | "name" | "price" | "metadata">;
 
-export interface CartItem extends CartProduct {
+export interface CartItem {
+    id: Product["id"];
+    name: string;
+    price: number;
+    category: string;
     quantity: number;
 }
 
@@ -44,8 +49,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
                     i.id === product.id ? { ...i, quantity: i.quantity + 1 } : i
                 );
             }
-            const { id, name, price } = product; // solo lo necesario
-            return [...prev, { id, name, price, quantity: 1 }];
+            const { id, name, price } = product;
+            return [...prev, { id, name, price, category: getCategory(product), quantity: 1 }];
         });
     }, []);
 
