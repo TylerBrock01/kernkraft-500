@@ -9,6 +9,7 @@ import BurritoThemeMockup from "@/components/themes/Burritos";
 import BurgerPicnicTheme from "@/components/themes/burger";
 import TortasFightTheme from "@/components/themes/Tortas";
 import ChanelStylePerfumery from "@/components/themes/Parfum";
+import AppleDemoPage from "@/components/themes/apples";
 
 export default function StorefrontPage({ params }: { params: Promise<{ tenant: string }> }) {    // 🔌 Conectamos el Cerebro (Hook) al Cuerpo (UI)
     const resolvedParams = use(params);
@@ -29,6 +30,9 @@ export default function StorefrontPage({ params }: { params: Promise<{ tenant: s
     }
     if (resolvedParams.tenant === 'perfum') {
         return <ChanelStylePerfumery/>
+    }
+    if (resolvedParams.tenant === 'apple') {
+        return <AppleDemoPage/>
     }
     const {
         store,
