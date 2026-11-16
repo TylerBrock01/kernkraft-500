@@ -36,47 +36,42 @@ export default function HmcsLandingPage() {
             </section>
 
             {/* Sección de Menú Destacado (Implementación de UX Guidelines) */}
-            <section className="py-20 px-6 max-w-7xl mx-auto">
-                <div className="flex justify-between items-end mb-10">
-                    <div>
-                        <h2 className="text-3xl font-bold text-[#1E1E1E] mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                            Favoritos de la semana
-                        </h2>
-                        <p className="text-[#1E1E1E]/60">Lo más pedido por los estudiantes.</p>
-                    </div>
-                </div>
+            {/*<section className="py-20 px-6 max-w-7xl mx-auto">*/}
+            {/*    <div className="flex justify-between items-end mb-10">*/}
+            {/*        <div>*/}
+            {/*            <h2 className="text-3xl font-bold text-[#1E1E1E] mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>*/}
+            {/*                Favoritos de la semana*/}
+            {/*            </h2>*/}
+            {/*            <p className="text-[#1E1E1E]/60">Lo más pedido por los estudiantes.</p>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {/* Product Card 1 */}
-                    <ProductCard
-                        title="Café Frío Agave"
-                        description="Cold brew con un toque de miel de agave y leche de avena."
-                        price="$45.00"
-                        imageColor="bg-[#D9C5B2]/50"
-                    />
-                    {/* Product Card 2 */}
-                    <ProductCard
-                        title="Chapata Rústica"
-                        description="Pan artesanal, pechuga de pavo, queso manchego y aderezo de la casa."
-                        price="$65.00"
-                        imageColor="bg-[#2C4A3E]/20"
-                    />
-                    {/* Product Card 3 */}
-                    <ProductCard
-                        title="Té Matcha Helado"
-                        description="Matcha orgánico preparado al momento, ideal para la concentración."
-                        price="$55.00"
-                        imageColor="bg-[#D9C5B2]/50"
-                    />
-                </div>
-            </section>
+            {/*    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">*/}
+            {/*        /!* Product Card 1 *!/*/}
+            {/*        <ProductCard*/}
+            {/*            title="Café Frío Agave"*/}
+            {/*            description="Cold brew con un toque de miel de agave y leche de avena."*/}
+            {/*            price="$45.00"*/}
+            {/*            imageColor="bg-[#D9C5B2]/50"*/}
+            {/*        />*/}
+            {/*        /!* Product Card 2 *!/*/}
+            {/*        <ProductCard*/}
+            {/*            title="Chapata Rústica"*/}
+            {/*            description="Pan artesanal, pechuga de pavo, queso manchego y aderezo de la casa."*/}
+            {/*            price="$65.00"*/}
+            {/*            imageColor="bg-[#2C4A3E]/20"*/}
+            {/*        />*/}
+            {/*        /!* Product Card 3 *!/*/}
+            {/*        <ProductCard*/}
+            {/*            title="Té Matcha Helado"*/}
+            {/*            description="Matcha orgánico preparado al momento, ideal para la concentración."*/}
+            {/*            price="$55.00"*/}
+            {/*            imageColor="bg-[#D9C5B2]/50"*/}
+            {/*        />*/}
+            {/*    </div>*/}
+            {/*</section>*/}
 
             {/* Footer Minimalista */}
-            <footer className="bg-[#2C4A3E] text-[#F8F9FA] py-10 text-center">
-                <p className="opacity-70 text-sm">
-                    © {new Date().getFullYear()} Las Hamacas. Operando en el sistema SaaS.
-                </p>
-            </footer>
         </div>
     );
 }

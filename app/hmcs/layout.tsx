@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { CartProvider } from "@/app/hmcs/_context/CartContext";
 import CartDrawer from "@/app/hmcs/_components/CartDrawer";
 import HmcsNavBar from "@/app/hmcs/_components/hmcsNavBar";
+import HmcsFooter from "@/app/hmcs/_components/footerHmcs";
 
 export const metadata: Metadata = {
     title: {
@@ -23,6 +24,7 @@ export default function HmcsLayout({ children }: { children: ReactNode }) {
                 <main className="grow">{children}</main>
 
                 <CartDrawer />
+                <HmcsFooter/>
             </div>
         </CartProvider>
     );
