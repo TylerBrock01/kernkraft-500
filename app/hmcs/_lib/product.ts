@@ -8,3 +8,7 @@ export function getCategory(product: Pick<Product, "metadata">): string {
     const value = product.metadata?.category;
     return typeof value === "string" && value.trim() ? value.trim() : DEFAULT_CATEGORY;
 }
+// /app/hmcs/_lib/product.ts
+export function isFeatured(product: Pick<Product, "metadata">): boolean {
+    return product.metadata?.featured === true;
+}
